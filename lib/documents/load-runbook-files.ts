@@ -2,7 +2,11 @@ import { readdirSync, readFileSync } from "node:fs";
 import path from "node:path";
 import type { DocType } from "@/lib/types";
 
-const RUNBOOKS_DIR = path.resolve(import.meta.dirname, "..", "..", "data", "runbooks");
+// process.cwd(), not import.meta.dirname: see the comment in
+// lib/dataset/load-incident-manifests.ts -- this module is reachable from
+// every API route via lib/db/auto-seed.ts, where import.meta.dirname is
+// undefined during Next's build-time page-data collection.
+const RUNBOOKS_DIR = path.resolve(process.cwd(), "data", "runbooks");
 
 export interface RunbookFile {
   id: string;
