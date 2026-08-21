@@ -10,6 +10,7 @@ import type {
   Prediction,
   Evidence,
   Recommendation,
+  Feedback,
 } from "@/lib/types";
 
 export function createMemoryRepository(seed: RepositorySeed = {}): Repository {
@@ -23,6 +24,7 @@ export function createMemoryRepository(seed: RepositorySeed = {}): Repository {
   const predictionsByRun = new Map<string, Prediction[]>();
   const evidenceByPrediction = new Map<string, Evidence[]>();
   const recommendationsByRun = new Map<string, Recommendation[]>();
+  const feedbackEntries: Feedback[] = [];
 
   for (const event of seed.logEvents ?? []) {
     const list = logEvents.get(event.incidentId) ?? [];
@@ -130,6 +132,13 @@ export function createMemoryRepository(seed: RepositorySeed = {}): Repository {
     },
     async getRecommendationsForRun(analysisRunId) {
       return recommendationsByRun.get(analysisRunId) ?? [];
+    },
+
+    async saveFeedback(feedback) {
+      feedbackEntries.push(feedback);
+    },
+    async listFeedback() {
+      return feedbackEntries;
     },
   };
 }

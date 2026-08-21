@@ -97,3 +97,11 @@ export interface Recommendation {
   action: string;
   priority: number;
 }
+
+export interface Feedback {
+  id: string;
+  incidentId: string | null;
+  message: string;
+  rating: number | null;
+  createdAt: string;
+}

@@ -11,6 +11,7 @@ import type {
   Prediction,
   Evidence,
   Recommendation,
+  Feedback,
 } from "@/lib/types";
 
 function incidentFromRow(row: Record<string, unknown>): Incident {
@@ -285,6 +286,28 @@ export function createSupabaseRepository(url: string, serviceRoleKey: string): R
       const { data, error } = await client.from("recommendations").select("*").eq("analysis_run_id", analysisRunId);
       if (error) throw error;
       return (data ?? []).map(recommendationFromRow);
+    },
+
+    async saveFeedback(feedback: Feedback) {
+      const { error } = await client.from("feedback").insert({
+        id: feedback.id,
+        incident_id: feedback.incidentId,
+        message: feedback.message,
+        rating: feedback.rating,
+        created_at: feedback.createdAt,
+      });
+      if (error) throw error;
+    },
+    async listFeedback() {
+      const { data, error } = await client.from("feedback").select("*");
+      if (error) throw error;
+      return (data ?? []).map((row: Record<string, unknown>) => ({
+        id: row.id as string,
+        incidentId: (row.incident_id as string | null) ?? null,
+        message: row.message as string,
+        rating: (row.rating as number | null) ?? null,
+        createdAt: row.created_at as string,
+      }));
     },
   };
 }

@@ -9,6 +9,7 @@ import type {
   Prediction,
   Evidence,
   Recommendation,
+  Feedback,
 } from "@/lib/types";
 
 export interface RepositorySeed {
@@ -47,4 +48,7 @@ export interface Repository {
   getPredictionsForRun(analysisRunId: string): Promise<Prediction[]>;
   getEvidenceForPrediction(predictionId: string): Promise<Evidence[]>;
   getRecommendationsForRun(analysisRunId: string): Promise<Recommendation[]>;
+
+  saveFeedback(feedback: Feedback): Promise<void>;
+  listFeedback(): Promise<Feedback[]>;
 }
