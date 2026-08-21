@@ -10,7 +10,7 @@
  */
 import { mkdirSync, writeFileSync } from "node:fs";
 import path from "node:path";
-import type { Incident, LogEvent, MetricEvent, Severity } from "@/lib/types";
+import type { Incident, IncidentStatus, LogEvent, MetricEvent, Severity } from "@/lib/types";
 import type { GroundTruthManifest } from "@/simulator/types";
 import { FAULT_REGISTRY, FAULT_SLUGS } from "@/simulator/fault-injection/index";
 import { generateBaselineTraffic } from "@/simulator/traffic/generator";
@@ -21,27 +21,28 @@ const INCIDENTS_PER_FAULT = 7;
 const OUTPUT_DIR = path.resolve(import.meta.dirname, "..", "data", "incident-manifests");
 const BASE_DATE = new Date("2026-01-15T00:00:00.000Z");
 
-const FAULT_TITLES: Record<string, string> = {
-  db_connection_pool_exhaustion: "Database connection pool exhaustion",
-  db_slow_query: "Slow database query degrading checkout latency",
-  memory_leak: "Memory leak in payment-service",
-  dependency_timeout: "Payment-service dependency timeout",
-  cpu_spike: "CPU saturation on inventory-service",
-  redis_unavailable: "Redis cache unavailable",
-  worker_backlog: "Payment worker queue backlog",
-  bad_config_deploy: "Bad configuration deploy to checkout-service",
-};
-
-const FAULT_SEVERITIES: Record<string, Severity> = {
-  db_connection_pool_exhaustion: "sev1",
-  bad_config_deploy: "sev1",
-  memory_leak: "sev2",
-  dependency_timeout: "sev2",
-  redis_unavailable: "sev2",
-  cpu_spike: "sev3",
-  db_slow_query: "sev3",
-  worker_backlog: "sev4",
-};
+// Symptom-level titles only -- deliberately not 1:1 with a fault type. An
+// incident's title is line 1 of the prompt sent to the model
+// (lib/investigation/summary.ts), so a title that names the diagnosis (e.g.
+// always titling a db_connection_pool_exhaustion incident "Database
+// connection pool exhaustion") would let the model score well just by
+// echoing it back, measuring nothing about diagnostic reasoning. These read
+// the way an on-call page or a customer-facing status update would, before
+// anyone has diagnosed the cause. Picked pseudo-randomly per incident (see
+// `titleRng` below) so the same fault type produces varied titles and the
+// same title can appear across different fault types.
+const SYMPTOM_TITLES = [
+  "Checkout error rate elevated",
+  "Payment latency spike reported by on-call",
+  "Elevated 5xx rate on checkout-service",
+  "Customer reports of slow checkout",
+  "Alerting threshold breached in production",
+  "Degraded response times observed",
+  "Spike in failed transactions",
+  "On-call paged for service degradation",
+  "Increased timeouts reported across checkout flow",
+  "Intermittent failures affecting order placement",
+];
 
 function zeroPad(n: number, width: number): string {
   return String(n).padStart(width, "0");
@@ -49,6 +50,46 @@ function zeroPad(n: number, width: number): string {
 
 function maxTimestamp(events: Array<{ timestamp: string }>): string {
   return events.reduce((max, e) => (e.timestamp > max ? e.timestamp : max), events[0]?.timestamp ?? "");
+}
+
+// Weighted like a real severity distribution: most incidents are sev3/sev4,
+// sev1 is rare. Deliberately independent of fault type -- see the
+// SYMPTOM_TITLES comment above for why decoupling matters.
+const SEVERITY_WEIGHTS: Array<{ severity: Severity; weight: number }> = [
+  { severity: "sev1", weight: 0.1 },
+  { severity: "sev2", weight: 0.25 },
+  { severity: "sev3", weight: 0.35 },
+  { severity: "sev4", weight: 0.3 },
+];
+
+function pickWeightedSeverity(rng: () => number): Severity {
+  const total = SEVERITY_WEIGHTS.reduce((sum, o) => sum + o.weight, 0);
+  let roll = rng() * total;
+  for (const option of SEVERITY_WEIGHTS) {
+    roll -= option.weight;
+    if (roll <= 0) return option.severity;
+  }
+  return SEVERITY_WEIGHTS[SEVERITY_WEIGHTS.length - 1]!.severity;
+}
+
+// Most synthetic incidents are "resolved" (this dataset is a closed,
+// historical training/eval set), but a small deterministic fraction are
+// left "investigating"/"open" so the dashboard's open-incident count isn't
+// permanently zero.
+const STATUS_WEIGHTS: Array<{ status: IncidentStatus; weight: number }> = [
+  { status: "resolved", weight: 0.85 },
+  { status: "investigating", weight: 0.1 },
+  { status: "open", weight: 0.05 },
+];
+
+function pickWeightedStatus(rng: () => number): IncidentStatus {
+  const total = STATUS_WEIGHTS.reduce((sum, o) => sum + o.weight, 0);
+  let roll = rng() * total;
+  for (const option of STATUS_WEIGHTS) {
+    roll -= option.weight;
+    if (roll <= 0) return option.status;
+  }
+  return STATUS_WEIGHTS[STATUS_WEIGHTS.length - 1]!.status;
 }
 
 interface GeneratedIncident {
@@ -86,13 +127,22 @@ export function generateOneIncident(fault: string, incidentId: string): Generate
   const resolutionDelayMinutes = 5 + Math.floor(scheduleRng() * 40);
   const resolvedAt = new Date(new Date(lastEventTimestamp).getTime() + resolutionDelayMinutes * 60_000);
 
+  // A separate, independent RNG stream from `scheduleRng` -- these fields
+  // are cosmetic/presentation-only and must not perturb the timing/duration
+  // values consumed above, which downstream fault-injector event generation
+  // depends on staying byte-for-byte identical.
+  const presentationRng = seededRng(incidentId, "presentation");
+  const title = SYMPTOM_TITLES[Math.floor(presentationRng() * SYMPTOM_TITLES.length)] ?? SYMPTOM_TITLES[0]!;
+  const severity = pickWeightedSeverity(presentationRng);
+  const status = pickWeightedStatus(presentationRng);
+
   const incident: Incident = {
     id: incidentId,
-    title: FAULT_TITLES[fault] ?? fault,
-    severity: FAULT_SEVERITIES[fault] ?? "sev3",
-    status: "resolved",
+    title,
+    severity,
+    status,
     startedAt: startedAt.toISOString(),
-    resolvedAt: resolvedAt.toISOString(),
+    resolvedAt: status === "resolved" ? resolvedAt.toISOString() : null,
     rootCauseTruth: fault,
     affectedServices: faultResult.manifest.affectedServices,
   };

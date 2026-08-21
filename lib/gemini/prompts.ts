@@ -4,13 +4,24 @@ function formatEvidence(evidenceCatalog: { id: string; summary: string }[]): str
   return evidenceCatalog.map((item) => `- [${item.id}] ${item.summary}`).join("\n");
 }
 
-export function buildCandidatesPrompt({ incidentSummary, evidenceCatalog, maxCandidates }: GenerateCandidatesInput): string {
+export function buildCandidatesPrompt({
+  incidentSummary,
+  evidenceCatalog,
+  maxCandidates,
+  validRootCauses,
+}: GenerateCandidatesInput): string {
+  const rootCauseRule =
+    validRootCauses && validRootCauses.length > 0
+      ? `- "rootCause" MUST be exactly one of these values (choose the closest match, do not paraphrase or invent a new one): ${validRootCauses.join(", ")}.`
+      : null;
+
   return [
     "You are an SRE investigating a production incident. Given the incident summary and a catalog of evidence items (each with a stable ID), propose the most likely root causes.",
     "",
     "Rules:",
     "- Cite ONLY evidence IDs that appear in the catalog below. Never invent an evidence ID.",
     `- Return at most ${maxCandidates} candidates, ordered most likely first.`,
+    ...(rootCauseRule ? [rootCauseRule] : []),
     "- Respond with strict JSON only, matching this shape:",
     '  {"candidates":[{"rootCause":string,"score":number between 0 and 1,"supportingEvidenceIds":string[],"contradictingEvidenceIds":string[]}]}',
     "",

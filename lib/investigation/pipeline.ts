@@ -28,6 +28,8 @@ export interface RunInvestigationParams {
   maxCandidates?: number;
   topKDocuments?: number;
   topKSimilarIncidents?: number;
+  /** Forwarded to the LLM provider's generateCandidates() -- see GenerateCandidatesInput. */
+  validRootCauses?: string[];
 }
 
 export interface CandidateDiagnostics {
@@ -70,6 +72,7 @@ export async function runInvestigation(params: RunInvestigationParams): Promise<
     maxCandidates = 3,
     topKDocuments = 5,
     topKSimilarIncidents = 3,
+    validRootCauses,
   } = params;
 
   const startedAt = Date.now();
@@ -95,6 +98,7 @@ export async function runInvestigation(params: RunInvestigationParams): Promise<
     incidentSummary: summary,
     evidenceCatalog,
     maxCandidates,
+    validRootCauses,
   });
   requestCount += 1;
 

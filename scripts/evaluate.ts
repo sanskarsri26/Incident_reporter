@@ -10,6 +10,7 @@
 import path from "node:path";
 import { writeFileSync } from "node:fs";
 import { getEmbeddingProvider, getLLMProvider } from "@/lib/gemini/index";
+import { FAULT_SLUGS } from "@/simulator/fault-injection/index";
 import { runInvestigation } from "@/lib/investigation/pipeline";
 import { retrieveByVectorOnly, retrieveHybrid } from "@/lib/retrieval/document-retrieval";
 import { buildIncidentSummary } from "@/lib/investigation/summary";
@@ -49,6 +50,7 @@ async function runCase(
       historicalIncidents,
       llmProvider: getLLMProvider(),
       embeddingProvider: getEmbeddingProvider(),
+      validRootCauses: [...FAULT_SLUGS],
     });
 
     const top = result.candidateDiagnostics[0];
@@ -99,6 +101,7 @@ async function runAblationC(testManifests: ManifestFile[], documents: DocumentRe
       historicalIncidents: allByOther(manifest.incident.id),
       llmProvider: getLLMProvider(),
       embeddingProvider: getEmbeddingProvider(),
+      validRootCauses: [...FAULT_SLUGS],
     });
 
     const byRankingScore = [...result.candidateDiagnostics].sort((a, b) => b.rankingScore - a.rankingScore)[0];

@@ -10,6 +10,22 @@ describe("buildCandidatesPrompt", () => {
     expect(prompt).toContain("[LOG-1] connection timeout");
     expect(prompt).toContain("at most 3 candidates");
   });
+
+  it("omits any closed-label-set instruction when validRootCauses is not provided", () => {
+    const prompt = buildCandidatesPrompt({ incidentSummary: "checkout failing", evidenceCatalog, maxCandidates: 3 });
+    expect(prompt).not.toContain("MUST be exactly one of");
+  });
+
+  it("instructs the model to choose rootCause only from the enumerated set when validRootCauses is provided", () => {
+    const prompt = buildCandidatesPrompt({
+      incidentSummary: "checkout failing",
+      evidenceCatalog,
+      maxCandidates: 3,
+      validRootCauses: ["db_connection_pool_exhaustion", "cpu_spike"],
+    });
+    expect(prompt).toContain("MUST be exactly one of these values");
+    expect(prompt).toContain("db_connection_pool_exhaustion, cpu_spike");
+  });
 });
 
 describe("buildVerifyPrompt", () => {

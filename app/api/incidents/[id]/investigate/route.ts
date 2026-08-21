@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { getRepository } from "@/lib/db/index";
 import { getEmbeddingProvider, getLLMProvider } from "@/lib/gemini/index";
+import { FAULT_SLUGS } from "@/simulator/fault-injection/index";
 import { getRateLimiter } from "@/lib/security/rate-limit";
 import { incidentIdSchema } from "@/lib/security/validation";
 import { runInvestigation } from "@/lib/investigation/pipeline";
@@ -52,6 +53,12 @@ export const POST = withRequestLog("incidents.investigate", async (request: Requ
       historicalIncidents,
       llmProvider,
       embeddingProvider: getEmbeddingProvider(),
+      // This deployment's dataset is scoped entirely to this synthetic
+      // fault taxonomy (see simulator/fault-injection), so constraining the
+      // model's output to it is a real product decision here, not just an
+      // eval-harness convenience -- it also keeps a real Gemini's output
+      // directly comparable to the evaluation report's numbers.
+      validRootCauses: [...FAULT_SLUGS],
     });
 
     await repository.saveAnalysisRun(result.analysisRun);
