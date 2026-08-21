@@ -6,6 +6,10 @@ import { incidentIdSchema } from "@/lib/security/validation";
 import { runInvestigation } from "@/lib/investigation/pipeline";
 import { buildHistoricalSummary } from "@/lib/investigation/historical-summary";
 
+function isUpstreamQuotaError(message: string): boolean {
+  return /\b429\b/.test(message);
+}
+
 export async function POST(request: Request, context: { params: Promise<{ id: string }> }) {
   const { id } = await context.params;
   const parsedId = incidentIdSchema.safeParse(id);
@@ -72,6 +76,12 @@ export async function POST(request: Request, context: { params: Promise<{ id: st
       status: "failed",
       createdAt: new Date().toISOString(),
     });
+    if (isUpstreamQuotaError(message)) {
+      return NextResponse.json(
+        { error: "The AI provider is temporarily rate-limited or out of quota. Please try again in a minute." },
+        { status: 429 },
+      );
+    }
     return NextResponse.json({ error: message }, { status: 502 });
   }
 }

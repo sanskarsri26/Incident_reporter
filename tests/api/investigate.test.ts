@@ -1,4 +1,4 @@
-import { describe, it, expect, beforeEach } from "vitest";
+import { describe, it, expect, beforeEach, afterEach, vi } from "vitest";
 import { resetRepositoryForTests, getRepository } from "@/lib/db/index";
 import { resetProvidersForTests } from "@/lib/gemini/index";
 import { resetRateLimiterForTests } from "@/lib/security/rate-limit";
@@ -79,5 +79,38 @@ describe("POST /api/incidents/:id/investigate", () => {
       lastResponse = await investigate(postRequest(), { params: Promise.resolve({ id: incident.id }) });
     }
     expect(lastResponse?.status).toBe(429);
+  });
+
+  describe("upstream Gemini quota errors", () => {
+    const originalFetch = globalThis.fetch;
+    const originalKey = process.env.GEMINI_API_KEY;
+
+    beforeEach(() => {
+      process.env.GEMINI_API_KEY = "test-key";
+      resetProvidersForTests();
+      globalThis.fetch = vi.fn().mockResolvedValue({
+        ok: false,
+        status: 429,
+        text: async () => "Resource exhausted",
+      }) as unknown as typeof fetch;
+    });
+
+    afterEach(() => {
+      globalThis.fetch = originalFetch;
+      if (originalKey) process.env.GEMINI_API_KEY = originalKey;
+      else delete process.env.GEMINI_API_KEY;
+      resetProvidersForTests();
+    });
+
+    it("returns a friendly 429 (not a bare 502) when the upstream Gemini API is rate-limited", async () => {
+      const response = await investigate(postRequest(), { params: Promise.resolve({ id: incident.id }) });
+      expect(response.status).toBe(429);
+      const body = await response.json();
+      expect(body.error).toMatch(/rate-limited|quota/i);
+
+      const repo = getRepository();
+      const savedRun = await repo.getLatestAnalysisRun(incident.id);
+      expect(savedRun?.status).toBe("failed");
+    });
   });
 });
