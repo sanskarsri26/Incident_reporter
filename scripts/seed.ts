@@ -1,106 +1,29 @@
 /**
  * Seeds the configured repository (Supabase if SUPABASE_URL /
- * SUPABASE_SERVICE_ROLE_KEY are set, otherwise an in-memory repository
- * that is a no-op across process boundaries) with:
- *   - the service topology (services + dependencies)
- *   - every generated incident under data/incident-manifests/*.json,
- *     including its log and metric events
- *   - every runbook / service-description doc under data/runbooks/*.md
- *     as a DocumentRecord, embedded via getEmbeddingProvider() (real
- *     Gemini embeddings if GEMINI_API_KEY is set, otherwise the mock
- *     provider) -- retrieval filters out documents with a null
- *     embedding, so this step is required for RAG to find anything.
+ * SUPABASE_SERVICE_ROLE_KEY are set, otherwise an in-memory repository --
+ * note that the in-memory repository used by a running `next dev`/`next
+ * start` server auto-seeds itself on first access via
+ * lib/db/auto-seed.ts, so this script mainly matters for seeding a real
+ * Supabase database) with the service topology, every generated incident
+ * (with its log/metric events), and every runbook/service-description doc
+ * (embedded via getEmbeddingProvider() -- real Gemini embeddings if
+ * GEMINI_API_KEY is set, otherwise the mock provider).
  *
  * Run with: npm run seed
  */
-import { readdirSync, readFileSync } from "node:fs";
-import path from "node:path";
 import { getRepository } from "@/lib/db/index";
-import { getEmbeddingProvider } from "@/lib/gemini/index";
-import { loadRunbookFiles } from "@/lib/documents/load-runbook-files";
-import type { DocumentRecord, Incident, LogEvent, MetricEvent } from "@/lib/types";
-import { SERVICES, SERVICE_DEPENDENCIES } from "@/simulator/services/graph";
+import { seedServiceTopology, seedIncidentDataset, seedRunbookDocuments } from "@/lib/db/auto-seed";
 
-const MANIFESTS_DIR = path.resolve(import.meta.dirname, "..", "data", "incident-manifests");
-
-interface IncidentManifestFile {
-  incident: Incident;
-  logEvents: LogEvent[];
-  metricEvents: MetricEvent[];
+async function seedServices() {
+  return seedServiceTopology(getRepository());
 }
 
-async function seedServices(): Promise<{ services: number; dependencies: number }> {
-  const repository = getRepository();
-  for (const service of SERVICES) {
-    await repository.upsertService(service);
-  }
-  for (const dependency of SERVICE_DEPENDENCIES) {
-    await repository.upsertServiceDependency(dependency);
-  }
-  return { services: SERVICES.length, dependencies: SERVICE_DEPENDENCIES.length };
+async function seedIncidents() {
+  return seedIncidentDataset(getRepository());
 }
 
-async function seedIncidents(): Promise<{ incidents: number; logEvents: number; metricEvents: number }> {
-  const repository = getRepository();
-  let files: string[] = [];
-  try {
-    files = readdirSync(MANIFESTS_DIR).filter((f) => f.endsWith(".json") && f !== "index.json");
-  } catch {
-    return { incidents: 0, logEvents: 0, metricEvents: 0 };
-  }
-
-  let incidentCount = 0;
-  let logEventCount = 0;
-  let metricEventCount = 0;
-
-  for (const file of files) {
-    const raw = readFileSync(path.join(MANIFESTS_DIR, file), "utf-8");
-    const data = JSON.parse(raw) as IncidentManifestFile;
-
-    await repository.upsertIncident(data.incident);
-    incidentCount += 1;
-
-    if (data.logEvents.length > 0) {
-      await repository.insertLogEvents(data.logEvents);
-      logEventCount += data.logEvents.length;
-    }
-    if (data.metricEvents.length > 0) {
-      await repository.insertMetricEvents(data.metricEvents);
-      metricEventCount += data.metricEvents.length;
-    }
-  }
-
-  return { incidents: incidentCount, logEvents: logEventCount, metricEvents: metricEventCount };
-}
-
-async function seedRunbooks(): Promise<{ runbooks: number; serviceDescriptions: number }> {
-  const repository = getRepository();
-  const files = loadRunbookFiles();
-  if (files.length === 0) {
-    return { runbooks: 0, serviceDescriptions: 0 };
-  }
-
-  const embeddingProvider = getEmbeddingProvider();
-  const vectors = await embeddingProvider.embed(files.map((f) => `${f.title} ${f.body}`));
-
-  let runbookCount = 0;
-  let serviceDescriptionCount = 0;
-
-  for (const [i, file] of files.entries()) {
-    const document: DocumentRecord = {
-      id: file.id,
-      title: file.title,
-      body: file.body,
-      docType: file.docType,
-      embedding: vectors[i] ?? null,
-    };
-    await repository.upsertDocument(document);
-
-    if (file.docType === "runbook") runbookCount += 1;
-    else serviceDescriptionCount += 1;
-  }
-
-  return { runbooks: runbookCount, serviceDescriptions: serviceDescriptionCount };
+async function seedRunbooks() {
+  return seedRunbookDocuments(getRepository());
 }
 
 async function main() {

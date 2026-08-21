@@ -7,31 +7,25 @@
  *
  * Run with: npm run evaluate
  */
-import { readdirSync, readFileSync, writeFileSync } from "node:fs";
 import path from "node:path";
+import { writeFileSync } from "node:fs";
 import { getEmbeddingProvider, getLLMProvider } from "@/lib/gemini/index";
 import { runInvestigation } from "@/lib/investigation/pipeline";
 import { retrieveByVectorOnly, retrieveHybrid } from "@/lib/retrieval/document-retrieval";
 import { buildIncidentSummary } from "@/lib/investigation/summary";
 import { buildHistoricalSummary } from "@/lib/investigation/historical-summary";
 import { loadRunbookFiles } from "@/lib/documents/load-runbook-files";
+import { loadIncidentManifests, type IncidentManifestFile } from "@/lib/dataset/load-incident-manifests";
 import { computeEvaluationSummary, type EvaluationCase, type EvaluationSummary } from "@/lib/evaluation/metrics";
 import { createStratifiedSplit } from "@/lib/evaluation/split";
-import type { DocumentRecord, Incident, LogEvent, MetricEvent } from "@/lib/types";
+import type { DocumentRecord, Incident } from "@/lib/types";
 
-const MANIFESTS_DIR = path.resolve(import.meta.dirname, "..", "data", "incident-manifests");
 const REPORT_PATH = path.resolve(import.meta.dirname, "..", "data", "evaluation-report.json");
 
-interface ManifestFile {
-  incident: Incident;
-  manifest: { expectedEvidence: string[] };
-  logEvents: LogEvent[];
-  metricEvents: MetricEvent[];
-}
+type ManifestFile = IncidentManifestFile;
 
 function loadManifests(): ManifestFile[] {
-  const files = readdirSync(MANIFESTS_DIR).filter((f) => f.endsWith(".json") && f !== "index.json");
-  return files.map((file) => JSON.parse(readFileSync(path.join(MANIFESTS_DIR, file), "utf-8")) as ManifestFile);
+  return loadIncidentManifests();
 }
 
 async function loadEmbeddedDocuments(): Promise<DocumentRecord[]> {
