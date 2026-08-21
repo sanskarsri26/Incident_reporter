@@ -125,19 +125,28 @@ full explanation of that gap.
 
 | Metric | Value |
 | --- | --- |
-| Top-1 root-cause accuracy | 25.0% |
-| Top-3 root-cause accuracy | 87.5% |
+| Top-1 root-cause accuracy | 37.5% |
+| Top-3 root-cause accuracy | 81.2% |
 | Evidence Recall@5 | 93.8% |
 | Unsupported-evidence rate | 0.0% |
-| P50 / P95 latency | 1ms / 2ms |
+| P50 / P95 latency | 2ms / 4ms |
 | Avg. requests per investigation | 7 |
 
 Ablations (same held-out split):
 
-- **Retrieval matters**: Top-1 accuracy drops from 25.0% to 0% with runbook
-  retrieval disabled.
-- **Hybrid retrieval beats vector-only**: top-1 correct-runbook match rate
-  is 31.3% (hybrid) vs. 25.0% (vector-only).
+- **Hybrid retrieval clearly beats vector-only**: top-1 correct-runbook
+  match rate is 50.0% (hybrid) vs. 31.3% (vector-only) — the strongest,
+  least surprising result, and the one most likely to hold with a real
+  model too.
+- **Retrieval's effect on final top-1 accuracy is not monotonic with this
+  mock provider**: top-1 accuracy is 37.5% with runbook retrieval enabled
+  vs. 50.0% with it disabled. This is a real, reported result, not a typo —
+  it's a consequence of the mock's naive keyword-counting: a retrieved
+  runbook can occasionally out-vote the correct log/metric evidence in the
+  candidate-ranking step. It's exactly the kind of failure mode a real
+  language model (which reasons about *which* evidence is actually
+  diagnostic, not just keyword frequency) is expected to avoid — see the
+  report's `notes` field.
 - Full breakdown, including the history and ranking-score-vs-model-score
   ablations, is in `data/evaluation-report.json`.
 

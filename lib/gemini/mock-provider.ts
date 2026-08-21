@@ -97,7 +97,12 @@ export function createMockLLMProvider(): LLMProvider {
   };
 }
 
-const EMBEDDING_DIMENSIONS = 64;
+// Matches the `vector(768)` column declared in
+// supabase/migrations/0001_init.sql (Gemini's real embedding dimension),
+// so a document embedded by the mock provider and written to a real
+// Supabase database (e.g. SUPABASE_URL set without GEMINI_API_KEY) never
+// hits a pgvector dimension-mismatch error.
+const EMBEDDING_DIMENSIONS = 768;
 
 function hashToken(token: string): number {
   let hash = 2166136261;

@@ -198,6 +198,7 @@ async function main() {
       "The mock LLM matches candidate faults by keyword co-occurrence in evidence text, without judging whether a metric's *value* is anomalous. Baseline (non-fault) traffic padding shares metric names like cpu_percent across services, so it can produce plausible-looking false-positive candidates and depress top-1 accuracy relative to a real language model that reasons about magnitudes and trends. Re-running with a real GEMINI_API_KEY is expected to score meaningfully higher.",
       "evidenceRecallAt5 is computed against the full evidence catalog per case, not only the top 5 retrieved documents, since log/metric evidence is attached directly rather than retrieved by similarity.",
       "Ablation C compares ranking by the ranking-score heuristic (evidence coverage + retrieval + history + verifier agreement) against ranking by the model's raw self-reported score.",
+      "Ablation A's effect on final top-1 accuracy is not monotonic with this mock provider: enabling runbook retrieval does not always raise top-1 accuracy, because the mock's naive keyword-counting can let a retrieved runbook out-vote correct log/metric evidence in the candidate-ranking step. Ablation D (hybrid vs. vector-only retrieval quality itself) is the more reliable signal and is expected to hold with a real model; ablation A's final-accuracy effect is a known limitation of pairing retrieval with a keyword-counting mock, not a claim that retrieval doesn't help in general.",
     ],
   };
 
