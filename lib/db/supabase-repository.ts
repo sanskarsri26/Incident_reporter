@@ -50,13 +50,35 @@ function metricEventFromRow(row: Record<string, unknown>): MetricEvent {
   };
 }
 
+// PostgREST serializes a pgvector column as a JSON *string* like
+// "[0.1,0.2,...]", not a native JSON array -- a plain `as number[]` cast
+// here would be a lie at runtime, and cosineSimilarity (lib/retrieval/
+// cosine.ts) would iterate the string's characters instead of numbers,
+// silently returning NaN similarity for every document. Parse it for real,
+// and validate the parsed shape since it's data from an external system.
+function parseEmbedding(value: unknown): number[] | null {
+  if (value === null || value === undefined) return null;
+  if (Array.isArray(value)) return value as number[];
+  if (typeof value === "string") {
+    try {
+      const parsed: unknown = JSON.parse(value);
+      if (Array.isArray(parsed) && parsed.every((v) => typeof v === "number")) {
+        return parsed as number[];
+      }
+    } catch {
+      // fall through to null below
+    }
+  }
+  return null;
+}
+
 function documentFromRow(row: Record<string, unknown>): DocumentRecord {
   return {
     id: row.id as string,
     title: row.title as string,
     body: row.body as string,
     docType: row.doc_type as DocumentRecord["docType"],
-    embedding: (row.embedding as number[] | null) ?? null,
+    embedding: parseEmbedding(row.embedding),
   };
 }
 
@@ -168,7 +190,11 @@ export function createSupabaseRepositoryFromClient(client: SupabaseClient): Repo
     },
     async insertLogEvents(events: LogEvent[]) {
       if (events.length === 0) return;
-      const { error } = await client.from("log_events").insert(
+      // upsert, not insert: `npm run seed` must be safe to re-run against a
+      // real database (README's own documented deploy step) -- insert()
+      // hit a duplicate-key violation on the second run and aborted
+      // partway, leaving the dataset half-loaded.
+      const { error } = await client.from("log_events").upsert(
         events.map((e) => ({
           id: e.id,
           incident_id: e.incidentId,
@@ -183,7 +209,8 @@ export function createSupabaseRepositoryFromClient(client: SupabaseClient): Repo
     },
     async insertMetricEvents(events: MetricEvent[]) {
       if (events.length === 0) return;
-      const { error } = await client.from("metric_events").insert(
+      // upsert, not insert -- see insertLogEvents above for why.
+      const { error } = await client.from("metric_events").upsert(
         events.map((e) => ({
           id: e.id,
           incident_id: e.incidentId,

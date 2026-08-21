@@ -61,12 +61,35 @@ describe("Supabase repository (against a fake postgrest client)", () => {
     expect(await r.listDocuments()).toEqual([doc]);
   });
 
-  it("round-trips a document with a real embedding vector", async () => {
+  it("round-trips a document with a real embedding vector, through PostgREST's real string serialization of a vector column", async () => {
+    // Real PostgREST returns a pgvector column as a JSON *string* like
+    // "[0.1,0.2,0.3]", not a native array (see the fake client's select
+    // path, which mimics this). A `row.embedding as number[]` cast without
+    // parsing would silently return a string here, and cosineSimilarity
+    // would iterate its characters instead of numbers -- this test would
+    // have failed against the old implementation.
     const r = repo();
     const doc: DocumentRecord = { id: "DOC-1", title: "Runbook", body: "inspect connections", docType: "runbook", embedding: [0.1, 0.2, 0.3] };
     await r.upsertDocument(doc);
     const [saved] = await r.listDocuments();
     expect(saved?.embedding).toEqual([0.1, 0.2, 0.3]);
+    expect(saved?.embedding?.every((v) => typeof v === "number")).toBe(true);
+  });
+
+  it("insertLogEvents/insertMetricEvents are idempotent -- re-running the seed script twice does not fail on a duplicate key", async () => {
+    const r = repo();
+    const logEvents: LogEvent[] = [{ id: "L1", incidentId: "INC-1", timestamp: "t1", service: "postgres", level: "error", template: "timeout", count: 3 }];
+    const metricEvents: MetricEvent[] = [{ id: "M1", incidentId: "INC-1", timestamp: "t1", service: "postgres", metric: "active_connections", value: 20 }];
+
+    await r.insertLogEvents(logEvents);
+    await r.insertMetricEvents(metricEvents);
+    // A second run against the same ids must not throw and must not
+    // duplicate rows.
+    await expect(r.insertLogEvents(logEvents)).resolves.not.toThrow();
+    await expect(r.insertMetricEvents(metricEvents)).resolves.not.toThrow();
+
+    expect(await r.listLogEvents("INC-1")).toEqual(logEvents);
+    expect(await r.listMetricEvents("INC-1")).toEqual(metricEvents);
   });
 
   it("saves and retrieves a full analysis run: predictions, evidence, and recommendations, in FK order", async () => {

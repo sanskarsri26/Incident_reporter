@@ -83,6 +83,16 @@ class FakeQueryBuilder implements PromiseLike<{ data: unknown; error: unknown }>
     }
 
     let results = state.rows.filter((row) => this.filters.every(([column, value]) => row[column] === value));
+    // Real PostgREST serializes a pgvector column as a JSON *string*, not a
+    // native array -- round-trip it the same way here so a test using this
+    // fake actually exercises the string-parsing path in
+    // supabase-repository.ts's documentFromRow, instead of the fake
+    // silently returning whatever array shape was written.
+    if (this.table === "documents") {
+      results = results.map((row) =>
+        Array.isArray(row.embedding) ? { ...row, embedding: JSON.stringify(row.embedding) } : row,
+      );
+    }
     if (this.orderCol) {
       const col = this.orderCol;
       results = [...results].sort((a, b) => {
