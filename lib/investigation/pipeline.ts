@@ -108,12 +108,22 @@ export async function runInvestigation(params: RunInvestigationParams): Promise<
   for (const rawCandidate of candidates) {
     const validated = validateCandidateEvidence(rawCandidate, evidenceCatalog);
 
-    const { confirmedEvidenceIds } = await llmProvider.verifyCandidate({
+    const { confirmedEvidenceIds: rawConfirmedEvidenceIds } = await llmProvider.verifyCandidate({
       incidentSummary: summary,
       candidate: { ...rawCandidate, supportingEvidenceIds: validated.supportingEvidenceIds },
       evidenceCatalog,
     });
     requestCount += 1;
+
+    // A verifier can only legitimately *confirm* an ID that was actually
+    // cited by the candidate -- it has no basis to introduce a new
+    // citation of its own. Without this, a hallucinating or buggy verifier
+    // could return IDs that don't exist in the catalog at all, or more IDs
+    // than were originally cited, inflating verifierSupport above what it
+    // should be (only clamped, not corrected, by clamp01 downstream). This
+    // is the same evidence-validation guarantee the initial candidate
+    // citations get, applied to the independent verification step too.
+    const confirmedEvidenceIds = rawConfirmedEvidenceIds.filter((id) => validated.supportingEvidenceIds.includes(id));
 
     const citedSimilarities = validated.supportingEvidenceIds
       .map((id) => catalogById.get(id)?.similarity)

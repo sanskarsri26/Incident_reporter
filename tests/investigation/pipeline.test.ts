@@ -1,6 +1,7 @@
 import { describe, it, expect } from "vitest";
 import { runInvestigation } from "@/lib/investigation/pipeline";
 import { createMockEmbeddingProvider, createMockLLMProvider } from "@/lib/gemini/mock-provider";
+import { createHallucinatingLLMProvider } from "./fixtures/hallucinating-llm-provider";
 import type { DocumentRecord, Incident, LogEvent, MetricEvent } from "@/lib/types";
 
 const incident: Incident = {
@@ -141,5 +142,97 @@ describe("runInvestigation", () => {
     expect(result.predictions[0]?.rootCause).toBe("unknown");
     expect(result.evidence).toEqual([]);
     expect(result.recommendations.length).toBeGreaterThan(0);
+  });
+
+  describe("against a hallucinating LLM provider (proves the evidence-validation safety property)", () => {
+    it("drops fabricated evidence IDs from every candidate's citations", async () => {
+      const documents = await embeddedDocs();
+      const result = await runInvestigation({
+        incident,
+        logEvents,
+        metricEvents,
+        documents,
+        historicalIncidents: [],
+        llmProvider: createHallucinatingLLMProvider({ fabricatedIds: ["DOC-9999", "LOG-999"] }),
+        embeddingProvider: createMockEmbeddingProvider(),
+      });
+
+      for (const diagnostic of result.candidateDiagnostics) {
+        expect(diagnostic.supportingEvidenceIds).not.toContain("DOC-9999");
+        expect(diagnostic.supportingEvidenceIds).not.toContain("LOG-999");
+        expect(diagnostic.contradictingEvidenceIds).not.toContain("DOC-9999");
+        expect(diagnostic.contradictingEvidenceIds).not.toContain("LOG-999");
+      }
+    });
+
+    it("counts fabricated citations as unsupported, matching the number injected", async () => {
+      const documents = await embeddedDocs();
+      const fabricatedIds = ["DOC-9999", "LOG-999"];
+      const result = await runInvestigation({
+        incident,
+        logEvents,
+        metricEvents,
+        documents,
+        historicalIncidents: [],
+        llmProvider: createHallucinatingLLMProvider({ fabricatedIds }),
+        embeddingProvider: createMockEmbeddingProvider(),
+      });
+
+      expect(result.candidateDiagnostics[0]?.unsupportedCitationCount).toBe(fabricatedIds.length);
+    });
+
+    it("never persists a fabricated evidence ID in the returned Evidence records", async () => {
+      const documents = await embeddedDocs();
+      const fabricatedIds = ["DOC-9999", "LOG-999"];
+      const result = await runInvestigation({
+        incident,
+        logEvents,
+        metricEvents,
+        documents,
+        historicalIncidents: [],
+        llmProvider: createHallucinatingLLMProvider({ fabricatedIds }),
+        embeddingProvider: createMockEmbeddingProvider(),
+      });
+
+      const persistedSourceIds = result.evidence.map((e) => e.sourceId);
+      for (const fabricated of fabricatedIds) {
+        expect(persistedSourceIds).not.toContain(fabricated);
+      }
+    });
+
+    it("does not throw or produce NaN scores when a candidate's citations are entirely fabricated", async () => {
+      const documents = await embeddedDocs();
+      const result = await runInvestigation({
+        incident,
+        logEvents,
+        metricEvents,
+        documents,
+        historicalIncidents: [],
+        llmProvider: createHallucinatingLLMProvider({ allCitationsFabricated: true }),
+        embeddingProvider: createMockEmbeddingProvider(),
+      });
+
+      expect(result.candidateDiagnostics[0]?.supportingEvidenceIds).toEqual([]);
+      expect(Number.isNaN(result.candidateDiagnostics[0]?.rankingScore)).toBe(false);
+      expect(result.predictions[0]?.confidence).toBeGreaterThanOrEqual(0);
+    });
+
+    it("filters the verifier's confirmedEvidenceIds down to IDs actually cited by the candidate", async () => {
+      const documents = await embeddedDocs();
+      const result = await runInvestigation({
+        incident,
+        logEvents,
+        metricEvents,
+        documents,
+        historicalIncidents: [],
+        // The verifier fixture always claims to additionally confirm
+        // METRIC-8888, which is never a real cited id -- a real verifier
+        // has no legitimate basis to introduce a new citation of its own.
+        llmProvider: createHallucinatingLLMProvider({ fabricatedIds: [], fabricatedConfirmedIds: ["METRIC-8888"] }),
+        embeddingProvider: createMockEmbeddingProvider(),
+      });
+
+      expect(result.candidateDiagnostics[0]?.confirmedEvidenceIds).not.toContain("METRIC-8888");
+    });
   });
 });
