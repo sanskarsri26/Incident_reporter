@@ -11,5 +11,10 @@ export function cosineSimilarity(a: number[], b: number[]): number {
     magB += valueB * valueB;
   }
   const denominator = Math.sqrt(magA) * Math.sqrt(magB);
-  return denominator === 0 ? 0 : dot / denominator;
+  if (denominator === 0) return 0;
+  // Mathematically bounded to [-1, 1], but float accumulation over long
+  // vectors can push the raw result a hair past 1 (observed:
+  // 1.0000000000000002) -- callers render this as a percentage
+  // (app/incidents/[id]/similar/page.tsx), where that reads as a bug.
+  return Math.max(-1, Math.min(1, dot / denominator));
 }
