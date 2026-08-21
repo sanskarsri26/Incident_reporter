@@ -18,7 +18,7 @@ export async function POST(request: Request, context: { params: Promise<{ id: st
   }
 
   const clientKey = request.headers.get("x-forwarded-for") ?? "unknown";
-  const rateLimitResult = await getRateLimiter().consume(clientKey);
+  const rateLimitResult = await getRateLimiter().consume(`investigate:${clientKey}`);
   if (!rateLimitResult.allowed) {
     return NextResponse.json({ error: "Rate limit exceeded. Try again shortly." }, { status: 429 });
   }
