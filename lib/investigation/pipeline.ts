@@ -152,7 +152,19 @@ export async function runInvestigation(params: RunInvestigationParams): Promise<
     });
   }
 
-  candidateDiagnostics.sort((a, b) => b.rankingScore - a.rankingScore);
+  // Deterministic tiebreak: rankingScore ties are common (evidenceCoverage
+  // saturates at EVIDENCE_COVERAGE_TARGET and historicalMatch/
+  // retrievalSimilarity are often near-constant across candidates for the
+  // same incident), so relying on Array.prototype.sort's stability alone
+  // would make the winning candidate depend on the LLM's emission order
+  // rather than on anything measured. Break ties by modelScore (the LLM's
+  // own confidence), then by rootCause alphabetically as a final,
+  // fully-deterministic fallback.
+  candidateDiagnostics.sort((a, b) => {
+    if (b.rankingScore !== a.rankingScore) return b.rankingScore - a.rankingScore;
+    if (b.modelScore !== a.modelScore) return b.modelScore - a.modelScore;
+    return a.rootCause.localeCompare(b.rootCause);
+  });
 
   const finalRootCause = candidateDiagnostics[0]?.rootCause ?? "unknown";
 

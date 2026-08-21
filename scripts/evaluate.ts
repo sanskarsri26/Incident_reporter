@@ -52,6 +52,9 @@ async function runCase(
     });
 
     const top = result.candidateDiagnostics[0];
+    const hadTopRankTie =
+      top !== undefined &&
+      result.candidateDiagnostics.some((c) => c !== top && c.rankingScore === top.rankingScore);
 
     return {
       incidentId: manifest.incident.id,
@@ -64,6 +67,7 @@ async function runCase(
       latencyMs: result.analysisRun.latencyMs,
       requestCount: result.requestCount,
       failed: false,
+      hadTopRankTie,
     };
   } catch {
     return {
@@ -77,6 +81,7 @@ async function runCase(
       latencyMs: 0,
       requestCount: 0,
       failed: true,
+      hadTopRankTie: false,
     };
   }
 }
@@ -193,6 +198,7 @@ async function main() {
       "evidenceRecallAt5 is computed against the full evidence catalog per case, not only the top 5 retrieved documents, since log/metric evidence is attached directly rather than retrieved by similarity.",
       "Ablation C compares ranking by the ranking-score heuristic (evidence coverage + retrieval + history + verifier agreement) against ranking by the model's raw self-reported score.",
       "Ablation A's effect on final top-1 accuracy is not monotonic with this mock provider: enabling runbook retrieval does not always raise top-1 accuracy, because the mock's naive keyword-counting can let a retrieved runbook out-vote correct log/metric evidence in the candidate-ranking step. Ablation D (hybrid vs. vector-only retrieval quality itself) is the more reliable signal and is expected to hold with a real model; ablation A's final-accuracy effect is a known limitation of pairing retrieval with a keyword-counting mock, not a claim that retrieval doesn't help in general.",
+      "primary.top1TieRate is the fraction of test cases where the top-ranked candidate's rankingScore exactly tied another candidate's. Read it alongside top1Accuracy: a high tie rate means the ranking score doesn't have enough dynamic range to separate candidates for this incident, and which candidate ends up ranked first in a tie is decided by a deterministic tiebreak (modelScore, then rootCause alphabetically -- see lib/investigation/pipeline.ts), not by anything measured. A high tie rate is a signal to widen the ranking score's dynamic range, not a bug in the tiebreak itself.",
     ],
   };
 

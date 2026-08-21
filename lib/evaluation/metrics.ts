@@ -11,12 +11,28 @@ export interface EvaluationCase {
   latencyMs: number;
   requestCount: number;
   failed: boolean;
+  /**
+   * Whether the top-ranked candidate's rankingScore exactly tied with
+   * another candidate's rankingScore for this case. When true, which
+   * candidate ended up ranked first was decided by the pipeline's
+   * deterministic tiebreak (modelScore, then rootCause alphabetically)
+   * rather than by the ranking score itself -- see top1TieRate below.
+   */
+  hadTopRankTie: boolean;
 }
 
 export interface EvaluationSummary {
   caseCount: number;
   top1Accuracy: number;
   top3Accuracy: number;
+  /**
+   * Fraction of cases where the top-ranked candidate's rankingScore was
+   * tied with another candidate's. Read alongside top1Accuracy: a high tie
+   * rate means the ranking score doesn't have enough dynamic range to
+   * separate candidates on its own, and top1 outcomes for tied cases are
+   * decided by the deterministic tiebreak rather than by the score.
+   */
+  top1TieRate: number;
   evidenceRecallAt5: number;
   unsupportedEvidenceRate: number;
   latencyP50Ms: number;
@@ -43,6 +59,7 @@ export function computeEvaluationSummary(cases: EvaluationCase[]): EvaluationSum
       caseCount: 0,
       top1Accuracy: 0,
       top3Accuracy: 0,
+      top1TieRate: 0,
       evidenceRecallAt5: 0,
       unsupportedEvidenceRate: 0,
       latencyP50Ms: 0,
@@ -54,6 +71,8 @@ export function computeEvaluationSummary(cases: EvaluationCase[]): EvaluationSum
 
   const top1Correct = cases.filter((c) => !c.failed && c.predictedRootCauses[0] === c.faultTruth).length;
   const top3Correct = cases.filter((c) => !c.failed && c.predictedRootCauses.slice(0, 3).includes(c.faultTruth)).length;
+  const tiedCases = cases.filter((c) => !c.failed && c.hadTopRankTie).length;
+  const nonFailedCount = cases.filter((c) => !c.failed).length;
 
   const recallScores = cases
     .filter((c) => c.expectedEvidenceTags.length > 0)
@@ -74,6 +93,7 @@ export function computeEvaluationSummary(cases: EvaluationCase[]): EvaluationSum
     caseCount,
     top1Accuracy: top1Correct / caseCount,
     top3Accuracy: top3Correct / caseCount,
+    top1TieRate: nonFailedCount === 0 ? 0 : tiedCases / nonFailedCount,
     evidenceRecallAt5: average(recallScores),
     unsupportedEvidenceRate: totalCitationAttempts === 0 ? 0 : totalUnsupported / totalCitationAttempts,
     latencyP50Ms: percentile(sortedLatencies, 0.5),

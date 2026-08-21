@@ -13,6 +13,7 @@ function baseCase(overrides: Partial<EvaluationCase> = {}): EvaluationCase {
     latencyMs: 100,
     requestCount: 4,
     failed: false,
+    hadTopRankTie: false,
     ...overrides,
   };
 }
@@ -75,5 +76,14 @@ describe("computeEvaluationSummary", () => {
   it("computes failure rate", () => {
     const summary = computeEvaluationSummary([baseCase({ failed: true }), baseCase({ failed: false })]);
     expect(summary.failureRate).toBe(0.5);
+  });
+
+  it("computes top1TieRate over non-failed cases only", () => {
+    const summary = computeEvaluationSummary([
+      baseCase({ hadTopRankTie: true }),
+      baseCase({ hadTopRankTie: false }),
+      baseCase({ hadTopRankTie: true, failed: true }),
+    ]);
+    expect(summary.top1TieRate).toBeCloseTo(0.5, 10);
   });
 });
