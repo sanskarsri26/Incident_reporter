@@ -11,7 +11,7 @@ import path from "node:path";
 import { writeFileSync } from "node:fs";
 import { getEmbeddingProvider, getLLMProvider } from "@/lib/gemini/index";
 import { FAULT_SLUGS } from "@/simulator/fault-injection/index";
-import { runInvestigation } from "@/lib/investigation/pipeline";
+import { runInvestigation, type CandidateDiagnostics, type InvestigationResult } from "@/lib/investigation/pipeline";
 import { retrieveByVectorOnly, retrieveHybrid } from "@/lib/retrieval/document-retrieval";
 import { buildIncidentSummary } from "@/lib/investigation/summary";
 import { buildHistoricalSummary } from "@/lib/investigation/historical-summary";
@@ -36,6 +36,42 @@ async function loadEmbeddedDocuments(): Promise<DocumentRecord[]> {
   return files.map((f, i) => ({ ...f, embedding: vectors[i] ?? null }));
 }
 
+function evaluationCaseFromResult(manifest: ManifestFile, result: InvestigationResult): EvaluationCase {
+  const top = result.candidateDiagnostics[0];
+  const hadTopRankTie =
+    top !== undefined && result.candidateDiagnostics.some((c) => c !== top && c.rankingScore === top.rankingScore);
+
+  return {
+    incidentId: manifest.incident.id,
+    faultTruth: manifest.incident.rootCauseTruth,
+    predictedRootCauses: result.predictions.map((p) => p.rootCause),
+    expectedEvidenceTags: manifest.manifest.expectedEvidence,
+    evidenceCatalogSummaries: result.evidenceCatalog.map((e) => e.summary),
+    citedEvidenceCount: (top?.supportingEvidenceIds.length ?? 0) + (top?.contradictingEvidenceIds.length ?? 0),
+    unsupportedCitationCount: top?.unsupportedCitationCount ?? 0,
+    latencyMs: result.analysisRun.latencyMs,
+    requestCount: result.requestCount,
+    failed: false,
+    hadTopRankTie,
+  };
+}
+
+function failedEvaluationCase(manifest: ManifestFile): EvaluationCase {
+  return {
+    incidentId: manifest.incident.id,
+    faultTruth: manifest.incident.rootCauseTruth,
+    predictedRootCauses: [],
+    expectedEvidenceTags: manifest.manifest.expectedEvidence,
+    evidenceCatalogSummaries: [],
+    citedEvidenceCount: 0,
+    unsupportedCitationCount: 0,
+    latencyMs: 0,
+    requestCount: 0,
+    failed: true,
+    hadTopRankTie: false,
+  };
+}
+
 async function runCase(
   manifest: ManifestFile,
   documents: DocumentRecord[],
@@ -52,69 +88,26 @@ async function runCase(
       embeddingProvider: getEmbeddingProvider(),
       validRootCauses: [...FAULT_SLUGS],
     });
-
-    const top = result.candidateDiagnostics[0];
-    const hadTopRankTie =
-      top !== undefined &&
-      result.candidateDiagnostics.some((c) => c !== top && c.rankingScore === top.rankingScore);
-
-    return {
-      incidentId: manifest.incident.id,
-      faultTruth: manifest.incident.rootCauseTruth,
-      predictedRootCauses: result.predictions.map((p) => p.rootCause),
-      expectedEvidenceTags: manifest.manifest.expectedEvidence,
-      evidenceCatalogSummaries: result.evidenceCatalog.map((e) => e.summary),
-      citedEvidenceCount: (top?.supportingEvidenceIds.length ?? 0) + (top?.contradictingEvidenceIds.length ?? 0),
-      unsupportedCitationCount: top?.unsupportedCitationCount ?? 0,
-      latencyMs: result.analysisRun.latencyMs,
-      requestCount: result.requestCount,
-      failed: false,
-      hadTopRankTie,
-    };
+    return evaluationCaseFromResult(manifest, result);
   } catch {
-    return {
-      incidentId: manifest.incident.id,
-      faultTruth: manifest.incident.rootCauseTruth,
-      predictedRootCauses: [],
-      expectedEvidenceTags: manifest.manifest.expectedEvidence,
-      evidenceCatalogSummaries: [],
-      citedEvidenceCount: 0,
-      unsupportedCitationCount: 0,
-      latencyMs: 0,
-      requestCount: 0,
-      failed: true,
-      hadTopRankTie: false,
-    };
+    return failedEvaluationCase(manifest);
   }
 }
 
-async function runAblationC(testManifests: ManifestFile[], documents: DocumentRecord[], allByOther: (id: string) => Array<{ incident: Incident; summary: string }>) {
-  let rankingScoreCorrect = 0;
-  let modelScoreCorrect = 0;
-
-  for (const manifest of testManifests) {
-    const result = await runInvestigation({
-      incident: manifest.incident,
-      logEvents: manifest.logEvents,
-      metricEvents: manifest.metricEvents,
-      documents,
-      historicalIncidents: allByOther(manifest.incident.id),
-      llmProvider: getLLMProvider(),
-      embeddingProvider: getEmbeddingProvider(),
-      validRootCauses: [...FAULT_SLUGS],
-    });
-
-    const byRankingScore = [...result.candidateDiagnostics].sort((a, b) => b.rankingScore - a.rankingScore)[0];
-    const byModelScore = [...result.candidateDiagnostics].sort((a, b) => b.modelScore - a.modelScore)[0];
-
-    if (byRankingScore?.rootCause === manifest.incident.rootCauseTruth) rankingScoreCorrect += 1;
-    if (byModelScore?.rootCause === manifest.incident.rootCauseTruth) modelScoreCorrect += 1;
-  }
-
-  const n = testManifests.length || 1;
+/**
+ * Ablation C (ranking-score vs. model-score top-1 accuracy) is a
+ * re-ranking of candidates already computed by the primary run -- it
+ * doesn't need its own pipeline invocation. Reusing the primary run's
+ * candidateDiagnostics here (rather than calling runInvestigation() a
+ * third time per test case, as this used to) halves this ablation's cost,
+ * which matters with a real, paid GEMINI_API_KEY.
+ */
+function pickForAblationC(candidateDiagnostics: CandidateDiagnostics[], faultTruth: string): { rankingScoreCorrect: boolean; modelScoreCorrect: boolean } {
+  const byRankingScore = [...candidateDiagnostics].sort((a, b) => b.rankingScore - a.rankingScore)[0];
+  const byModelScore = [...candidateDiagnostics].sort((a, b) => b.modelScore - a.modelScore)[0];
   return {
-    rankingScoreTop1Accuracy: rankingScoreCorrect / n,
-    modelScoreTop1Accuracy: modelScoreCorrect / n,
+    rankingScoreCorrect: byRankingScore?.rootCause === faultTruth,
+    modelScoreCorrect: byModelScore?.rootCause === faultTruth,
   };
 }
 
@@ -156,21 +149,46 @@ async function main() {
       .map((m) => ({ incident: m.incident, summary: buildHistoricalSummary(m.incident) }));
 
   // The full-configuration run (documents + history) doubles as the
-  // primary result and as the "with retrieval" / "with history" arm of
-  // ablations A and B, so it only needs to be computed once per incident.
+  // primary result, as the "with retrieval" / "with history" arm of
+  // ablations A and B, and as ablation C's input, so it only needs to be
+  // computed once per incident.
   const primaryCases: EvaluationCase[] = [];
   const withoutRetrievalCases: EvaluationCase[] = [];
   const withoutHistoryCases: EvaluationCase[] = [];
+  let rankingScoreCorrect = 0;
+  let modelScoreCorrect = 0;
 
   for (const manifest of testManifests) {
     const history = allIncidentSummaries(manifest.incident.id);
 
-    primaryCases.push(await runCase(manifest, documents, history));
+    try {
+      const result = await runInvestigation({
+        incident: manifest.incident,
+        logEvents: manifest.logEvents,
+        metricEvents: manifest.metricEvents,
+        documents,
+        historicalIncidents: history,
+        llmProvider: getLLMProvider(),
+        embeddingProvider: getEmbeddingProvider(),
+        validRootCauses: [...FAULT_SLUGS],
+      });
+      primaryCases.push(evaluationCaseFromResult(manifest, result));
+      const pick = pickForAblationC(result.candidateDiagnostics, manifest.incident.rootCauseTruth);
+      if (pick.rankingScoreCorrect) rankingScoreCorrect += 1;
+      if (pick.modelScoreCorrect) modelScoreCorrect += 1;
+    } catch {
+      primaryCases.push(failedEvaluationCase(manifest));
+    }
+
     withoutRetrievalCases.push(await runCase(manifest, [], history));
     withoutHistoryCases.push(await runCase(manifest, documents, []));
   }
 
-  const ablationC = await runAblationC(testManifests, documents, allIncidentSummaries);
+  const ablationCaseCount = testManifests.length || 1;
+  const ablationC = {
+    rankingScoreTop1Accuracy: rankingScoreCorrect / ablationCaseCount,
+    modelScoreTop1Accuracy: modelScoreCorrect / ablationCaseCount,
+  };
   const ablationD = await runAblationD(testManifests, documents);
 
   const splitCounts = { dev: 0, validation: 0, test: 0 };
