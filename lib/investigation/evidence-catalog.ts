@@ -3,6 +3,20 @@ import type { RetrievedDocument } from "@/lib/retrieval/document-retrieval";
 import type { SimilarIncident } from "@/lib/retrieval/similar-incidents";
 import type { LogEvent, MetricEvent } from "@/lib/types";
 
+// Caps the per-source-type contribution to the evidence catalog. Without
+// this, a longer-duration incident's raw log/metric event count flows
+// straight into the catalog with no bound -- measured up to 326 metric
+// events for a single incident in this dataset -- and every one of those
+// gets re-serialized into all 5 LLM prompts per investigation (1
+// candidates + up to 3 verify + 1 actions), which is both a real cost
+// concern with a paid provider and unnecessary: most of that volume is
+// baseline traffic noise, not diagnostic signal. Keeps the
+// highest-count log templates and most extreme metric values, the same
+// "most likely diagnostic" heuristic lib/investigation/summary.ts already
+// uses for the prompt's summary section.
+const MAX_LOG_EVIDENCE = 40;
+const MAX_METRIC_EVIDENCE = 40;
+
 export function buildEvidenceCatalog(
   logEvents: LogEvent[],
   metricEvents: MetricEvent[],
@@ -11,7 +25,10 @@ export function buildEvidenceCatalog(
 ): EvidenceCatalogItem[] {
   const catalog: EvidenceCatalogItem[] = [];
 
-  logEvents.forEach((event, index) => {
+  const cappedLogEvents = [...logEvents].sort((a, b) => b.count - a.count).slice(0, MAX_LOG_EVIDENCE);
+  const cappedMetricEvents = [...metricEvents].sort((a, b) => Math.abs(b.value) - Math.abs(a.value)).slice(0, MAX_METRIC_EVIDENCE);
+
+  cappedLogEvents.forEach((event, index) => {
     catalog.push({
       id: `LOG-${index + 1}`,
       sourceType: "log_event",
@@ -20,7 +37,7 @@ export function buildEvidenceCatalog(
     });
   });
 
-  metricEvents.forEach((event, index) => {
+  cappedMetricEvents.forEach((event, index) => {
     catalog.push({
       id: `METRIC-${index + 1}`,
       sourceType: "metric_event",

@@ -62,4 +62,34 @@ describe("buildEvidenceCatalog", () => {
   it("returns an empty catalog when given no evidence sources", () => {
     expect(buildEvidenceCatalog([], [], [], [])).toEqual([]);
   });
+
+  it("caps log and metric events at 40 each, keeping the highest-count/highest-magnitude ones", () => {
+    const manyLogEvents: LogEvent[] = Array.from({ length: 100 }, (_, i) => ({
+      id: `L${i}`,
+      incidentId: "INC-1",
+      timestamp: "t1",
+      service: "postgres",
+      level: "error",
+      template: `template-${i}`,
+      count: i, // highest index = highest count
+    }));
+    const manyMetricEvents: MetricEvent[] = Array.from({ length: 100 }, (_, i) => ({
+      id: `M${i}`,
+      incidentId: "INC-1",
+      timestamp: "t1",
+      service: "postgres",
+      metric: "active_connections",
+      value: i, // highest index = highest magnitude
+    }));
+
+    const catalog = buildEvidenceCatalog(manyLogEvents, manyMetricEvents, [], []);
+    const logItems = catalog.filter((c) => c.sourceType === "log_event");
+    const metricItems = catalog.filter((c) => c.sourceType === "metric_event");
+
+    expect(logItems).toHaveLength(40);
+    expect(metricItems).toHaveLength(40);
+    // The kept log event must be one of the 40 highest-count ones (id L60..L99).
+    expect(logItems.every((item) => Number(item.sourceId.slice(1)) >= 60)).toBe(true);
+    expect(metricItems.every((item) => Number(item.sourceId.slice(1)) >= 60)).toBe(true);
+  });
 });
