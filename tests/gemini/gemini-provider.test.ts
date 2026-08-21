@@ -32,17 +32,26 @@ describe("createGeminiLLMProvider", () => {
     expect(result.candidates[0]?.rootCause).toBe("db_connection_pool_exhaustion");
     const [url, init] = fetchImpl.mock.calls[0] as [string, RequestInit];
     expect(url).toContain("generateContent");
-    expect(url).toContain("key=test-key");
+    // The API key must travel via the x-goog-api-key header, never the URL
+    // query string -- URLs get logged by proxies/CDNs/server access logs.
+    expect(url).not.toContain("test-key");
+    expect((init.headers as Record<string, string>)["x-goog-api-key"]).toBe("test-key");
     expect(String(init.body)).toContain("checkout failing");
   });
 
-  it("throws when the API responds with a non-ok status", async () => {
-    const fetchImpl = vi.fn().mockResolvedValue(jsonResponse({ error: "quota exceeded" }, false, 429));
+  it("throws when the API responds with a non-ok status, without leaking the response body into the error message", async () => {
+    const fetchImpl = vi.fn().mockResolvedValue(jsonResponse({ error: "quota exceeded", secretDetail: "internal-trace-id-12345" }, false, 429));
     const provider = createGeminiLLMProvider({ apiKey: "test-key", fetchImpl });
 
     await expect(
       provider.generateCandidates({ incidentSummary: "x", evidenceCatalog: [], maxCandidates: 1 }),
     ).rejects.toThrow(/429/);
+
+    try {
+      await provider.generateCandidates({ incidentSummary: "x", evidenceCatalog: [], maxCandidates: 1 });
+    } catch (error) {
+      expect((error as Error).message).not.toContain("internal-trace-id-12345");
+    }
   });
 
   it("throws when the model response is not valid JSON matching the expected schema", async () => {
@@ -77,16 +86,32 @@ describe("createGeminiLLMProvider", () => {
 });
 
 describe("createGeminiEmbeddingProvider", () => {
-  it("calls batchEmbedContents and returns one vector per input", async () => {
+  it("calls batchEmbedContents, requests 768 dimensions, and returns one L2-normalized vector per input", async () => {
     const fetchImpl = vi.fn().mockResolvedValue(
       jsonResponse({ embeddings: [{ values: [0.1, 0.2] }, { values: [0.3, 0.4] }] }),
     );
     const provider = createGeminiEmbeddingProvider({ apiKey: "test-key", fetchImpl });
 
     const vectors = await provider.embed(["a", "b"]);
-    expect(vectors).toEqual([[0.1, 0.2], [0.3, 0.4]]);
-    const [url] = fetchImpl.mock.calls[0] as [string];
+
+    // vector(768) in supabase/migrations/0001_init.sql -- if this ever
+    // silently reverted to the API's 3072-dim default, a real deployment's
+    // first upsertDocument call would fail with a pgvector dimension
+    // mismatch.
+    const [url, init] = fetchImpl.mock.calls[0] as [string, RequestInit];
+    const requestBody = JSON.parse(String(init.body)) as { requests: Array<{ outputDimensionality: number }> };
+    expect(requestBody.requests.every((r) => r.outputDimensionality === 768)).toBe(true);
+
+    // Each returned vector is unit length regardless of the raw magnitude
+    // the API happened to return.
+    for (const vector of vectors) {
+      const magnitude = Math.sqrt(vector.reduce((sum, v) => sum + v * v, 0));
+      expect(magnitude).toBeCloseTo(1, 10);
+    }
+
     expect(url).toContain("batchEmbedContents");
+    expect(url).not.toContain("test-key");
+    expect((init.headers as Record<string, string>)["x-goog-api-key"]).toBe("test-key");
   });
 
   it("throws when the embedding count does not match the input count", async () => {
@@ -94,5 +119,17 @@ describe("createGeminiEmbeddingProvider", () => {
     const provider = createGeminiEmbeddingProvider({ apiKey: "test-key", fetchImpl });
 
     await expect(provider.embed(["a", "b"])).rejects.toThrow(/2 inputs/);
+  });
+
+  it("throws a status-only error without leaking response body text, on a non-ok response", async () => {
+    const fetchImpl = vi.fn().mockResolvedValue(jsonResponse({ error: "internal-trace-id-99999" }, false, 500));
+    const provider = createGeminiEmbeddingProvider({ apiKey: "test-key", fetchImpl });
+
+    await expect(provider.embed(["a"])).rejects.toThrow(/500/);
+    try {
+      await provider.embed(["a"]);
+    } catch (error) {
+      expect((error as Error).message).not.toContain("internal-trace-id-99999");
+    }
   });
 });

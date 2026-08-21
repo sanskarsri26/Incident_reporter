@@ -32,9 +32,9 @@ async function callGenerateContent(
   model: string,
   prompt: string,
 ): Promise<string> {
-  const response = await fetchImpl(`${GEMINI_API_BASE_URL}/models/${model}:generateContent?key=${apiKey}`, {
+  const response = await fetchImpl(`${GEMINI_API_BASE_URL}/models/${model}:generateContent`, {
     method: "POST",
-    headers: { "content-type": "application/json" },
+    headers: { "content-type": "application/json", "x-goog-api-key": apiKey },
     body: JSON.stringify({
       contents: [{ parts: [{ text: prompt }] }],
       generationConfig: { responseMimeType: "application/json" },
@@ -42,7 +42,13 @@ async function callGenerateContent(
   });
 
   if (!response.ok) {
-    throw new Error(`Gemini generateContent failed: ${response.status} ${await response.text()}`);
+    // Full response body (which can include upstream error detail we don't
+    // want reaching the browser) is logged server-side only. The thrown
+    // message keeps the status code -- callers like
+    // app/api/incidents/[id]/investigate/route.ts's isUpstreamQuotaError()
+    // regex-match on it to detect a 429 -- but never the body text.
+    console.error(`Gemini generateContent failed: ${response.status} ${await response.text()}`);
+    throw new Error(`Gemini generateContent failed with status ${response.status}`);
   }
 
   const body = (await response.json()) as {
@@ -86,6 +92,19 @@ export function createGeminiLLMProvider({
   };
 }
 
+// Must match the `vector(768)` column declared in
+// supabase/migrations/0001_init.sql. gemini-embedding-001 defaults to 3072
+// dimensions if outputDimensionality is unspecified -- without this, a
+// deployment with both GEMINI_API_KEY and SUPABASE_URL set would hit a
+// pgvector dimension-mismatch error on the first real upsertDocument call.
+const EMBEDDING_DIMENSIONS = 768;
+
+function l2Normalize(vector: number[]): number[] {
+  const magnitude = Math.sqrt(vector.reduce((sum, v) => sum + v * v, 0));
+  if (magnitude === 0) return vector;
+  return vector.map((v) => v / magnitude);
+}
+
 export interface GeminiEmbeddingProviderOptions {
   apiKey: string;
   model?: string;
@@ -101,19 +120,21 @@ export function createGeminiEmbeddingProvider({
     name: "gemini",
 
     async embed(texts: string[]): Promise<number[][]> {
-      const response = await fetchImpl(`${GEMINI_API_BASE_URL}/models/${model}:batchEmbedContents?key=${apiKey}`, {
+      const response = await fetchImpl(`${GEMINI_API_BASE_URL}/models/${model}:batchEmbedContents`, {
         method: "POST",
-        headers: { "content-type": "application/json" },
+        headers: { "content-type": "application/json", "x-goog-api-key": apiKey },
         body: JSON.stringify({
           requests: texts.map((text) => ({
             model: `models/${model}`,
             content: { parts: [{ text }] },
+            outputDimensionality: EMBEDDING_DIMENSIONS,
           })),
         }),
       });
 
       if (!response.ok) {
-        throw new Error(`Gemini batchEmbedContents failed: ${response.status} ${await response.text()}`);
+        console.error(`Gemini batchEmbedContents failed: ${response.status} ${await response.text()}`);
+        throw new Error(`Gemini batchEmbedContents failed with status ${response.status}`);
       }
 
       const body = (await response.json()) as { embeddings?: Array<{ values?: number[] }> };
@@ -121,7 +142,12 @@ export function createGeminiEmbeddingProvider({
       if (embeddings.length !== texts.length) {
         throw new Error(`Gemini batchEmbedContents returned ${embeddings.length} embeddings for ${texts.length} inputs`);
       }
-      return embeddings.map((e) => e.values ?? []);
+      // Only the API's default (3072-dim, unspecified outputDimensionality)
+      // response is documented as pre-normalized to unit length; requesting
+      // a non-default dimensionality like 768 may not be. Re-normalizing an
+      // already-unit vector is a no-op, so this is safe either way and
+      // keeps cosine similarity meaningful downstream.
+      return embeddings.map((e) => l2Normalize(e.values ?? []));
     },
   };
 }

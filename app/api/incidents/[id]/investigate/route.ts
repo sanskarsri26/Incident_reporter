@@ -75,6 +75,10 @@ export const POST = withRequestLog("incidents.investigate", async (request: Requ
     });
   } catch (error) {
     const message = error instanceof Error ? error.message : "Investigation failed";
+    // Full detail (which can include internal error text we don't want a
+    // client to see) is logged server-side only; the client always gets a
+    // generic message, regardless of what threw.
+    console.error(`Investigation failed for ${incident.id}:`, message);
     await repository.saveAnalysisRun({
       id: globalThis.crypto.randomUUID(),
       incidentId: incident.id,
@@ -90,6 +94,6 @@ export const POST = withRequestLog("incidents.investigate", async (request: Requ
         { status: 429 },
       );
     }
-    return NextResponse.json({ error: message }, { status: 502 });
+    return NextResponse.json({ error: "Investigation failed due to an upstream provider error." }, { status: 502 });
   }
 });
