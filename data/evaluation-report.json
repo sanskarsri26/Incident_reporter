@@ -1,0 +1,86 @@
+{
+  "generatedAt": "2026-08-21T07:01:31.281Z",
+  "model": "mock",
+  "embeddingModel": "mock",
+  "datasetSize": 56,
+  "splitCounts": {
+    "dev": 32,
+    "validation": 8,
+    "test": 16
+  },
+  "primary": {
+    "caseCount": 16,
+    "top1Accuracy": 0.25,
+    "top3Accuracy": 0.875,
+    "evidenceRecallAt5": 0.9375,
+    "unsupportedEvidenceRate": 0,
+    "latencyP50Ms": 1,
+    "latencyP95Ms": 2,
+    "averageRequestsPerInvestigation": 7,
+    "failureRate": 0
+  },
+  "ablations": {
+    "a_retrieval_vs_no_retrieval": {
+      "withRetrieval": {
+        "caseCount": 16,
+        "top1Accuracy": 0.25,
+        "top3Accuracy": 0.875,
+        "evidenceRecallAt5": 0.9375,
+        "unsupportedEvidenceRate": 0,
+        "latencyP50Ms": 1,
+        "latencyP95Ms": 2,
+        "averageRequestsPerInvestigation": 7,
+        "failureRate": 0
+      },
+      "withoutRetrieval": {
+        "caseCount": 16,
+        "top1Accuracy": 0,
+        "top3Accuracy": 0.75,
+        "evidenceRecallAt5": 0.9375,
+        "unsupportedEvidenceRate": 0,
+        "latencyP50Ms": 1,
+        "latencyP95Ms": 1,
+        "averageRequestsPerInvestigation": 6.25,
+        "failureRate": 0
+      }
+    },
+    "b_history_vs_no_history": {
+      "withHistory": {
+        "caseCount": 16,
+        "top1Accuracy": 0.25,
+        "top3Accuracy": 0.875,
+        "evidenceRecallAt5": 0.9375,
+        "unsupportedEvidenceRate": 0,
+        "latencyP50Ms": 1,
+        "latencyP95Ms": 2,
+        "averageRequestsPerInvestigation": 7,
+        "failureRate": 0
+      },
+      "withoutHistory": {
+        "caseCount": 16,
+        "top1Accuracy": 0.25,
+        "top3Accuracy": 1,
+        "evidenceRecallAt5": 0.9375,
+        "unsupportedEvidenceRate": 0,
+        "latencyP50Ms": 1,
+        "latencyP95Ms": 2,
+        "averageRequestsPerInvestigation": 7,
+        "failureRate": 0
+      }
+    },
+    "c_ranking_score_vs_model_score": {
+      "rankingScoreTop1Accuracy": 0.25,
+      "modelScoreTop1Accuracy": 0.25
+    },
+    "d_vector_only_vs_hybrid_retrieval": {
+      "vectorOnlyTop1RunbookMatchRate": 0.25,
+      "hybridTop1RunbookMatchRate": 0.3125
+    }
+  },
+  "notes": [
+    "Generated with the default mock LLM/embedding providers (no GEMINI_API_KEY set); this is a baseline for the pipeline's mechanics, not a claim about Gemini's diagnostic quality.",
+    "The mock LLM matches candidate faults by keyword co-occurrence in evidence text, without judging whether a metric's *value* is anomalous. Baseline (non-fault) traffic padding shares metric names like cpu_percent across services, so it can produce plausible-looking false-positive candidates and depress top-1 accuracy relative to a real language model that reasons about magnitudes and trends. Re-running with a real GEMINI_API_KEY is expected to score meaningfully higher.",
+    "evidenceRecallAt5 is computed against the full evidence catalog per case, not only the top 5 retrieved documents, since log/metric evidence is attached directly rather than retrieved by similarity.",
+    "Ablation C compares ranking by the ranking-score heuristic (evidence coverage + retrieval + history + verifier agreement) against ranking by the model's raw self-reported score."
+  ]
+}
