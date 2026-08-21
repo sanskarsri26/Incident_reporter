@@ -4,11 +4,7 @@ import { getEmbeddingProvider, getLLMProvider } from "@/lib/gemini/index";
 import { getRateLimiter } from "@/lib/security/rate-limit";
 import { incidentIdSchema } from "@/lib/security/validation";
 import { runInvestigation } from "@/lib/investigation/pipeline";
-import type { Incident } from "@/lib/types";
-
-function historicalSummary(incident: Incident): string {
-  return `${incident.title}. Affected services: ${incident.affectedServices.join(", ") || "unknown"}.`;
-}
+import { buildHistoricalSummary } from "@/lib/investigation/historical-summary";
 
 export async function POST(request: Request, context: { params: Promise<{ id: string }> }) {
   const { id } = await context.params;
@@ -38,7 +34,7 @@ export async function POST(request: Request, context: { params: Promise<{ id: st
 
   const historicalIncidents = allIncidents
     .filter((other) => other.id !== incident.id)
-    .map((other) => ({ incident: other, summary: historicalSummary(other) }));
+    .map((other) => ({ incident: other, summary: buildHistoricalSummary(other) }));
 
   const llmProvider = getLLMProvider();
 
