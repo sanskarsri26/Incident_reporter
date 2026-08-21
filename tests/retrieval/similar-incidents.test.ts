@@ -1,7 +1,23 @@
-import { describe, it, expect } from "vitest";
-import { findSimilarIncidents } from "@/lib/retrieval/similar-incidents";
+import { describe, it, expect, beforeEach } from "vitest";
+import { findSimilarIncidents, resetSimilarIncidentsCacheForTests } from "@/lib/retrieval/similar-incidents";
 import { createMockEmbeddingProvider } from "@/lib/gemini/mock-provider";
+import type { EmbeddingProvider } from "@/lib/gemini/types";
 import type { Incident } from "@/lib/types";
+
+function countingEmbeddingProvider(): EmbeddingProvider & { callCount: number; totalTextsEmbedded: number } {
+  const inner = createMockEmbeddingProvider();
+  const wrapper = {
+    name: inner.name,
+    callCount: 0,
+    totalTextsEmbedded: 0,
+    async embed(texts: string[]) {
+      wrapper.callCount += 1;
+      wrapper.totalTextsEmbedded += texts.length;
+      return inner.embed(texts);
+    },
+  };
+  return wrapper;
+}
 
 function incident(id: string, rootCauseTruth: string): Incident {
   return {
@@ -17,6 +33,41 @@ function incident(id: string, rootCauseTruth: string): Incident {
 }
 
 describe("findSimilarIncidents", () => {
+  beforeEach(() => {
+    resetSimilarIncidentsCacheForTests();
+  });
+
+  it("caches embeddings by summary text -- a second call with the same incidents re-embeds nothing", async () => {
+    const provider = countingEmbeddingProvider();
+    const candidates = [
+      { incident: incident("INC-1", "db_connection_pool_exhaustion"), summary: "postgres connection pool exhausted, timeouts" },
+      { incident: incident("INC-2", "cpu_spike"), summary: "cpu saturation on inventory-service" },
+    ];
+
+    await findSimilarIncidents("target summary text", "INC-TARGET", candidates, provider, 5);
+    expect(provider.totalTextsEmbedded).toBe(3); // target + 2 candidates, all uncached
+
+    await findSimilarIncidents("target summary text", "INC-TARGET", candidates, provider, 5);
+    expect(provider.totalTextsEmbedded).toBe(3); // unchanged -- the second call was a full cache hit
+    expect(provider.callCount).toBe(1); // embed() was never called a second time at all
+  });
+
+  it("only embeds the new/changed text when one incident's summary changes between calls", async () => {
+    const provider = countingEmbeddingProvider();
+    const candidates = [
+      { incident: incident("INC-1", "db_connection_pool_exhaustion"), summary: "postgres connection pool exhausted, timeouts" },
+    ];
+
+    await findSimilarIncidents("target summary text", "INC-TARGET", candidates, provider, 5);
+    expect(provider.totalTextsEmbedded).toBe(2);
+
+    const updatedCandidates = [{ ...candidates[0]!, summary: "a brand new summary never seen before" }];
+    await findSimilarIncidents("target summary text", "INC-TARGET", updatedCandidates, provider, 5);
+    // Only the one new text should have needed a fresh embedding call --
+    // "target summary text" was already cached.
+    expect(provider.totalTextsEmbedded).toBe(3);
+  });
+
   it("ranks the incident with the more similar summary first and excludes the target itself", async () => {
     const provider = createMockEmbeddingProvider();
     const candidates = [
