@@ -6,6 +6,20 @@ export default defineConfig({
     environment: "node",
     globals: false,
     exclude: ["**/node_modules/**", "**/.next/**", "**/.claude/**"],
+    coverage: {
+      provider: "v8",
+      reporter: ["text", "json-summary"],
+      exclude: [
+        "**/node_modules/**",
+        "**/.next/**",
+        "**/.claude/**",
+        "**/tests/**",
+        "**/data/**",
+        "**/*.config.ts",
+        "**/*.config.mjs",
+        "next-env.d.ts",
+      ],
+    },
   },
   resolve: {
     alias: { "@": path.resolve(import.meta.dirname, ".") },
