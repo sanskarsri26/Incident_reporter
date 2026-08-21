@@ -186,15 +186,33 @@ typecheck → test → build).
    cross-instance rate limiting.
 4. `npm run seed` against those credentials to load the dataset and
    runbooks into Supabase.
-5. Deploy to [Vercel](https://vercel.com) (Hobby plan is enough) with the
-   same environment variables set as server-side (not `NEXT_PUBLIC_*`)
-   project env vars.
+5. Deploy to [Vercel](https://vercel.com) (Hobby plan is enough). No
+   `vercel.json` is needed — Vercel auto-detects Next.js and runs `npm run
+   build`. Set the same environment variables from `.env.example` as
+   server-side (not `NEXT_PUBLIC_*`) project env vars in the Vercel
+   dashboard.
 6. Re-run `npm run evaluate` with `GEMINI_API_KEY` set to produce a report
    against the real model.
 
 None of this was performed automatically — provisioning real cloud
 accounts is outside what an unattended build session can or should do
 without you present to authorize it.
+
+**Important caveat if you deploy to Vercel without Supabase configured:**
+Vercel's serverless functions are stateless and ephemeral across
+invocations — separate function instances (and even separate warm
+invocations of what looks like "the same" function) are not guaranteed to
+share memory. `lib/db/index.ts`'s in-memory-repository auto-seed trick
+(see "Runs with zero external accounts" above) works reliably for a
+single long-lived process like `next dev` or `next start` on your own
+machine, but on Vercel, different invocations can each cold-start their
+own module instance, re-seed independently, and not see each other's
+writes — so a new incident or a piece of feedback submitted in one
+request may not be visible on the next. **Mock/in-memory mode should be
+treated as a local-dev and CI mode only.** For a Vercel deployment to
+behave consistently for real users, configure `SUPABASE_URL` +
+`SUPABASE_SERVICE_ROLE_KEY` so state lives in Postgres instead of
+process memory.
 
 ## What's not built (by design, per the plan's scope)
 
