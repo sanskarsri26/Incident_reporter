@@ -58,7 +58,14 @@ describe("full API stack against the real generated dataset (56 incidents, 8 fau
     }
   });
 
-  it("returns similar incidents of the same fault type ranked above unrelated ones for a real incident", async () => {
+  it("ranks a same-fault-type incident above unrelated ones for a real incident", async () => {
+    // cpu_spike is the only fault type whose affectedServices set
+    // (checkout-service + inventory-service) isn't shared with any other
+    // fault type in this dataset (confirmed by inspecting the generated
+    // manifests), so this is a case where the mock embedding provider's
+    // shared-token similarity deterministically ranks a same-fault-type
+    // historical incident at the top -- not a flaky assumption about the
+    // mock's general retrieval quality.
     const repo = getRepository();
     const incidents = await repo.listIncidents();
     const target = incidents.find((i) => i.rootCauseTruth === "cpu_spike");
@@ -68,6 +75,10 @@ describe("full API stack against the real generated dataset (56 incidents, 8 fau
     expect(response.status).toBe(200);
     const body = await response.json();
     expect(body.similar.length).toBeGreaterThan(0);
+
+    const incidentById = new Map(incidents.map((i) => [i.id, i]));
+    const topMatch = incidentById.get(body.similar[0].incident.id);
+    expect(topMatch?.rootCauseTruth).toBe("cpu_spike");
   });
 
   it("returns a non-empty, time-sorted timeline for a real incident", async () => {

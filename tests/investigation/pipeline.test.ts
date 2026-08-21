@@ -49,12 +49,17 @@ describe("runInvestigation", () => {
     expect(result.predictions[0]?.rootCause).toBe("db_connection_pool_exhaustion");
     expect(result.predictions[0]?.rank).toBe(1);
 
-    const catalogIds = new Set(result.evidenceCatalog.map((c) => c.id));
+    // Cross-reference by (sourceType, sourceId) -- the catalog's own "id"
+    // field (LOG-1, DOC-1, ...) is a different id space from sourceId (the
+    // underlying log/metric/doc/incident's real id), so comparing sets of
+    // just one or the other wouldn't actually verify every piece of
+    // persisted evidence traces back to a real catalog entry.
+    const catalogSourceKeys = new Set(result.evidenceCatalog.map((c) => `${c.sourceType}:${c.sourceId}`));
+    expect(catalogSourceKeys.size).toBeGreaterThan(0);
     for (const item of result.evidence) {
-      expect(["log_event", "metric_event", "document", "incident"]).toContain(item.sourceType);
+      expect(catalogSourceKeys.has(`${item.sourceType}:${item.sourceId}`)).toBe(true);
     }
     expect(result.candidateDiagnostics.every((d) => d.unsupportedCitationCount === 0)).toBe(true);
-    expect(catalogIds.size).toBeGreaterThan(0);
   });
 
   it("predictions are sorted by descending ranking score (confidence field)", async () => {
