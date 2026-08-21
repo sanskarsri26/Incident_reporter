@@ -74,7 +74,10 @@ export default async function IncidentDetailPage({ params }: { params: Promise<{
 
       <section className="flex items-center justify-between rounded-lg border border-slate-800 bg-slate-900/20 px-4 py-3">
         <p className="text-xs text-slate-500">
-          Dataset ground truth (for demo/eval purposes — not shown to the model at investigation time)
+          Dataset ground truth for this incident (for demo/eval purposes — never included in this
+          incident&apos;s own investigation prompt). Historical incidents referenced during
+          retrieval are represented to the model by title only, never by their confirmed root
+          cause.
         </p>
         <p className="text-sm text-slate-300">{incident.rootCauseTruth}</p>
       </section>

@@ -41,11 +41,18 @@ export function buildEvidenceCatalog(
   });
 
   similarIncidents.forEach((similar, index) => {
+    // Deliberately excludes rootCauseTruth: a real production system would
+    // not have a confirmed-root-cause label on a past incident handed to it
+    // as free RAG context, and this app's own UI claims dataset ground
+    // truth isn't shown to the model at investigation time -- that claim
+    // must actually be true for historical incidents too, not just the one
+    // under investigation. Represent past incidents by symptom (title)
+    // only, the way a real "similar past incidents" feature would.
     catalog.push({
       id: `INC-${index + 1}`,
       sourceType: "incident",
       sourceId: similar.incident.id,
-      summary: `${similar.incident.id} (${similar.incident.rootCauseTruth}): ${similar.incident.title}`,
+      summary: `${similar.incident.id}: ${similar.incident.title}`,
       similarity: similar.similarity,
     });
   });

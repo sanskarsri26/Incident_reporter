@@ -48,9 +48,15 @@ describe("buildEvidenceCatalog", () => {
     expect(catalog.find((c) => c.id === "INC-1")).toMatchObject({ sourceType: "incident", sourceId: "INC-0083" });
   });
 
-  it("includes the historical incident's known root cause in its summary", () => {
+  it("never includes a historical incident's confirmed root cause in its summary", () => {
+    // A real production system would not have a confirmed-root-cause label
+    // on a past incident handed to it as free RAG context, and the app's
+    // own UI claims dataset ground truth isn't shown to the model -- that
+    // must hold for historical incidents' rootCauseTruth too, not just the
+    // current incident under investigation.
     const catalog = buildEvidenceCatalog([], [], [], similarIncidents);
-    expect(catalog[0]?.summary).toContain("db_connection_pool_exhaustion");
+    expect(catalog[0]?.summary).not.toContain("db_connection_pool_exhaustion");
+    expect(catalog[0]?.summary).toBe("INC-0083: Similar pool exhaustion");
   });
 
   it("returns an empty catalog when given no evidence sources", () => {
