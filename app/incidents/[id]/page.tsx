@@ -6,6 +6,7 @@ import { SeverityBadge } from "@/components/SeverityBadge";
 import { StatusBadge } from "@/components/StatusBadge";
 import { Timeline } from "@/components/Timeline";
 import { InvestigatePanel } from "@/components/InvestigatePanel";
+import { PreviousInvestigation } from "@/components/PreviousInvestigation";
 
 export const dynamic = "force-dynamic";
 
@@ -28,6 +29,15 @@ export default async function IncidentDetailPage({ params }: { params: Promise<{
     repository.listMetricEvents(incident.id),
   ]);
   const timeline = buildTimeline(logEvents, metricEvents);
+
+  const latestRun = await repository.getLatestAnalysisRun(incident.id);
+  const [previousPredictions, previousRecommendations] =
+    latestRun && latestRun.status === "succeeded"
+      ? await Promise.all([
+          repository.getPredictionsForRun(latestRun.id),
+          repository.getRecommendationsForRun(latestRun.id),
+        ])
+      : [[], []];
 
   return (
     <main className="mx-auto flex max-w-6xl flex-col gap-8 px-6 py-10">
@@ -90,6 +100,13 @@ export default async function IncidentDetailPage({ params }: { params: Promise<{
           </Link>
         </div>
         <div className="rounded-lg border border-slate-800 bg-slate-900/20 p-5">
+          {latestRun && latestRun.status === "succeeded" && previousPredictions.length > 0 ? (
+            <PreviousInvestigation
+              analysisRun={latestRun}
+              predictions={previousPredictions}
+              recommendations={previousRecommendations}
+            />
+          ) : null}
           <InvestigatePanel incidentId={incident.id} />
         </div>
       </section>
