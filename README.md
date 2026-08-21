@@ -49,7 +49,7 @@ app doesn't require all three at once.
 ```bash
 npm install
 npm run dev        # http://localhost:3000, fully functional with zero accounts
-npm test            # 195+ unit/integration tests, all against mocks
+npm test            # 230+ unit/integration tests, all against mocks
 npm run typecheck
 npm run lint
 npm run build
@@ -102,8 +102,18 @@ postgres`, `gateway → inventory-service → redis`), each with a seeded RNG
 for reproducibility and a machine-checkable ground-truth manifest (fault
 slug, root service, affected services, expected evidence tags, valid
 remediation actions). `npm run gen:incidents` produced the 56 incidents
-committed under `data/incident-manifests/`, stratified 60/20/20 into
-dev/validation/test splits by fault type (`lib/evaluation/split.ts`).
+committed under `data/incident-manifests/`, stratified into dev/validation/test
+splits per fault type (`lib/evaluation/split.ts`), targeting roughly
+60/20/20 — in practice 32/8/16 (57% / 14% / 29%), because each fault type
+only has 7 incidents and 7 × 0.6/0.2/0.2 rounds to 4/1/2 per type rather
+than landing exactly on the target ratio.
+
+Incident titles are symptom-level and picked pseudo-randomly per incident
+(not 1:1 with the fault type), and severity/status are similarly
+decoupled from the fault — see the comment at the top of
+`scripts/generate-incidents.ts` for why: a title or severity that gave
+away the diagnosis would let a model score well by echoing it back
+rather than by reasoning over the evidence.
 
 `docker-compose.yml` and `simulator/services/*/Dockerfile` model the same
 topology as live containers per the original plan, but were **not runnable
@@ -121,32 +131,42 @@ diagnostic quality**. Re-running with a real `GEMINI_API_KEY` is expected
 to score meaningfully higher, because the mock matches candidate faults by
 crude keyword co-occurrence in evidence text and can't tell an anomalous
 metric value from a normal one — see the report's own `notes` field for the
-full explanation of that gap.
+full explanation of that gap. (The prompt sent to a real model constrains
+`rootCause` to this dataset's closed set of fault slugs — see
+`lib/gemini/prompts.ts` — so a real model's output is directly comparable
+to this same exact-match metric rather than scoring zero on a natural-
+language mismatch.)
 
 | Metric | Value |
 | --- | --- |
-| Top-1 root-cause accuracy | 37.5% |
-| Top-3 root-cause accuracy | 81.2% |
-| Evidence Recall@5 | 93.8% |
+| Top-1 root-cause accuracy | 25.0% |
+| Top-1 tie rate | 37.5% |
+| Top-3 root-cause accuracy | 87.5% |
+| Evidence tag presence rate ("Evidence Recall@5") | 31.3% |
 | Unsupported-evidence rate | 0.0% |
-| P50 / P95 latency | 2ms / 4ms |
+| P50 / P95 latency | ~2ms / ~4ms |
 | Avg. requests per investigation | 7 |
 
-Ablations (same held-out split):
+**Top-1 tie rate** is the fraction of test cases where the top-ranked
+candidate's ranking score exactly tied another candidate's — read it
+alongside top-1 accuracy. Candidate ranking now breaks ties
+deterministically (`lib/investigation/pipeline.ts`: by model score, then
+root cause alphabetically) so results are reproducible run-to-run, but a
+high tie rate is still a real signal that the ranking score doesn't have
+enough dynamic range to separate candidates for over a third of these
+cases, not something to read past.
 
-- **Hybrid retrieval clearly beats vector-only**: top-1 correct-runbook
-  match rate is 50.0% (hybrid) vs. 31.3% (vector-only) — the strongest,
-  least surprising result, and the one most likely to hold with a real
-  model too.
-- **Retrieval's effect on final top-1 accuracy is not monotonic with this
-  mock provider**: top-1 accuracy is 37.5% with runbook retrieval enabled
-  vs. 50.0% with it disabled. This is a real, reported result, not a typo —
-  it's a consequence of the mock's naive keyword-counting: a retrieved
-  runbook can occasionally out-vote the correct log/metric evidence in the
-  candidate-ranking step. It's exactly the kind of failure mode a real
-  language model (which reasons about *which* evidence is actually
-  diagnostic, not just keyword frequency) is expected to avoid — see the
-  report's `notes` field.
+Ablations (same held-out split, n=16 test cases):
+
+- **Hybrid retrieval beats vector-only retrieval on runbook-match rate**:
+  the correct runbook was the top vector-only match in 1 of 16 cases vs.
+  4 of 16 with hybrid retrieval. Direction is consistent and the gap is
+  the largest of any ablation here, but at n=16 the raw counts are the
+  honest way to read it, not a precise percentage.
+- **Runbook retrieval raises top-3 accuracy but not top-1 in this run**:
+  top-3 accuracy is 87.5% with retrieval enabled vs. 75.0% without (a
+  2-of-16-case difference); top-1 accuracy is unchanged at 25.0% in both
+  arms. Treat this as directional at this sample size.
 - Full breakdown, including the history and ranking-score-vs-model-score
   ablations, is in `data/evaluation-report.json`.
 
@@ -168,7 +188,7 @@ Ablations (same held-out split):
 
 ## Testing and CI
 
-Vitest covers `lib/`, `app/api/`, `scripts/`, and `simulator/` (200+
+Vitest covers `lib/`, `app/api/`, `scripts/`, and `simulator/` (230+
 tests); external providers are always mocked or fetch-injected, so CI never
 calls a paid API or needs secrets (`.github/workflows/ci.yml`: lint →
 typecheck → test → build).
