@@ -6,32 +6,27 @@
  *   - every generated incident under data/incident-manifests/*.json,
  *     including its log and metric events
  *   - every runbook / service-description doc under data/runbooks/*.md
- *     as a DocumentRecord (embedding generation is a separate later task)
+ *     as a DocumentRecord, embedded via getEmbeddingProvider() (real
+ *     Gemini embeddings if GEMINI_API_KEY is set, otherwise the mock
+ *     provider) -- retrieval filters out documents with a null
+ *     embedding, so this step is required for RAG to find anything.
  *
  * Run with: npm run seed
  */
 import { readdirSync, readFileSync } from "node:fs";
 import path from "node:path";
 import { getRepository } from "@/lib/db/index";
-import type { DocType, DocumentRecord, Incident, LogEvent, MetricEvent } from "@/lib/types";
+import { getEmbeddingProvider } from "@/lib/gemini/index";
+import { loadRunbookFiles } from "@/lib/documents/load-runbook-files";
+import type { DocumentRecord, Incident, LogEvent, MetricEvent } from "@/lib/types";
 import { SERVICES, SERVICE_DEPENDENCIES } from "@/simulator/services/graph";
 
 const MANIFESTS_DIR = path.resolve(import.meta.dirname, "..", "data", "incident-manifests");
-const RUNBOOKS_DIR = path.resolve(import.meta.dirname, "..", "data", "runbooks");
 
 interface IncidentManifestFile {
   incident: Incident;
   logEvents: LogEvent[];
   metricEvents: MetricEvent[];
-}
-
-function titleFromMarkdown(body: string, fallback: string): string {
-  const heading = body.split("\n").find((line) => line.startsWith("# "));
-  return heading ? heading.replace(/^#\s+/, "").trim() : fallback;
-}
-
-function docTypeForFilename(filename: string): DocType {
-  return filename.startsWith("service-") ? "service_description" : "runbook";
 }
 
 async function seedServices(): Promise<{ services: number; dependencies: number }> {
@@ -80,31 +75,28 @@ async function seedIncidents(): Promise<{ incidents: number; logEvents: number; 
 
 async function seedRunbooks(): Promise<{ runbooks: number; serviceDescriptions: number }> {
   const repository = getRepository();
-  let files: string[] = [];
-  try {
-    files = readdirSync(RUNBOOKS_DIR).filter((f) => f.endsWith(".md"));
-  } catch {
+  const files = loadRunbookFiles();
+  if (files.length === 0) {
     return { runbooks: 0, serviceDescriptions: 0 };
   }
+
+  const embeddingProvider = getEmbeddingProvider();
+  const vectors = await embeddingProvider.embed(files.map((f) => `${f.title} ${f.body}`));
 
   let runbookCount = 0;
   let serviceDescriptionCount = 0;
 
-  for (const file of files) {
-    const body = readFileSync(path.join(RUNBOOKS_DIR, file), "utf-8");
-    const id = file.replace(/\.md$/, "");
-    const docType = docTypeForFilename(file);
-
+  for (const [i, file] of files.entries()) {
     const document: DocumentRecord = {
-      id,
-      title: titleFromMarkdown(body, id),
-      body,
-      docType,
-      embedding: null,
+      id: file.id,
+      title: file.title,
+      body: file.body,
+      docType: file.docType,
+      embedding: vectors[i] ?? null,
     };
     await repository.upsertDocument(document);
 
-    if (docType === "runbook") runbookCount += 1;
+    if (file.docType === "runbook") runbookCount += 1;
     else serviceDescriptionCount += 1;
   }
 

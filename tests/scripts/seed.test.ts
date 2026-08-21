@@ -51,7 +51,10 @@ describe("seed script (in-memory repository)", () => {
     const documents = await repo.listDocuments();
     expect(documents.length).toBe(11);
     for (const doc of documents) {
-      expect(doc.embedding).toBeNull();
+      // Retrieval filters out documents with a null embedding, so seeding
+      // must always attach one (mock by default, real Gemini if configured).
+      expect(doc.embedding).not.toBeNull();
+      expect(doc.embedding!.length).toBeGreaterThan(0);
       expect(doc.body.length).toBeGreaterThan(0);
       expect(["runbook", "service_description"]).toContain(doc.docType);
     }

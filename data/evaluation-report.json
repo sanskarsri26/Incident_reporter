@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-21T07:11:36.538Z",
+  "generatedAt": "2026-08-21T07:15:56.384Z",
   "model": "mock",
   "embeddingModel": "mock",
   "datasetSize": 56,
@@ -39,7 +39,7 @@
         "evidenceRecallAt5": 0.9375,
         "unsupportedEvidenceRate": 0,
         "latencyP50Ms": 1,
-        "latencyP95Ms": 4,
+        "latencyP95Ms": 1,
         "averageRequestsPerInvestigation": 6.25,
         "failureRate": 0
       }
@@ -63,7 +63,7 @@
         "evidenceRecallAt5": 0.9375,
         "unsupportedEvidenceRate": 0,
         "latencyP50Ms": 1,
-        "latencyP95Ms": 1,
+        "latencyP95Ms": 2,
         "averageRequestsPerInvestigation": 7,
         "failureRate": 0
       }

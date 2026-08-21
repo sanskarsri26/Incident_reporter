@@ -14,12 +14,12 @@ import { runInvestigation } from "@/lib/investigation/pipeline";
 import { retrieveByVectorOnly, retrieveHybrid } from "@/lib/retrieval/document-retrieval";
 import { buildIncidentSummary } from "@/lib/investigation/summary";
 import { buildHistoricalSummary } from "@/lib/investigation/historical-summary";
+import { loadRunbookFiles } from "@/lib/documents/load-runbook-files";
 import { computeEvaluationSummary, type EvaluationCase, type EvaluationSummary } from "@/lib/evaluation/metrics";
 import { createStratifiedSplit } from "@/lib/evaluation/split";
-import type { DocType, DocumentRecord, Incident, LogEvent, MetricEvent } from "@/lib/types";
+import type { DocumentRecord, Incident, LogEvent, MetricEvent } from "@/lib/types";
 
 const MANIFESTS_DIR = path.resolve(import.meta.dirname, "..", "data", "incident-manifests");
-const RUNBOOKS_DIR = path.resolve(import.meta.dirname, "..", "data", "runbooks");
 const REPORT_PATH = path.resolve(import.meta.dirname, "..", "data", "evaluation-report.json");
 
 interface ManifestFile {
@@ -29,31 +29,16 @@ interface ManifestFile {
   metricEvents: MetricEvent[];
 }
 
-function docTypeForFilename(filename: string): DocType {
-  return filename.startsWith("service-") ? "service_description" : "runbook";
-}
-
 function loadManifests(): ManifestFile[] {
   const files = readdirSync(MANIFESTS_DIR).filter((f) => f.endsWith(".json") && f !== "index.json");
   return files.map((file) => JSON.parse(readFileSync(path.join(MANIFESTS_DIR, file), "utf-8")) as ManifestFile);
 }
 
 async function loadEmbeddedDocuments(): Promise<DocumentRecord[]> {
-  const files = readdirSync(RUNBOOKS_DIR).filter((f) => f.endsWith(".md"));
-  const raw = files.map((file) => {
-    const body = readFileSync(path.join(RUNBOOKS_DIR, file), "utf-8");
-    const heading = body.split("\n").find((line) => line.startsWith("# "));
-    return {
-      id: file.replace(/\.md$/, ""),
-      title: heading ? heading.replace(/^#\s+/, "").trim() : file,
-      body,
-      docType: docTypeForFilename(file),
-    };
-  });
-
+  const files = loadRunbookFiles();
   const embeddingProvider = getEmbeddingProvider();
-  const vectors = await embeddingProvider.embed(raw.map((d) => `${d.title} ${d.body}`));
-  return raw.map((d, i) => ({ ...d, embedding: vectors[i] ?? null }));
+  const vectors = await embeddingProvider.embed(files.map((f) => `${f.title} ${f.body}`));
+  return files.map((f, i) => ({ ...f, embedding: vectors[i] ?? null }));
 }
 
 async function runCase(
