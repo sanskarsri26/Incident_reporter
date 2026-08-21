@@ -9,7 +9,7 @@ export default function AboutPage() {
         <h1 className="text-2xl font-semibold text-slate-50">About</h1>
         <p className="mt-1 text-sm text-slate-400">
           A portfolio project exploring how far an AI-assisted incident investigator can go on a fully
-          free deployment stack — while being honest about what's real and what's simulated.
+          free deployment stack — while being honest about what&apos;s real and what&apos;s simulated.
         </p>
       </div>
 
@@ -18,14 +18,14 @@ export default function AboutPage() {
         <p className="mt-2 text-sm text-slate-400">
           A user picks a simulated production incident, reviews its logs/metrics timeline, and clicks
           Investigate. The pipeline retrieves relevant runbooks and similar historical incidents (RAG),
-          generates ranked root-cause candidates, verifies each candidate's evidence citations against
+          generates ranked root-cause candidates, verifies each candidate&apos;s evidence citations against
           what was actually retrieved, and produces a final root cause plus recommended actions — with
           every claim traceable back to a specific log line, metric point, document, or prior incident.
         </p>
       </section>
 
       <section className="rounded-lg border border-slate-800 bg-slate-900/40 p-5">
-        <h2 className="text-sm font-semibold text-slate-200">What's real vs. mock in this deployment</h2>
+        <h2 className="text-sm font-semibold text-slate-200">What&apos;s real vs. mock in this deployment</h2>
         <div className="mt-3 overflow-x-auto">
           <table className="w-full min-w-[520px] border-collapse text-sm">
             <thead>
@@ -68,7 +68,7 @@ export default function AboutPage() {
                 <td className="py-2 pr-4">Evaluation report</td>
                 <td className="py-2">
                   Real numbers from an actual evaluation run — but against the mock provider baseline, not a
-                  Gemini quality claim (see the Evaluation page's notes)
+                  Gemini quality claim (see the Evaluation page&apos;s notes)
                 </td>
               </tr>
             </tbody>
@@ -123,7 +123,7 @@ export default function AboutPage() {
       <section className="rounded-lg border border-slate-800 bg-slate-900/40 p-5">
         <h2 className="text-sm font-semibold text-slate-200">Feedback</h2>
         <p className="mt-1 mb-3 text-xs text-slate-500">
-          Notice something broken or have a suggestion? It's saved to the app's feedback log.
+          Notice something broken or have a suggestion? It&apos;s saved to the app&apos;s feedback log.
         </p>
         <FeedbackForm />
       </section>
