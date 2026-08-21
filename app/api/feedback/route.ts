@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { getRepository } from "@/lib/db/index";
-import { getRateLimiter } from "@/lib/security/rate-limit";
+import { consumeRateLimit, getRateLimiter } from "@/lib/security/rate-limit";
 import { feedbackRequestSchema } from "@/lib/security/validation";
 import { withRequestLog } from "@/lib/observability/request-log";
 
@@ -8,7 +8,7 @@ const MAX_BODY_BYTES = 4000;
 
 export const POST = withRequestLog("feedback.create", async (request: Request) => {
   const clientKey = request.headers.get("x-forwarded-for") ?? "unknown";
-  const rateLimitResult = await getRateLimiter().consume(`feedback:${clientKey}`);
+  const rateLimitResult = await consumeRateLimit(getRateLimiter(), `feedback:${clientKey}`);
   if (!rateLimitResult.allowed) {
     return NextResponse.json({ error: "Rate limit exceeded. Try again shortly." }, { status: 429 });
   }

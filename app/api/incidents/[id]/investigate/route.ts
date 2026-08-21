@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import { getRepository } from "@/lib/db/index";
 import { getEmbeddingProvider, getLLMProvider } from "@/lib/gemini/index";
 import { FAULT_SLUGS } from "@/simulator/fault-injection/index";
-import { getRateLimiter } from "@/lib/security/rate-limit";
+import { consumeRateLimit, getRateLimiter } from "@/lib/security/rate-limit";
 import { incidentIdSchema } from "@/lib/security/validation";
 import { runInvestigation } from "@/lib/investigation/pipeline";
 import { buildHistoricalSummary } from "@/lib/investigation/historical-summary";
@@ -20,7 +20,7 @@ export const POST = withRequestLog("incidents.investigate", async (request: Requ
   }
 
   const clientKey = request.headers.get("x-forwarded-for") ?? "unknown";
-  const rateLimitResult = await getRateLimiter().consume(`investigate:${clientKey}`);
+  const rateLimitResult = await consumeRateLimit(getRateLimiter(), `investigate:${clientKey}`);
   if (!rateLimitResult.allowed) {
     return NextResponse.json({ error: "Rate limit exceeded. Try again shortly." }, { status: 429 });
   }
