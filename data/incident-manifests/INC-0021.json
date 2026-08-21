@@ -1,0 +1,2700 @@
+{
+  "incident": {
+    "id": "INC-0021",
+    "title": "Memory leak in payment-service",
+    "severity": "sev2",
+    "status": "resolved",
+    "startedAt": "2026-02-01T17:31:00.000Z",
+    "resolvedAt": "2026-02-01T18:09:16.000Z",
+    "rootCauseTruth": "memory_leak",
+    "affectedServices": [
+      "payment-service",
+      "checkout-service"
+    ]
+  },
+  "manifest": {
+    "incidentId": "INC-0021",
+    "fault": "memory_leak",
+    "rootService": "payment-service",
+    "affectedServices": [
+      "payment-service",
+      "checkout-service"
+    ],
+    "expectedEvidence": [
+      "memory_climb",
+      "oom_restart"
+    ],
+    "validActions": [
+      "inspect heap and memory usage over time",
+      "check for unbounded caches or leaked references",
+      "restart the affected instance and monitor recovery"
+    ]
+  },
+  "logEvents": [
+    {
+      "id": "INC-0021-LOG-1291",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:30:42.000Z",
+      "service": "payment-service",
+      "level": "info",
+      "template": "payment processed successfully",
+      "count": 1
+    },
+    {
+      "id": "INC-0021-LOG-1282",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:30:44.000Z",
+      "service": "checkout-service",
+      "level": "info",
+      "template": "checkout request completed",
+      "count": 3
+    },
+    {
+      "id": "INC-0021-LOG-1273",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:30:45.000Z",
+      "service": "gateway",
+      "level": "info",
+      "template": "request routed successfully",
+      "count": 1
+    },
+    {
+      "id": "INC-0021-LOG-1300",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:30:48.000Z",
+      "service": "inventory-service",
+      "level": "info",
+      "template": "inventory lookup completed",
+      "count": 4
+    },
+    {
+      "id": "INC-0021-LOG-1318",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:30:53.000Z",
+      "service": "redis",
+      "level": "info",
+      "template": "cache hit",
+      "count": 2
+    },
+    {
+      "id": "INC-0021-LOG-1327",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:31:00.000Z",
+      "service": "payment-service",
+      "level": "info",
+      "template": "payment-service started, heap baseline recorded",
+      "count": 1
+    },
+    {
+      "id": "INC-0021-LOG-1309",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:31:09.000Z",
+      "service": "postgres",
+      "level": "info",
+      "template": "query completed within expected latency",
+      "count": 2
+    },
+    {
+      "id": "INC-0021-LOG-1328",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:32:25.000Z",
+      "service": "payment-service",
+      "level": "warn",
+      "template": "heap usage trending upward across GC cycles",
+      "count": 2
+    },
+    {
+      "id": "INC-0021-LOG-1292",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:33:12.000Z",
+      "service": "payment-service",
+      "level": "info",
+      "template": "payment processed successfully",
+      "count": 4
+    },
+    {
+      "id": "INC-0021-LOG-1301",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:33:15.000Z",
+      "service": "inventory-service",
+      "level": "info",
+      "template": "inventory lookup completed",
+      "count": 2
+    },
+    {
+      "id": "INC-0021-LOG-1283",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:33:17.000Z",
+      "service": "checkout-service",
+      "level": "info",
+      "template": "checkout request completed",
+      "count": 3
+    },
+    {
+      "id": "INC-0021-LOG-1319",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:33:27.000Z",
+      "service": "redis",
+      "level": "info",
+      "template": "cache hit",
+      "count": 1
+    },
+    {
+      "id": "INC-0021-LOG-1310",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:33:30.000Z",
+      "service": "postgres",
+      "level": "info",
+      "template": "query completed within expected latency",
+      "count": 1
+    },
+    {
+      "id": "INC-0021-LOG-1274",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:33:45.000Z",
+      "service": "gateway",
+      "level": "info",
+      "template": "request routed successfully",
+      "count": 3
+    },
+    {
+      "id": "INC-0021-LOG-1329",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:34:06.000Z",
+      "service": "checkout-service",
+      "level": "warn",
+      "template": "checkout API latency elevated",
+      "count": 3
+    },
+    {
+      "id": "INC-0021-LOG-1284",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:35:42.000Z",
+      "service": "checkout-service",
+      "level": "info",
+      "template": "checkout request completed",
+      "count": 1
+    },
+    {
+      "id": "INC-0021-LOG-1293",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:35:45.000Z",
+      "service": "payment-service",
+      "level": "info",
+      "template": "payment processed successfully",
+      "count": 1
+    },
+    {
+      "id": "INC-0021-LOG-1330",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:35:45.000Z",
+      "service": "payment-service",
+      "level": "warn",
+      "template": "heap usage trending upward across GC cycles",
+      "count": 6
+    },
+    {
+      "id": "INC-0021-LOG-1302",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:35:57.000Z",
+      "service": "inventory-service",
+      "level": "info",
+      "template": "inventory lookup completed",
+      "count": 2
+    },
+    {
+      "id": "INC-0021-LOG-1275",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:35:58.000Z",
+      "service": "gateway",
+      "level": "info",
+      "template": "request routed successfully",
+      "count": 2
+    },
+    {
+      "id": "INC-0021-LOG-1320",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:36:08.000Z",
+      "service": "redis",
+      "level": "info",
+      "template": "cache hit",
+      "count": 2
+    },
+    {
+      "id": "INC-0021-LOG-1311",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:36:13.000Z",
+      "service": "postgres",
+      "level": "info",
+      "template": "query completed within expected latency",
+      "count": 4
+    },
+    {
+      "id": "INC-0021-LOG-1331",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:37:15.000Z",
+      "service": "payment-service",
+      "level": "warn",
+      "template": "garbage collection pause time increasing",
+      "count": 5
+    },
+    {
+      "id": "INC-0021-LOG-1276",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:38:19.000Z",
+      "service": "gateway",
+      "level": "info",
+      "template": "request routed successfully",
+      "count": 2
+    },
+    {
+      "id": "INC-0021-LOG-1321",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:38:24.000Z",
+      "service": "redis",
+      "level": "info",
+      "template": "cache hit",
+      "count": 4
+    },
+    {
+      "id": "INC-0021-LOG-1303",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:38:37.000Z",
+      "service": "inventory-service",
+      "level": "info",
+      "template": "inventory lookup completed",
+      "count": 5
+    },
+    {
+      "id": "INC-0021-LOG-1294",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:38:38.000Z",
+      "service": "payment-service",
+      "level": "info",
+      "template": "payment processed successfully",
+      "count": 2
+    },
+    {
+      "id": "INC-0021-LOG-1285",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:38:43.000Z",
+      "service": "checkout-service",
+      "level": "info",
+      "template": "checkout request completed",
+      "count": 3
+    },
+    {
+      "id": "INC-0021-LOG-1312",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:38:43.000Z",
+      "service": "postgres",
+      "level": "info",
+      "template": "query completed within expected latency",
+      "count": 2
+    },
+    {
+      "id": "INC-0021-LOG-1332",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:38:58.000Z",
+      "service": "checkout-service",
+      "level": "warn",
+      "template": "checkout API latency elevated",
+      "count": 8
+    },
+    {
+      "id": "INC-0021-LOG-1333",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:40:41.000Z",
+      "service": "payment-service",
+      "level": "warn",
+      "template": "memory usage nearing container limit",
+      "count": 4
+    },
+    {
+      "id": "INC-0021-LOG-1286",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:40:52.000Z",
+      "service": "checkout-service",
+      "level": "info",
+      "template": "checkout request completed",
+      "count": 1
+    },
+    {
+      "id": "INC-0021-LOG-1322",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:40:54.000Z",
+      "service": "redis",
+      "level": "info",
+      "template": "cache hit",
+      "count": 3
+    },
+    {
+      "id": "INC-0021-LOG-1295",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:40:59.000Z",
+      "service": "payment-service",
+      "level": "info",
+      "template": "payment processed successfully",
+      "count": 5
+    },
+    {
+      "id": "INC-0021-LOG-1313",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:41:13.000Z",
+      "service": "postgres",
+      "level": "info",
+      "template": "query completed within expected latency",
+      "count": 3
+    },
+    {
+      "id": "INC-0021-LOG-1304",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:41:15.000Z",
+      "service": "inventory-service",
+      "level": "info",
+      "template": "inventory lookup completed",
+      "count": 4
+    },
+    {
+      "id": "INC-0021-LOG-1277",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:41:16.000Z",
+      "service": "gateway",
+      "level": "info",
+      "template": "request routed successfully",
+      "count": 1
+    },
+    {
+      "id": "INC-0021-LOG-1287",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:43:22.000Z",
+      "service": "checkout-service",
+      "level": "info",
+      "template": "checkout request completed",
+      "count": 2
+    },
+    {
+      "id": "INC-0021-LOG-1278",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:43:38.000Z",
+      "service": "gateway",
+      "level": "info",
+      "template": "request routed successfully",
+      "count": 3
+    },
+    {
+      "id": "INC-0021-LOG-1296",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:43:43.000Z",
+      "service": "payment-service",
+      "level": "info",
+      "template": "payment processed successfully",
+      "count": 4
+    },
+    {
+      "id": "INC-0021-LOG-1314",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:43:44.000Z",
+      "service": "postgres",
+      "level": "info",
+      "template": "query completed within expected latency",
+      "count": 5
+    },
+    {
+      "id": "INC-0021-LOG-1305",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:43:47.000Z",
+      "service": "inventory-service",
+      "level": "info",
+      "template": "inventory lookup completed",
+      "count": 2
+    },
+    {
+      "id": "INC-0021-LOG-1323",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:43:48.000Z",
+      "service": "redis",
+      "level": "info",
+      "template": "cache hit",
+      "count": 2
+    },
+    {
+      "id": "INC-0021-LOG-1334",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:45:35.000Z",
+      "service": "payment-service",
+      "level": "fatal",
+      "template": "payment-service out of memory, process restarting",
+      "count": 1
+    },
+    {
+      "id": "INC-0021-LOG-1335",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:45:45.000Z",
+      "service": "checkout-service",
+      "level": "error",
+      "template": "upstream payment-service connection refused",
+      "count": 6
+    },
+    {
+      "id": "INC-0021-LOG-1324",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:45:54.000Z",
+      "service": "redis",
+      "level": "info",
+      "template": "cache hit",
+      "count": 5
+    },
+    {
+      "id": "INC-0021-LOG-1297",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:46:06.000Z",
+      "service": "payment-service",
+      "level": "info",
+      "template": "payment processed successfully",
+      "count": 2
+    },
+    {
+      "id": "INC-0021-LOG-1315",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:46:09.000Z",
+      "service": "postgres",
+      "level": "info",
+      "template": "query completed within expected latency",
+      "count": 1
+    },
+    {
+      "id": "INC-0021-LOG-1306",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:46:12.000Z",
+      "service": "inventory-service",
+      "level": "info",
+      "template": "inventory lookup completed",
+      "count": 1
+    },
+    {
+      "id": "INC-0021-LOG-1279",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:46:14.000Z",
+      "service": "gateway",
+      "level": "info",
+      "template": "request routed successfully",
+      "count": 5
+    },
+    {
+      "id": "INC-0021-LOG-1288",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:46:17.000Z",
+      "service": "checkout-service",
+      "level": "info",
+      "template": "checkout request completed",
+      "count": 4
+    },
+    {
+      "id": "INC-0021-LOG-1298",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:48:20.000Z",
+      "service": "payment-service",
+      "level": "info",
+      "template": "payment processed successfully",
+      "count": 4
+    },
+    {
+      "id": "INC-0021-LOG-1289",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:48:24.000Z",
+      "service": "checkout-service",
+      "level": "info",
+      "template": "checkout request completed",
+      "count": 1
+    },
+    {
+      "id": "INC-0021-LOG-1316",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:48:25.000Z",
+      "service": "postgres",
+      "level": "info",
+      "template": "query completed within expected latency",
+      "count": 5
+    },
+    {
+      "id": "INC-0021-LOG-1325",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:48:27.000Z",
+      "service": "redis",
+      "level": "info",
+      "template": "cache hit",
+      "count": 5
+    },
+    {
+      "id": "INC-0021-LOG-1280",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:48:32.000Z",
+      "service": "gateway",
+      "level": "info",
+      "template": "request routed successfully",
+      "count": 1
+    },
+    {
+      "id": "INC-0021-LOG-1307",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:48:41.000Z",
+      "service": "inventory-service",
+      "level": "info",
+      "template": "inventory lookup completed",
+      "count": 4
+    },
+    {
+      "id": "INC-0021-LOG-1308",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:50:42.000Z",
+      "service": "inventory-service",
+      "level": "info",
+      "template": "inventory lookup completed",
+      "count": 3
+    },
+    {
+      "id": "INC-0021-LOG-1326",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:50:48.000Z",
+      "service": "redis",
+      "level": "info",
+      "template": "cache hit",
+      "count": 3
+    },
+    {
+      "id": "INC-0021-LOG-1281",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:50:51.000Z",
+      "service": "gateway",
+      "level": "info",
+      "template": "request routed successfully",
+      "count": 2
+    },
+    {
+      "id": "INC-0021-LOG-1299",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:50:52.000Z",
+      "service": "payment-service",
+      "level": "info",
+      "template": "payment processed successfully",
+      "count": 2
+    },
+    {
+      "id": "INC-0021-LOG-1317",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:51:12.000Z",
+      "service": "postgres",
+      "level": "info",
+      "template": "query completed within expected latency",
+      "count": 4
+    },
+    {
+      "id": "INC-0021-LOG-1290",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:51:16.000Z",
+      "service": "checkout-service",
+      "level": "info",
+      "template": "checkout request completed",
+      "count": 1
+    }
+  ],
+  "metricEvents": [
+    {
+      "id": "INC-0021-METRIC-5585",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:31:00.000Z",
+      "service": "gateway",
+      "metric": "latency_ms",
+      "value": 33.51
+    },
+    {
+      "id": "INC-0021-METRIC-5606",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:31:00.000Z",
+      "service": "checkout-service",
+      "metric": "latency_ms",
+      "value": 74.92
+    },
+    {
+      "id": "INC-0021-METRIC-5627",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:31:00.000Z",
+      "service": "checkout-service",
+      "metric": "error_rate",
+      "value": 0.46
+    },
+    {
+      "id": "INC-0021-METRIC-5648",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:31:00.000Z",
+      "service": "payment-service",
+      "metric": "latency_ms",
+      "value": 52.8
+    },
+    {
+      "id": "INC-0021-METRIC-5669",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:31:00.000Z",
+      "service": "payment-service",
+      "metric": "memory_mb",
+      "value": 302
+    },
+    {
+      "id": "INC-0021-METRIC-5690",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:31:00.000Z",
+      "service": "inventory-service",
+      "metric": "cpu_percent",
+      "value": 17.44
+    },
+    {
+      "id": "INC-0021-METRIC-5711",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:31:00.000Z",
+      "service": "inventory-service",
+      "metric": "latency_ms",
+      "value": 42.19
+    },
+    {
+      "id": "INC-0021-METRIC-5732",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:31:00.000Z",
+      "service": "postgres",
+      "metric": "active_connections",
+      "value": 22.73
+    },
+    {
+      "id": "INC-0021-METRIC-5753",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:31:00.000Z",
+      "service": "postgres",
+      "metric": "query_duration_ms",
+      "value": 14.13
+    },
+    {
+      "id": "INC-0021-METRIC-5774",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:31:00.000Z",
+      "service": "redis",
+      "metric": "latency_ms",
+      "value": 2.47
+    },
+    {
+      "id": "INC-0021-METRIC-5795",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:31:00.000Z",
+      "service": "payment-service",
+      "metric": "memory_mb",
+      "value": 351.06
+    },
+    {
+      "id": "INC-0021-METRIC-5796",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:31:00.000Z",
+      "service": "checkout-service",
+      "metric": "latency_ms",
+      "value": 115.73
+    },
+    {
+      "id": "INC-0021-METRIC-5797",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:31:34.000Z",
+      "service": "payment-service",
+      "metric": "memory_mb",
+      "value": 394.24
+    },
+    {
+      "id": "INC-0021-METRIC-5798",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:31:34.000Z",
+      "service": "checkout-service",
+      "metric": "latency_ms",
+      "value": 164.48
+    },
+    {
+      "id": "INC-0021-METRIC-5586",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:32:00.000Z",
+      "service": "gateway",
+      "metric": "latency_ms",
+      "value": 37.43
+    },
+    {
+      "id": "INC-0021-METRIC-5607",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:32:00.000Z",
+      "service": "checkout-service",
+      "metric": "latency_ms",
+      "value": 86.55
+    },
+    {
+      "id": "INC-0021-METRIC-5628",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:32:00.000Z",
+      "service": "checkout-service",
+      "metric": "error_rate",
+      "value": 0.52
+    },
+    {
+      "id": "INC-0021-METRIC-5649",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:32:00.000Z",
+      "service": "payment-service",
+      "metric": "latency_ms",
+      "value": 56.25
+    },
+    {
+      "id": "INC-0021-METRIC-5670",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:32:00.000Z",
+      "service": "payment-service",
+      "metric": "memory_mb",
+      "value": 309.63
+    },
+    {
+      "id": "INC-0021-METRIC-5691",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:32:00.000Z",
+      "service": "inventory-service",
+      "metric": "cpu_percent",
+      "value": 18.36
+    },
+    {
+      "id": "INC-0021-METRIC-5712",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:32:00.000Z",
+      "service": "inventory-service",
+      "metric": "latency_ms",
+      "value": 46.83
+    },
+    {
+      "id": "INC-0021-METRIC-5733",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:32:00.000Z",
+      "service": "postgres",
+      "metric": "active_connections",
+      "value": 19.9
+    },
+    {
+      "id": "INC-0021-METRIC-5754",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:32:00.000Z",
+      "service": "postgres",
+      "metric": "query_duration_ms",
+      "value": 16.87
+    },
+    {
+      "id": "INC-0021-METRIC-5775",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:32:00.000Z",
+      "service": "redis",
+      "metric": "latency_ms",
+      "value": 1.58
+    },
+    {
+      "id": "INC-0021-METRIC-5799",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:32:14.000Z",
+      "service": "payment-service",
+      "metric": "memory_mb",
+      "value": 429.32
+    },
+    {
+      "id": "INC-0021-METRIC-5800",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:32:14.000Z",
+      "service": "checkout-service",
+      "metric": "latency_ms",
+      "value": 235.77
+    },
+    {
+      "id": "INC-0021-METRIC-5801",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:32:54.000Z",
+      "service": "payment-service",
+      "metric": "memory_mb",
+      "value": 511.13
+    },
+    {
+      "id": "INC-0021-METRIC-5802",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:32:54.000Z",
+      "service": "checkout-service",
+      "metric": "latency_ms",
+      "value": 300.23
+    },
+    {
+      "id": "INC-0021-METRIC-5587",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:33:00.000Z",
+      "service": "gateway",
+      "metric": "latency_ms",
+      "value": 29.14
+    },
+    {
+      "id": "INC-0021-METRIC-5608",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:33:00.000Z",
+      "service": "checkout-service",
+      "metric": "latency_ms",
+      "value": 85.45
+    },
+    {
+      "id": "INC-0021-METRIC-5629",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:33:00.000Z",
+      "service": "checkout-service",
+      "metric": "error_rate",
+      "value": 0.3
+    },
+    {
+      "id": "INC-0021-METRIC-5650",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:33:00.000Z",
+      "service": "payment-service",
+      "metric": "latency_ms",
+      "value": 60.6
+    },
+    {
+      "id": "INC-0021-METRIC-5671",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:33:00.000Z",
+      "service": "payment-service",
+      "metric": "memory_mb",
+      "value": 296.81
+    },
+    {
+      "id": "INC-0021-METRIC-5692",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:33:00.000Z",
+      "service": "inventory-service",
+      "metric": "cpu_percent",
+      "value": 21.4
+    },
+    {
+      "id": "INC-0021-METRIC-5713",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:33:00.000Z",
+      "service": "inventory-service",
+      "metric": "latency_ms",
+      "value": 39.05
+    },
+    {
+      "id": "INC-0021-METRIC-5734",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:33:00.000Z",
+      "service": "postgres",
+      "metric": "active_connections",
+      "value": 19.06
+    },
+    {
+      "id": "INC-0021-METRIC-5755",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:33:00.000Z",
+      "service": "postgres",
+      "metric": "query_duration_ms",
+      "value": 16.45
+    },
+    {
+      "id": "INC-0021-METRIC-5776",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:33:00.000Z",
+      "service": "redis",
+      "metric": "latency_ms",
+      "value": 1.95
+    },
+    {
+      "id": "INC-0021-METRIC-5803",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:33:32.000Z",
+      "service": "payment-service",
+      "metric": "memory_mb",
+      "value": 592.83
+    },
+    {
+      "id": "INC-0021-METRIC-5804",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:33:32.000Z",
+      "service": "checkout-service",
+      "metric": "latency_ms",
+      "value": 347.5
+    },
+    {
+      "id": "INC-0021-METRIC-5588",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:34:00.000Z",
+      "service": "gateway",
+      "metric": "latency_ms",
+      "value": 40.85
+    },
+    {
+      "id": "INC-0021-METRIC-5609",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:34:00.000Z",
+      "service": "checkout-service",
+      "metric": "latency_ms",
+      "value": 69
+    },
+    {
+      "id": "INC-0021-METRIC-5630",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:34:00.000Z",
+      "service": "checkout-service",
+      "metric": "error_rate",
+      "value": 0.35
+    },
+    {
+      "id": "INC-0021-METRIC-5651",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:34:00.000Z",
+      "service": "payment-service",
+      "metric": "latency_ms",
+      "value": 62.78
+    },
+    {
+      "id": "INC-0021-METRIC-5672",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:34:00.000Z",
+      "service": "payment-service",
+      "metric": "memory_mb",
+      "value": 312.8
+    },
+    {
+      "id": "INC-0021-METRIC-5693",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:34:00.000Z",
+      "service": "inventory-service",
+      "metric": "cpu_percent",
+      "value": 13.61
+    },
+    {
+      "id": "INC-0021-METRIC-5714",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:34:00.000Z",
+      "service": "inventory-service",
+      "metric": "latency_ms",
+      "value": 43.82
+    },
+    {
+      "id": "INC-0021-METRIC-5735",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:34:00.000Z",
+      "service": "postgres",
+      "metric": "active_connections",
+      "value": 19.3
+    },
+    {
+      "id": "INC-0021-METRIC-5756",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:34:00.000Z",
+      "service": "postgres",
+      "metric": "query_duration_ms",
+      "value": 13.09
+    },
+    {
+      "id": "INC-0021-METRIC-5777",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:34:00.000Z",
+      "service": "redis",
+      "metric": "latency_ms",
+      "value": 2.29
+    },
+    {
+      "id": "INC-0021-METRIC-5805",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:34:05.000Z",
+      "service": "payment-service",
+      "metric": "memory_mb",
+      "value": 632.09
+    },
+    {
+      "id": "INC-0021-METRIC-5806",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:34:05.000Z",
+      "service": "checkout-service",
+      "metric": "latency_ms",
+      "value": 388.61
+    },
+    {
+      "id": "INC-0021-METRIC-5807",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:34:45.000Z",
+      "service": "payment-service",
+      "metric": "memory_mb",
+      "value": 666.78
+    },
+    {
+      "id": "INC-0021-METRIC-5808",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:34:45.000Z",
+      "service": "checkout-service",
+      "metric": "latency_ms",
+      "value": 444.66
+    },
+    {
+      "id": "INC-0021-METRIC-5589",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:35:00.000Z",
+      "service": "gateway",
+      "metric": "latency_ms",
+      "value": 36.45
+    },
+    {
+      "id": "INC-0021-METRIC-5610",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:35:00.000Z",
+      "service": "checkout-service",
+      "metric": "latency_ms",
+      "value": 87.02
+    },
+    {
+      "id": "INC-0021-METRIC-5631",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:35:00.000Z",
+      "service": "checkout-service",
+      "metric": "error_rate",
+      "value": 0.48
+    },
+    {
+      "id": "INC-0021-METRIC-5652",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:35:00.000Z",
+      "service": "payment-service",
+      "metric": "latency_ms",
+      "value": 67.99
+    },
+    {
+      "id": "INC-0021-METRIC-5673",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:35:00.000Z",
+      "service": "payment-service",
+      "metric": "memory_mb",
+      "value": 301.55
+    },
+    {
+      "id": "INC-0021-METRIC-5694",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:35:00.000Z",
+      "service": "inventory-service",
+      "metric": "cpu_percent",
+      "value": 18.57
+    },
+    {
+      "id": "INC-0021-METRIC-5715",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:35:00.000Z",
+      "service": "inventory-service",
+      "metric": "latency_ms",
+      "value": 45.83
+    },
+    {
+      "id": "INC-0021-METRIC-5736",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:35:00.000Z",
+      "service": "postgres",
+      "metric": "active_connections",
+      "value": 21.28
+    },
+    {
+      "id": "INC-0021-METRIC-5757",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:35:00.000Z",
+      "service": "postgres",
+      "metric": "query_duration_ms",
+      "value": 17.52
+    },
+    {
+      "id": "INC-0021-METRIC-5778",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:35:00.000Z",
+      "service": "redis",
+      "metric": "latency_ms",
+      "value": 2.04
+    },
+    {
+      "id": "INC-0021-METRIC-5809",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:35:18.000Z",
+      "service": "payment-service",
+      "metric": "memory_mb",
+      "value": 706.97
+    },
+    {
+      "id": "INC-0021-METRIC-5810",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:35:18.000Z",
+      "service": "checkout-service",
+      "metric": "latency_ms",
+      "value": 513.83
+    },
+    {
+      "id": "INC-0021-METRIC-5811",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:35:57.000Z",
+      "service": "payment-service",
+      "metric": "memory_mb",
+      "value": 783.66
+    },
+    {
+      "id": "INC-0021-METRIC-5812",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:35:57.000Z",
+      "service": "checkout-service",
+      "metric": "latency_ms",
+      "value": 558.35
+    },
+    {
+      "id": "INC-0021-METRIC-5590",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:36:00.000Z",
+      "service": "gateway",
+      "metric": "latency_ms",
+      "value": 31.33
+    },
+    {
+      "id": "INC-0021-METRIC-5611",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:36:00.000Z",
+      "service": "checkout-service",
+      "metric": "latency_ms",
+      "value": 78.98
+    },
+    {
+      "id": "INC-0021-METRIC-5632",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:36:00.000Z",
+      "service": "checkout-service",
+      "metric": "error_rate",
+      "value": 0.6
+    },
+    {
+      "id": "INC-0021-METRIC-5653",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:36:00.000Z",
+      "service": "payment-service",
+      "metric": "latency_ms",
+      "value": 60.87
+    },
+    {
+      "id": "INC-0021-METRIC-5674",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:36:00.000Z",
+      "service": "payment-service",
+      "metric": "memory_mb",
+      "value": 298.59
+    },
+    {
+      "id": "INC-0021-METRIC-5695",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:36:00.000Z",
+      "service": "inventory-service",
+      "metric": "cpu_percent",
+      "value": 19.52
+    },
+    {
+      "id": "INC-0021-METRIC-5716",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:36:00.000Z",
+      "service": "inventory-service",
+      "metric": "latency_ms",
+      "value": 40.23
+    },
+    {
+      "id": "INC-0021-METRIC-5737",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:36:00.000Z",
+      "service": "postgres",
+      "metric": "active_connections",
+      "value": 22.65
+    },
+    {
+      "id": "INC-0021-METRIC-5758",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:36:00.000Z",
+      "service": "postgres",
+      "metric": "query_duration_ms",
+      "value": 13.92
+    },
+    {
+      "id": "INC-0021-METRIC-5779",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:36:00.000Z",
+      "service": "redis",
+      "metric": "latency_ms",
+      "value": 2.31
+    },
+    {
+      "id": "INC-0021-METRIC-5813",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:36:36.000Z",
+      "service": "payment-service",
+      "metric": "memory_mb",
+      "value": 816.61
+    },
+    {
+      "id": "INC-0021-METRIC-5814",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:36:36.000Z",
+      "service": "checkout-service",
+      "metric": "latency_ms",
+      "value": 585.79
+    },
+    {
+      "id": "INC-0021-METRIC-5591",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:37:00.000Z",
+      "service": "gateway",
+      "metric": "latency_ms",
+      "value": 35.76
+    },
+    {
+      "id": "INC-0021-METRIC-5612",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:37:00.000Z",
+      "service": "checkout-service",
+      "metric": "latency_ms",
+      "value": 86.51
+    },
+    {
+      "id": "INC-0021-METRIC-5633",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:37:00.000Z",
+      "service": "checkout-service",
+      "metric": "error_rate",
+      "value": 0.59
+    },
+    {
+      "id": "INC-0021-METRIC-5654",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:37:00.000Z",
+      "service": "payment-service",
+      "metric": "latency_ms",
+      "value": 58.39
+    },
+    {
+      "id": "INC-0021-METRIC-5675",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:37:00.000Z",
+      "service": "payment-service",
+      "metric": "memory_mb",
+      "value": 299.41
+    },
+    {
+      "id": "INC-0021-METRIC-5696",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:37:00.000Z",
+      "service": "inventory-service",
+      "metric": "cpu_percent",
+      "value": 20.98
+    },
+    {
+      "id": "INC-0021-METRIC-5717",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:37:00.000Z",
+      "service": "inventory-service",
+      "metric": "latency_ms",
+      "value": 38.72
+    },
+    {
+      "id": "INC-0021-METRIC-5738",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:37:00.000Z",
+      "service": "postgres",
+      "metric": "active_connections",
+      "value": 18.44
+    },
+    {
+      "id": "INC-0021-METRIC-5759",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:37:00.000Z",
+      "service": "postgres",
+      "metric": "query_duration_ms",
+      "value": 12.69
+    },
+    {
+      "id": "INC-0021-METRIC-5780",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:37:00.000Z",
+      "service": "redis",
+      "metric": "latency_ms",
+      "value": 1.82
+    },
+    {
+      "id": "INC-0021-METRIC-5815",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:37:15.000Z",
+      "service": "payment-service",
+      "metric": "memory_mb",
+      "value": 882.06
+    },
+    {
+      "id": "INC-0021-METRIC-5816",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:37:15.000Z",
+      "service": "checkout-service",
+      "metric": "latency_ms",
+      "value": 644.7
+    },
+    {
+      "id": "INC-0021-METRIC-5817",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:37:46.000Z",
+      "service": "payment-service",
+      "metric": "memory_mb",
+      "value": 960.26
+    },
+    {
+      "id": "INC-0021-METRIC-5818",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:37:46.000Z",
+      "service": "checkout-service",
+      "metric": "latency_ms",
+      "value": 671.28
+    },
+    {
+      "id": "INC-0021-METRIC-5592",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:38:00.000Z",
+      "service": "gateway",
+      "metric": "latency_ms",
+      "value": 29.27
+    },
+    {
+      "id": "INC-0021-METRIC-5613",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:38:00.000Z",
+      "service": "checkout-service",
+      "metric": "latency_ms",
+      "value": 79.7
+    },
+    {
+      "id": "INC-0021-METRIC-5634",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:38:00.000Z",
+      "service": "checkout-service",
+      "metric": "error_rate",
+      "value": 0.57
+    },
+    {
+      "id": "INC-0021-METRIC-5655",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:38:00.000Z",
+      "service": "payment-service",
+      "metric": "latency_ms",
+      "value": 66.49
+    },
+    {
+      "id": "INC-0021-METRIC-5676",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:38:00.000Z",
+      "service": "payment-service",
+      "metric": "memory_mb",
+      "value": 295.49
+    },
+    {
+      "id": "INC-0021-METRIC-5697",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:38:00.000Z",
+      "service": "inventory-service",
+      "metric": "cpu_percent",
+      "value": 22.33
+    },
+    {
+      "id": "INC-0021-METRIC-5718",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:38:00.000Z",
+      "service": "inventory-service",
+      "metric": "latency_ms",
+      "value": 42.58
+    },
+    {
+      "id": "INC-0021-METRIC-5739",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:38:00.000Z",
+      "service": "postgres",
+      "metric": "active_connections",
+      "value": 23.9
+    },
+    {
+      "id": "INC-0021-METRIC-5760",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:38:00.000Z",
+      "service": "postgres",
+      "metric": "query_duration_ms",
+      "value": 16.63
+    },
+    {
+      "id": "INC-0021-METRIC-5781",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:38:00.000Z",
+      "service": "redis",
+      "metric": "latency_ms",
+      "value": 2.12
+    },
+    {
+      "id": "INC-0021-METRIC-5819",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:38:20.000Z",
+      "service": "payment-service",
+      "metric": "memory_mb",
+      "value": 1031.91
+    },
+    {
+      "id": "INC-0021-METRIC-5820",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:38:20.000Z",
+      "service": "checkout-service",
+      "metric": "latency_ms",
+      "value": 732.86
+    },
+    {
+      "id": "INC-0021-METRIC-5821",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:38:51.000Z",
+      "service": "payment-service",
+      "metric": "memory_mb",
+      "value": 1103.76
+    },
+    {
+      "id": "INC-0021-METRIC-5822",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:38:51.000Z",
+      "service": "checkout-service",
+      "metric": "latency_ms",
+      "value": 796.81
+    },
+    {
+      "id": "INC-0021-METRIC-5593",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:39:00.000Z",
+      "service": "gateway",
+      "metric": "latency_ms",
+      "value": 34.68
+    },
+    {
+      "id": "INC-0021-METRIC-5614",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:39:00.000Z",
+      "service": "checkout-service",
+      "metric": "latency_ms",
+      "value": 68.34
+    },
+    {
+      "id": "INC-0021-METRIC-5635",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:39:00.000Z",
+      "service": "checkout-service",
+      "metric": "error_rate",
+      "value": 0.26
+    },
+    {
+      "id": "INC-0021-METRIC-5656",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:39:00.000Z",
+      "service": "payment-service",
+      "metric": "latency_ms",
+      "value": 63.81
+    },
+    {
+      "id": "INC-0021-METRIC-5677",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:39:00.000Z",
+      "service": "payment-service",
+      "metric": "memory_mb",
+      "value": 320.58
+    },
+    {
+      "id": "INC-0021-METRIC-5698",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:39:00.000Z",
+      "service": "inventory-service",
+      "metric": "cpu_percent",
+      "value": 14.35
+    },
+    {
+      "id": "INC-0021-METRIC-5719",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:39:00.000Z",
+      "service": "inventory-service",
+      "metric": "latency_ms",
+      "value": 35.04
+    },
+    {
+      "id": "INC-0021-METRIC-5740",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:39:00.000Z",
+      "service": "postgres",
+      "metric": "active_connections",
+      "value": 18.15
+    },
+    {
+      "id": "INC-0021-METRIC-5761",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:39:00.000Z",
+      "service": "postgres",
+      "metric": "query_duration_ms",
+      "value": 13.6
+    },
+    {
+      "id": "INC-0021-METRIC-5782",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:39:00.000Z",
+      "service": "redis",
+      "metric": "latency_ms",
+      "value": 1.53
+    },
+    {
+      "id": "INC-0021-METRIC-5823",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:39:28.000Z",
+      "service": "payment-service",
+      "metric": "memory_mb",
+      "value": 1166.7
+    },
+    {
+      "id": "INC-0021-METRIC-5824",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:39:28.000Z",
+      "service": "checkout-service",
+      "metric": "latency_ms",
+      "value": 845.86
+    },
+    {
+      "id": "INC-0021-METRIC-5594",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:40:00.000Z",
+      "service": "gateway",
+      "metric": "latency_ms",
+      "value": 41.82
+    },
+    {
+      "id": "INC-0021-METRIC-5615",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:40:00.000Z",
+      "service": "checkout-service",
+      "metric": "latency_ms",
+      "value": 74.12
+    },
+    {
+      "id": "INC-0021-METRIC-5636",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:40:00.000Z",
+      "service": "checkout-service",
+      "metric": "error_rate",
+      "value": 0.24
+    },
+    {
+      "id": "INC-0021-METRIC-5657",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:40:00.000Z",
+      "service": "payment-service",
+      "metric": "latency_ms",
+      "value": 52.65
+    },
+    {
+      "id": "INC-0021-METRIC-5678",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:40:00.000Z",
+      "service": "payment-service",
+      "metric": "memory_mb",
+      "value": 317.4
+    },
+    {
+      "id": "INC-0021-METRIC-5699",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:40:00.000Z",
+      "service": "inventory-service",
+      "metric": "cpu_percent",
+      "value": 15.42
+    },
+    {
+      "id": "INC-0021-METRIC-5720",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:40:00.000Z",
+      "service": "inventory-service",
+      "metric": "latency_ms",
+      "value": 45.64
+    },
+    {
+      "id": "INC-0021-METRIC-5741",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:40:00.000Z",
+      "service": "postgres",
+      "metric": "active_connections",
+      "value": 23.17
+    },
+    {
+      "id": "INC-0021-METRIC-5762",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:40:00.000Z",
+      "service": "postgres",
+      "metric": "query_duration_ms",
+      "value": 17.41
+    },
+    {
+      "id": "INC-0021-METRIC-5783",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:40:00.000Z",
+      "service": "redis",
+      "metric": "latency_ms",
+      "value": 1.67
+    },
+    {
+      "id": "INC-0021-METRIC-5825",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:40:01.000Z",
+      "service": "payment-service",
+      "metric": "memory_mb",
+      "value": 1202.26
+    },
+    {
+      "id": "INC-0021-METRIC-5826",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:40:01.000Z",
+      "service": "checkout-service",
+      "metric": "latency_ms",
+      "value": 878.67
+    },
+    {
+      "id": "INC-0021-METRIC-5827",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:40:39.000Z",
+      "service": "payment-service",
+      "metric": "memory_mb",
+      "value": 1243.3
+    },
+    {
+      "id": "INC-0021-METRIC-5828",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:40:39.000Z",
+      "service": "checkout-service",
+      "metric": "latency_ms",
+      "value": 880.24
+    },
+    {
+      "id": "INC-0021-METRIC-5595",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:41:00.000Z",
+      "service": "gateway",
+      "metric": "latency_ms",
+      "value": 34.09
+    },
+    {
+      "id": "INC-0021-METRIC-5616",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:41:00.000Z",
+      "service": "checkout-service",
+      "metric": "latency_ms",
+      "value": 89.95
+    },
+    {
+      "id": "INC-0021-METRIC-5637",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:41:00.000Z",
+      "service": "checkout-service",
+      "metric": "error_rate",
+      "value": 0.46
+    },
+    {
+      "id": "INC-0021-METRIC-5658",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:41:00.000Z",
+      "service": "payment-service",
+      "metric": "latency_ms",
+      "value": 61.69
+    },
+    {
+      "id": "INC-0021-METRIC-5679",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:41:00.000Z",
+      "service": "payment-service",
+      "metric": "memory_mb",
+      "value": 309.85
+    },
+    {
+      "id": "INC-0021-METRIC-5700",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:41:00.000Z",
+      "service": "inventory-service",
+      "metric": "cpu_percent",
+      "value": 15.88
+    },
+    {
+      "id": "INC-0021-METRIC-5721",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:41:00.000Z",
+      "service": "inventory-service",
+      "metric": "latency_ms",
+      "value": 45.41
+    },
+    {
+      "id": "INC-0021-METRIC-5742",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:41:00.000Z",
+      "service": "postgres",
+      "metric": "active_connections",
+      "value": 16.61
+    },
+    {
+      "id": "INC-0021-METRIC-5763",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:41:00.000Z",
+      "service": "postgres",
+      "metric": "query_duration_ms",
+      "value": 17.3
+    },
+    {
+      "id": "INC-0021-METRIC-5784",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:41:00.000Z",
+      "service": "redis",
+      "metric": "latency_ms",
+      "value": 1.42
+    },
+    {
+      "id": "INC-0021-METRIC-5829",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:41:16.000Z",
+      "service": "payment-service",
+      "metric": "memory_mb",
+      "value": 1297.1
+    },
+    {
+      "id": "INC-0021-METRIC-5830",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:41:16.000Z",
+      "service": "checkout-service",
+      "metric": "latency_ms",
+      "value": 880.34
+    },
+    {
+      "id": "INC-0021-METRIC-5831",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:41:56.000Z",
+      "service": "payment-service",
+      "metric": "memory_mb",
+      "value": 1362.61
+    },
+    {
+      "id": "INC-0021-METRIC-5832",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:41:56.000Z",
+      "service": "checkout-service",
+      "metric": "latency_ms",
+      "value": 882.75
+    },
+    {
+      "id": "INC-0021-METRIC-5596",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:42:00.000Z",
+      "service": "gateway",
+      "metric": "latency_ms",
+      "value": 33.55
+    },
+    {
+      "id": "INC-0021-METRIC-5617",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:42:00.000Z",
+      "service": "checkout-service",
+      "metric": "latency_ms",
+      "value": 83.94
+    },
+    {
+      "id": "INC-0021-METRIC-5638",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:42:00.000Z",
+      "service": "checkout-service",
+      "metric": "error_rate",
+      "value": 0.41
+    },
+    {
+      "id": "INC-0021-METRIC-5659",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:42:00.000Z",
+      "service": "payment-service",
+      "metric": "latency_ms",
+      "value": 63.05
+    },
+    {
+      "id": "INC-0021-METRIC-5680",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:42:00.000Z",
+      "service": "payment-service",
+      "metric": "memory_mb",
+      "value": 299.97
+    },
+    {
+      "id": "INC-0021-METRIC-5701",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:42:00.000Z",
+      "service": "inventory-service",
+      "metric": "cpu_percent",
+      "value": 17.74
+    },
+    {
+      "id": "INC-0021-METRIC-5722",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:42:00.000Z",
+      "service": "inventory-service",
+      "metric": "latency_ms",
+      "value": 43.37
+    },
+    {
+      "id": "INC-0021-METRIC-5743",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:42:00.000Z",
+      "service": "postgres",
+      "metric": "active_connections",
+      "value": 21.86
+    },
+    {
+      "id": "INC-0021-METRIC-5764",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:42:00.000Z",
+      "service": "postgres",
+      "metric": "query_duration_ms",
+      "value": 15.25
+    },
+    {
+      "id": "INC-0021-METRIC-5785",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:42:00.000Z",
+      "service": "redis",
+      "metric": "latency_ms",
+      "value": 1.75
+    },
+    {
+      "id": "INC-0021-METRIC-5833",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:42:26.000Z",
+      "service": "payment-service",
+      "metric": "memory_mb",
+      "value": 1430.56
+    },
+    {
+      "id": "INC-0021-METRIC-5834",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:42:26.000Z",
+      "service": "checkout-service",
+      "metric": "latency_ms",
+      "value": 885.25
+    },
+    {
+      "id": "INC-0021-METRIC-5597",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:43:00.000Z",
+      "service": "gateway",
+      "metric": "latency_ms",
+      "value": 33.57
+    },
+    {
+      "id": "INC-0021-METRIC-5618",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:43:00.000Z",
+      "service": "checkout-service",
+      "metric": "latency_ms",
+      "value": 81.71
+    },
+    {
+      "id": "INC-0021-METRIC-5639",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:43:00.000Z",
+      "service": "checkout-service",
+      "metric": "error_rate",
+      "value": 0.26
+    },
+    {
+      "id": "INC-0021-METRIC-5660",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:43:00.000Z",
+      "service": "payment-service",
+      "metric": "latency_ms",
+      "value": 65.63
+    },
+    {
+      "id": "INC-0021-METRIC-5681",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:43:00.000Z",
+      "service": "payment-service",
+      "metric": "memory_mb",
+      "value": 322.9
+    },
+    {
+      "id": "INC-0021-METRIC-5702",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:43:00.000Z",
+      "service": "inventory-service",
+      "metric": "cpu_percent",
+      "value": 20.6
+    },
+    {
+      "id": "INC-0021-METRIC-5723",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:43:00.000Z",
+      "service": "inventory-service",
+      "metric": "latency_ms",
+      "value": 39.49
+    },
+    {
+      "id": "INC-0021-METRIC-5744",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:43:00.000Z",
+      "service": "postgres",
+      "metric": "active_connections",
+      "value": 17.67
+    },
+    {
+      "id": "INC-0021-METRIC-5765",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:43:00.000Z",
+      "service": "postgres",
+      "metric": "query_duration_ms",
+      "value": 15.19
+    },
+    {
+      "id": "INC-0021-METRIC-5786",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:43:00.000Z",
+      "service": "redis",
+      "metric": "latency_ms",
+      "value": 1.4
+    },
+    {
+      "id": "INC-0021-METRIC-5835",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:43:02.000Z",
+      "service": "payment-service",
+      "metric": "memory_mb",
+      "value": 1480.72
+    },
+    {
+      "id": "INC-0021-METRIC-5836",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:43:02.000Z",
+      "service": "checkout-service",
+      "metric": "latency_ms",
+      "value": 887.8
+    },
+    {
+      "id": "INC-0021-METRIC-5837",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:43:32.000Z",
+      "service": "payment-service",
+      "metric": "memory_mb",
+      "value": 1518.44
+    },
+    {
+      "id": "INC-0021-METRIC-5838",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:43:32.000Z",
+      "service": "checkout-service",
+      "metric": "latency_ms",
+      "value": 890.13
+    },
+    {
+      "id": "INC-0021-METRIC-5598",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:44:00.000Z",
+      "service": "gateway",
+      "metric": "latency_ms",
+      "value": 31.77
+    },
+    {
+      "id": "INC-0021-METRIC-5619",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:44:00.000Z",
+      "service": "checkout-service",
+      "metric": "latency_ms",
+      "value": 77.13
+    },
+    {
+      "id": "INC-0021-METRIC-5640",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:44:00.000Z",
+      "service": "checkout-service",
+      "metric": "error_rate",
+      "value": 0.35
+    },
+    {
+      "id": "INC-0021-METRIC-5661",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:44:00.000Z",
+      "service": "payment-service",
+      "metric": "latency_ms",
+      "value": 64.96
+    },
+    {
+      "id": "INC-0021-METRIC-5682",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:44:00.000Z",
+      "service": "payment-service",
+      "metric": "memory_mb",
+      "value": 319.9
+    },
+    {
+      "id": "INC-0021-METRIC-5703",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:44:00.000Z",
+      "service": "inventory-service",
+      "metric": "cpu_percent",
+      "value": 15.68
+    },
+    {
+      "id": "INC-0021-METRIC-5724",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:44:00.000Z",
+      "service": "inventory-service",
+      "metric": "latency_ms",
+      "value": 44.64
+    },
+    {
+      "id": "INC-0021-METRIC-5745",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:44:00.000Z",
+      "service": "postgres",
+      "metric": "active_connections",
+      "value": 16.51
+    },
+    {
+      "id": "INC-0021-METRIC-5766",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:44:00.000Z",
+      "service": "postgres",
+      "metric": "query_duration_ms",
+      "value": 13.75
+    },
+    {
+      "id": "INC-0021-METRIC-5787",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:44:00.000Z",
+      "service": "redis",
+      "metric": "latency_ms",
+      "value": 1.56
+    },
+    {
+      "id": "INC-0021-METRIC-5839",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:44:04.000Z",
+      "service": "payment-service",
+      "metric": "memory_mb",
+      "value": 1556.31
+    },
+    {
+      "id": "INC-0021-METRIC-5840",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:44:04.000Z",
+      "service": "checkout-service",
+      "metric": "latency_ms",
+      "value": 891.85
+    },
+    {
+      "id": "INC-0021-METRIC-5841",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:44:43.000Z",
+      "service": "payment-service",
+      "metric": "memory_mb",
+      "value": 1597.25
+    },
+    {
+      "id": "INC-0021-METRIC-5842",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:44:43.000Z",
+      "service": "checkout-service",
+      "metric": "latency_ms",
+      "value": 894.37
+    },
+    {
+      "id": "INC-0021-METRIC-5599",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:45:00.000Z",
+      "service": "gateway",
+      "metric": "latency_ms",
+      "value": 33.34
+    },
+    {
+      "id": "INC-0021-METRIC-5620",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:45:00.000Z",
+      "service": "checkout-service",
+      "metric": "latency_ms",
+      "value": 75.34
+    },
+    {
+      "id": "INC-0021-METRIC-5641",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:45:00.000Z",
+      "service": "checkout-service",
+      "metric": "error_rate",
+      "value": 0.46
+    },
+    {
+      "id": "INC-0021-METRIC-5662",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:45:00.000Z",
+      "service": "payment-service",
+      "metric": "latency_ms",
+      "value": 68
+    },
+    {
+      "id": "INC-0021-METRIC-5683",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:45:00.000Z",
+      "service": "payment-service",
+      "metric": "memory_mb",
+      "value": 317.2
+    },
+    {
+      "id": "INC-0021-METRIC-5704",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:45:00.000Z",
+      "service": "inventory-service",
+      "metric": "cpu_percent",
+      "value": 15.05
+    },
+    {
+      "id": "INC-0021-METRIC-5725",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:45:00.000Z",
+      "service": "inventory-service",
+      "metric": "latency_ms",
+      "value": 45.43
+    },
+    {
+      "id": "INC-0021-METRIC-5746",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:45:00.000Z",
+      "service": "postgres",
+      "metric": "active_connections",
+      "value": 20.55
+    },
+    {
+      "id": "INC-0021-METRIC-5767",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:45:00.000Z",
+      "service": "postgres",
+      "metric": "query_duration_ms",
+      "value": 15.55
+    },
+    {
+      "id": "INC-0021-METRIC-5788",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:45:00.000Z",
+      "service": "redis",
+      "metric": "latency_ms",
+      "value": 1.43
+    },
+    {
+      "id": "INC-0021-METRIC-5843",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:45:20.000Z",
+      "service": "payment-service",
+      "metric": "memory_mb",
+      "value": 1634.25
+    },
+    {
+      "id": "INC-0021-METRIC-5844",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:45:20.000Z",
+      "service": "checkout-service",
+      "metric": "latency_ms",
+      "value": 896.94
+    },
+    {
+      "id": "INC-0021-METRIC-5845",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:45:50.000Z",
+      "service": "payment-service",
+      "metric": "memory_mb",
+      "value": 1686.14
+    },
+    {
+      "id": "INC-0021-METRIC-5846",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:45:50.000Z",
+      "service": "checkout-service",
+      "metric": "latency_ms",
+      "value": 898.47
+    },
+    {
+      "id": "INC-0021-METRIC-5600",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:46:00.000Z",
+      "service": "gateway",
+      "metric": "latency_ms",
+      "value": 30.41
+    },
+    {
+      "id": "INC-0021-METRIC-5621",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:46:00.000Z",
+      "service": "checkout-service",
+      "metric": "latency_ms",
+      "value": 80.68
+    },
+    {
+      "id": "INC-0021-METRIC-5642",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:46:00.000Z",
+      "service": "checkout-service",
+      "metric": "error_rate",
+      "value": 0.47
+    },
+    {
+      "id": "INC-0021-METRIC-5663",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:46:00.000Z",
+      "service": "payment-service",
+      "metric": "latency_ms",
+      "value": 63.25
+    },
+    {
+      "id": "INC-0021-METRIC-5684",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:46:00.000Z",
+      "service": "payment-service",
+      "metric": "memory_mb",
+      "value": 308.81
+    },
+    {
+      "id": "INC-0021-METRIC-5705",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:46:00.000Z",
+      "service": "inventory-service",
+      "metric": "cpu_percent",
+      "value": 18.15
+    },
+    {
+      "id": "INC-0021-METRIC-5726",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:46:00.000Z",
+      "service": "inventory-service",
+      "metric": "latency_ms",
+      "value": 34.72
+    },
+    {
+      "id": "INC-0021-METRIC-5747",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:46:00.000Z",
+      "service": "postgres",
+      "metric": "active_connections",
+      "value": 19.1
+    },
+    {
+      "id": "INC-0021-METRIC-5768",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:46:00.000Z",
+      "service": "postgres",
+      "metric": "query_duration_ms",
+      "value": 17.94
+    },
+    {
+      "id": "INC-0021-METRIC-5789",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:46:00.000Z",
+      "service": "redis",
+      "metric": "latency_ms",
+      "value": 2.33
+    },
+    {
+      "id": "INC-0021-METRIC-5601",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:47:00.000Z",
+      "service": "gateway",
+      "metric": "latency_ms",
+      "value": 35.9
+    },
+    {
+      "id": "INC-0021-METRIC-5622",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:47:00.000Z",
+      "service": "checkout-service",
+      "metric": "latency_ms",
+      "value": 89.49
+    },
+    {
+      "id": "INC-0021-METRIC-5643",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:47:00.000Z",
+      "service": "checkout-service",
+      "metric": "error_rate",
+      "value": 0.42
+    },
+    {
+      "id": "INC-0021-METRIC-5664",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:47:00.000Z",
+      "service": "payment-service",
+      "metric": "latency_ms",
+      "value": 55.11
+    },
+    {
+      "id": "INC-0021-METRIC-5685",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:47:00.000Z",
+      "service": "payment-service",
+      "metric": "memory_mb",
+      "value": 307.69
+    },
+    {
+      "id": "INC-0021-METRIC-5706",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:47:00.000Z",
+      "service": "inventory-service",
+      "metric": "cpu_percent",
+      "value": 20.23
+    },
+    {
+      "id": "INC-0021-METRIC-5727",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:47:00.000Z",
+      "service": "inventory-service",
+      "metric": "latency_ms",
+      "value": 37.91
+    },
+    {
+      "id": "INC-0021-METRIC-5748",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:47:00.000Z",
+      "service": "postgres",
+      "metric": "active_connections",
+      "value": 23.87
+    },
+    {
+      "id": "INC-0021-METRIC-5769",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:47:00.000Z",
+      "service": "postgres",
+      "metric": "query_duration_ms",
+      "value": 17.96
+    },
+    {
+      "id": "INC-0021-METRIC-5790",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:47:00.000Z",
+      "service": "redis",
+      "metric": "latency_ms",
+      "value": 2.22
+    },
+    {
+      "id": "INC-0021-METRIC-5602",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:48:00.000Z",
+      "service": "gateway",
+      "metric": "latency_ms",
+      "value": 30.31
+    },
+    {
+      "id": "INC-0021-METRIC-5623",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:48:00.000Z",
+      "service": "checkout-service",
+      "metric": "latency_ms",
+      "value": 89.59
+    },
+    {
+      "id": "INC-0021-METRIC-5644",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:48:00.000Z",
+      "service": "checkout-service",
+      "metric": "error_rate",
+      "value": 0.27
+    },
+    {
+      "id": "INC-0021-METRIC-5665",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:48:00.000Z",
+      "service": "payment-service",
+      "metric": "latency_ms",
+      "value": 66.54
+    },
+    {
+      "id": "INC-0021-METRIC-5686",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:48:00.000Z",
+      "service": "payment-service",
+      "metric": "memory_mb",
+      "value": 317.98
+    },
+    {
+      "id": "INC-0021-METRIC-5707",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:48:00.000Z",
+      "service": "inventory-service",
+      "metric": "cpu_percent",
+      "value": 20.04
+    },
+    {
+      "id": "INC-0021-METRIC-5728",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:48:00.000Z",
+      "service": "inventory-service",
+      "metric": "latency_ms",
+      "value": 46.62
+    },
+    {
+      "id": "INC-0021-METRIC-5749",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:48:00.000Z",
+      "service": "postgres",
+      "metric": "active_connections",
+      "value": 17.77
+    },
+    {
+      "id": "INC-0021-METRIC-5770",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:48:00.000Z",
+      "service": "postgres",
+      "metric": "query_duration_ms",
+      "value": 15.76
+    },
+    {
+      "id": "INC-0021-METRIC-5791",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:48:00.000Z",
+      "service": "redis",
+      "metric": "latency_ms",
+      "value": 2.36
+    },
+    {
+      "id": "INC-0021-METRIC-5603",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:49:00.000Z",
+      "service": "gateway",
+      "metric": "latency_ms",
+      "value": 32.88
+    },
+    {
+      "id": "INC-0021-METRIC-5624",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:49:00.000Z",
+      "service": "checkout-service",
+      "metric": "latency_ms",
+      "value": 87.67
+    },
+    {
+      "id": "INC-0021-METRIC-5645",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:49:00.000Z",
+      "service": "checkout-service",
+      "metric": "error_rate",
+      "value": 0.31
+    },
+    {
+      "id": "INC-0021-METRIC-5666",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:49:00.000Z",
+      "service": "payment-service",
+      "metric": "latency_ms",
+      "value": 67.52
+    },
+    {
+      "id": "INC-0021-METRIC-5687",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:49:00.000Z",
+      "service": "payment-service",
+      "metric": "memory_mb",
+      "value": 303.84
+    },
+    {
+      "id": "INC-0021-METRIC-5708",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:49:00.000Z",
+      "service": "inventory-service",
+      "metric": "cpu_percent",
+      "value": 21.94
+    },
+    {
+      "id": "INC-0021-METRIC-5729",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:49:00.000Z",
+      "service": "inventory-service",
+      "metric": "latency_ms",
+      "value": 36.53
+    },
+    {
+      "id": "INC-0021-METRIC-5750",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:49:00.000Z",
+      "service": "postgres",
+      "metric": "active_connections",
+      "value": 20.11
+    },
+    {
+      "id": "INC-0021-METRIC-5771",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:49:00.000Z",
+      "service": "postgres",
+      "metric": "query_duration_ms",
+      "value": 12.76
+    },
+    {
+      "id": "INC-0021-METRIC-5792",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:49:00.000Z",
+      "service": "redis",
+      "metric": "latency_ms",
+      "value": 2.17
+    },
+    {
+      "id": "INC-0021-METRIC-5604",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:50:00.000Z",
+      "service": "gateway",
+      "metric": "latency_ms",
+      "value": 30.09
+    },
+    {
+      "id": "INC-0021-METRIC-5625",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:50:00.000Z",
+      "service": "checkout-service",
+      "metric": "latency_ms",
+      "value": 87.57
+    },
+    {
+      "id": "INC-0021-METRIC-5646",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:50:00.000Z",
+      "service": "checkout-service",
+      "metric": "error_rate",
+      "value": 0.36
+    },
+    {
+      "id": "INC-0021-METRIC-5667",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:50:00.000Z",
+      "service": "payment-service",
+      "metric": "latency_ms",
+      "value": 54.04
+    },
+    {
+      "id": "INC-0021-METRIC-5688",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:50:00.000Z",
+      "service": "payment-service",
+      "metric": "memory_mb",
+      "value": 299.59
+    },
+    {
+      "id": "INC-0021-METRIC-5709",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:50:00.000Z",
+      "service": "inventory-service",
+      "metric": "cpu_percent",
+      "value": 16.94
+    },
+    {
+      "id": "INC-0021-METRIC-5730",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:50:00.000Z",
+      "service": "inventory-service",
+      "metric": "latency_ms",
+      "value": 44.36
+    },
+    {
+      "id": "INC-0021-METRIC-5751",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:50:00.000Z",
+      "service": "postgres",
+      "metric": "active_connections",
+      "value": 16.94
+    },
+    {
+      "id": "INC-0021-METRIC-5772",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:50:00.000Z",
+      "service": "postgres",
+      "metric": "query_duration_ms",
+      "value": 13.82
+    },
+    {
+      "id": "INC-0021-METRIC-5793",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:50:00.000Z",
+      "service": "redis",
+      "metric": "latency_ms",
+      "value": 1.82
+    },
+    {
+      "id": "INC-0021-METRIC-5605",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:51:00.000Z",
+      "service": "gateway",
+      "metric": "latency_ms",
+      "value": 40.01
+    },
+    {
+      "id": "INC-0021-METRIC-5626",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:51:00.000Z",
+      "service": "checkout-service",
+      "metric": "latency_ms",
+      "value": 69.65
+    },
+    {
+      "id": "INC-0021-METRIC-5647",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:51:00.000Z",
+      "service": "checkout-service",
+      "metric": "error_rate",
+      "value": 0.29
+    },
+    {
+      "id": "INC-0021-METRIC-5668",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:51:00.000Z",
+      "service": "payment-service",
+      "metric": "latency_ms",
+      "value": 64.64
+    },
+    {
+      "id": "INC-0021-METRIC-5689",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:51:00.000Z",
+      "service": "payment-service",
+      "metric": "memory_mb",
+      "value": 305.15
+    },
+    {
+      "id": "INC-0021-METRIC-5710",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:51:00.000Z",
+      "service": "inventory-service",
+      "metric": "cpu_percent",
+      "value": 16.9
+    },
+    {
+      "id": "INC-0021-METRIC-5731",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:51:00.000Z",
+      "service": "inventory-service",
+      "metric": "latency_ms",
+      "value": 45.36
+    },
+    {
+      "id": "INC-0021-METRIC-5752",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:51:00.000Z",
+      "service": "postgres",
+      "metric": "active_connections",
+      "value": 22.87
+    },
+    {
+      "id": "INC-0021-METRIC-5773",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:51:00.000Z",
+      "service": "postgres",
+      "metric": "query_duration_ms",
+      "value": 15.03
+    },
+    {
+      "id": "INC-0021-METRIC-5794",
+      "incidentId": "INC-0021",
+      "timestamp": "2026-02-01T17:51:00.000Z",
+      "service": "redis",
+      "metric": "latency_ms",
+      "value": 2.31
+    }
+  ]
+}
