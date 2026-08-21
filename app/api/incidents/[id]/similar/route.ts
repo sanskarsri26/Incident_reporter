@@ -5,10 +5,11 @@ import { getRateLimiter } from "@/lib/security/rate-limit";
 import { incidentIdSchema } from "@/lib/security/validation";
 import { buildHistoricalSummary } from "@/lib/investigation/historical-summary";
 import { findSimilarIncidents } from "@/lib/retrieval/similar-incidents";
+import { withRequestLog } from "@/lib/observability/request-log";
 
 const TOP_K = 5;
 
-export async function GET(request: Request, context: { params: Promise<{ id: string }> }) {
+export const GET = withRequestLog("incidents.similar", async (request: Request, context: { params: Promise<{ id: string }> }) => {
   const { id } = await context.params;
   const parsedId = incidentIdSchema.safeParse(id);
   if (!parsedId.success) {
@@ -41,4 +42,4 @@ export async function GET(request: Request, context: { params: Promise<{ id: str
   return NextResponse.json({
     similar: similar.map((entry) => ({ incident: entry.incident, similarity: entry.similarity })),
   });
-}
+});

@@ -5,12 +5,13 @@ import { getRateLimiter } from "@/lib/security/rate-limit";
 import { incidentIdSchema } from "@/lib/security/validation";
 import { runInvestigation } from "@/lib/investigation/pipeline";
 import { buildHistoricalSummary } from "@/lib/investigation/historical-summary";
+import { withRequestLog } from "@/lib/observability/request-log";
 
 function isUpstreamQuotaError(message: string): boolean {
   return /\b429\b/.test(message);
 }
 
-export async function POST(request: Request, context: { params: Promise<{ id: string }> }) {
+export const POST = withRequestLog("incidents.investigate", async (request: Request, context: { params: Promise<{ id: string }> }) => {
   const { id } = await context.params;
   const parsedId = incidentIdSchema.safeParse(id);
   if (!parsedId.success) {
@@ -84,4 +85,4 @@ export async function POST(request: Request, context: { params: Promise<{ id: st
     }
     return NextResponse.json({ error: message }, { status: 502 });
   }
-}
+});

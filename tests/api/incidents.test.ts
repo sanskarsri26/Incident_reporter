@@ -19,7 +19,7 @@ describe("/api/incidents", () => {
   });
 
   it("GET /api/incidents returns the seeded incident", async () => {
-    const response = await listIncidents();
+    const response = await listIncidents(new Request("http://localhost/api/incidents"));
     expect(response.status).toBe(200);
     const body = await response.json();
     expect(body.incidents).toHaveLength(1);

@@ -2,10 +2,11 @@ import { NextResponse } from "next/server";
 import { getRepository } from "@/lib/db/index";
 import { getRateLimiter } from "@/lib/security/rate-limit";
 import { feedbackRequestSchema } from "@/lib/security/validation";
+import { withRequestLog } from "@/lib/observability/request-log";
 
 const MAX_BODY_BYTES = 4000;
 
-export async function POST(request: Request) {
+export const POST = withRequestLog("feedback.create", async (request: Request) => {
   const clientKey = request.headers.get("x-forwarded-for") ?? "unknown";
   const rateLimitResult = await getRateLimiter().consume(`feedback:${clientKey}`);
   if (!rateLimitResult.allowed) {
@@ -40,4 +41,4 @@ export async function POST(request: Request) {
   await repository.saveFeedback(feedback);
 
   return NextResponse.json({ feedback }, { status: 201 });
-}
+});
