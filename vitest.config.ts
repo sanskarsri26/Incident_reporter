@@ -5,6 +5,7 @@ export default defineConfig({
   test: {
     environment: "node",
     globals: false,
+    exclude: ["**/node_modules/**", "**/.next/**", "**/.claude/**"],
   },
   resolve: {
     alias: { "@": path.resolve(import.meta.dirname, ".") },
