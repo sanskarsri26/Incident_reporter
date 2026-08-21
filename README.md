@@ -139,22 +139,23 @@ language mismatch.)
 
 | Metric | Value |
 | --- | --- |
-| Top-1 root-cause accuracy | 25.0% |
-| Top-1 tie rate | 37.5% |
-| Top-3 root-cause accuracy | 87.5% |
-| Evidence tag presence rate ("Evidence Recall@5") | 31.3% |
+| Top-1 root-cause accuracy | 62.5% |
+| Top-1 tie rate | 0.0% |
+| Top-3 root-cause accuracy | 75.0% |
+| Evidence tag presence rate ("Evidence Recall@5") | 25.0% |
 | Unsupported-evidence rate | 0.0% |
-| P50 / P95 latency | ~2ms / ~4ms |
-| Avg. requests per investigation | 7 |
+| P50 / P95 latency | ~1ms / ~2ms |
+| Avg. requests per investigation | 6.6 |
 
 **Top-1 tie rate** is the fraction of test cases where the top-ranked
 candidate's ranking score exactly tied another candidate's — read it
-alongside top-1 accuracy. Candidate ranking now breaks ties
-deterministically (`lib/investigation/pipeline.ts`: by model score, then
-root cause alphabetically) so results are reproducible run-to-run, but a
-high tie rate is still a real signal that the ranking score doesn't have
-enough dynamic range to separate candidates for over a third of these
-cases, not something to read past.
+alongside top-1 accuracy; a nonzero rate means part of the winning
+result was decided by the deterministic tiebreak
+(`lib/investigation/pipeline.ts`: model score, then root cause
+alphabetically) rather than by the ranking score itself. It's 0% in the
+current report — capping the evidence catalog at the most diagnostic
+signals (see below) removed the score collisions that used to produce
+ties in about a third of cases.
 
 Ablations (same held-out split, n=16 test cases):
 
@@ -163,12 +164,20 @@ Ablations (same held-out split, n=16 test cases):
   4 of 16 with hybrid retrieval. Direction is consistent and the gap is
   the largest of any ablation here, but at n=16 the raw counts are the
   honest way to read it, not a precise percentage.
-- **Runbook retrieval raises top-3 accuracy but not top-1 in this run**:
-  top-3 accuracy is 87.5% with retrieval enabled vs. 75.0% without (a
-  2-of-16-case difference); top-1 accuracy is unchanged at 25.0% in both
-  arms. Treat this as directional at this sample size.
+- **Runbook retrieval substantially raises both top-1 and top-3
+  accuracy**: top-1 is 10 of 16 cases with retrieval enabled vs. 6 of 16
+  without; top-3 is 12 of 16 vs. 6 of 16. Treat this as directional at
+  this sample size, not a precise effect size.
 - Full breakdown, including the history and ranking-score-vs-model-score
   ablations, is in `data/evaluation-report.json`.
+
+Evidence catalogs are capped at 40 log events and 40 metric events per
+investigation (highest-count/highest-magnitude first,
+`lib/investigation/evidence-catalog.ts`) rather than including every raw
+event — this dataset had up to 326 metric events for a single incident,
+mostly baseline traffic noise rather than diagnostic signal, and
+uncapped evidence gets re-serialized into every one of the 5 LLM prompts
+per investigation.
 
 ## Security
 
