@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-21T07:01:31.281Z",
+  "generatedAt": "2026-08-21T07:11:36.538Z",
   "model": "mock",
   "embeddingModel": "mock",
   "datasetSize": 56,
@@ -15,7 +15,7 @@
     "evidenceRecallAt5": 0.9375,
     "unsupportedEvidenceRate": 0,
     "latencyP50Ms": 1,
-    "latencyP95Ms": 2,
+    "latencyP95Ms": 3,
     "averageRequestsPerInvestigation": 7,
     "failureRate": 0
   },
@@ -28,7 +28,7 @@
         "evidenceRecallAt5": 0.9375,
         "unsupportedEvidenceRate": 0,
         "latencyP50Ms": 1,
-        "latencyP95Ms": 2,
+        "latencyP95Ms": 3,
         "averageRequestsPerInvestigation": 7,
         "failureRate": 0
       },
@@ -39,7 +39,7 @@
         "evidenceRecallAt5": 0.9375,
         "unsupportedEvidenceRate": 0,
         "latencyP50Ms": 1,
-        "latencyP95Ms": 1,
+        "latencyP95Ms": 4,
         "averageRequestsPerInvestigation": 6.25,
         "failureRate": 0
       }
@@ -52,7 +52,7 @@
         "evidenceRecallAt5": 0.9375,
         "unsupportedEvidenceRate": 0,
         "latencyP50Ms": 1,
-        "latencyP95Ms": 2,
+        "latencyP95Ms": 3,
         "averageRequestsPerInvestigation": 7,
         "failureRate": 0
       },
@@ -63,7 +63,7 @@
         "evidenceRecallAt5": 0.9375,
         "unsupportedEvidenceRate": 0,
         "latencyP50Ms": 1,
-        "latencyP95Ms": 2,
+        "latencyP95Ms": 1,
         "averageRequestsPerInvestigation": 7,
         "failureRate": 0
       }

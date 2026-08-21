@@ -30,7 +30,7 @@
   },
   "logEvents": [
     {
-      "id": "INC-0041-LOG-2623",
+      "id": "INC-0041-LOG-37",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:19:44.000Z",
       "service": "postgres",
@@ -39,7 +39,7 @@
       "count": 1
     },
     {
-      "id": "INC-0041-LOG-2587",
+      "id": "INC-0041-LOG-1",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:19:48.000Z",
       "service": "gateway",
@@ -48,7 +48,7 @@
       "count": 4
     },
     {
-      "id": "INC-0041-LOG-2605",
+      "id": "INC-0041-LOG-19",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:19:56.000Z",
       "service": "payment-service",
@@ -57,7 +57,7 @@
       "count": 4
     },
     {
-      "id": "INC-0041-LOG-2641",
+      "id": "INC-0041-LOG-55",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:20:00.000Z",
       "service": "inventory-service",
@@ -66,7 +66,7 @@
       "count": 2
     },
     {
-      "id": "INC-0041-LOG-2596",
+      "id": "INC-0041-LOG-10",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:20:03.000Z",
       "service": "checkout-service",
@@ -75,7 +75,7 @@
       "count": 5
     },
     {
-      "id": "INC-0041-LOG-2614",
+      "id": "INC-0041-LOG-28",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:20:13.000Z",
       "service": "inventory-service",
@@ -84,7 +84,7 @@
       "count": 3
     },
     {
-      "id": "INC-0041-LOG-2632",
+      "id": "INC-0041-LOG-46",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:20:14.000Z",
       "service": "redis",
@@ -93,7 +93,7 @@
       "count": 3
     },
     {
-      "id": "INC-0041-LOG-2642",
+      "id": "INC-0041-LOG-56",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:21:10.000Z",
       "service": "inventory-service",
@@ -102,7 +102,7 @@
       "count": 5
     },
     {
-      "id": "INC-0041-LOG-2633",
+      "id": "INC-0041-LOG-47",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:22:11.000Z",
       "service": "redis",
@@ -111,7 +111,7 @@
       "count": 3
     },
     {
-      "id": "INC-0041-LOG-2643",
+      "id": "INC-0041-LOG-57",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:22:19.000Z",
       "service": "inventory-service",
@@ -120,7 +120,7 @@
       "count": 6
     },
     {
-      "id": "INC-0041-LOG-2597",
+      "id": "INC-0041-LOG-11",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:22:21.000Z",
       "service": "checkout-service",
@@ -129,7 +129,7 @@
       "count": 3
     },
     {
-      "id": "INC-0041-LOG-2615",
+      "id": "INC-0041-LOG-29",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:22:21.000Z",
       "service": "inventory-service",
@@ -138,7 +138,7 @@
       "count": 3
     },
     {
-      "id": "INC-0041-LOG-2624",
+      "id": "INC-0041-LOG-38",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:22:32.000Z",
       "service": "postgres",
@@ -147,7 +147,7 @@
       "count": 4
     },
     {
-      "id": "INC-0041-LOG-2588",
+      "id": "INC-0041-LOG-2",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:22:38.000Z",
       "service": "gateway",
@@ -156,7 +156,7 @@
       "count": 5
     },
     {
-      "id": "INC-0041-LOG-2606",
+      "id": "INC-0041-LOG-20",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:22:43.000Z",
       "service": "payment-service",
@@ -165,7 +165,7 @@
       "count": 1
     },
     {
-      "id": "INC-0041-LOG-2644",
+      "id": "INC-0041-LOG-58",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:23:28.000Z",
       "service": "inventory-service",
@@ -174,7 +174,7 @@
       "count": 10
     },
     {
-      "id": "INC-0041-LOG-2645",
+      "id": "INC-0041-LOG-59",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:24:40.000Z",
       "service": "inventory-service",
@@ -183,7 +183,7 @@
       "count": 13
     },
     {
-      "id": "INC-0041-LOG-2589",
+      "id": "INC-0041-LOG-3",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:24:42.000Z",
       "service": "gateway",
@@ -192,7 +192,7 @@
       "count": 3
     },
     {
-      "id": "INC-0041-LOG-2607",
+      "id": "INC-0041-LOG-21",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:24:49.000Z",
       "service": "payment-service",
@@ -201,7 +201,7 @@
       "count": 3
     },
     {
-      "id": "INC-0041-LOG-2634",
+      "id": "INC-0041-LOG-48",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:24:49.000Z",
       "service": "redis",
@@ -210,7 +210,7 @@
       "count": 1
     },
     {
-      "id": "INC-0041-LOG-2598",
+      "id": "INC-0041-LOG-12",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:24:55.000Z",
       "service": "checkout-service",
@@ -219,7 +219,7 @@
       "count": 4
     },
     {
-      "id": "INC-0041-LOG-2625",
+      "id": "INC-0041-LOG-39",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:25:01.000Z",
       "service": "postgres",
@@ -228,7 +228,7 @@
       "count": 4
     },
     {
-      "id": "INC-0041-LOG-2616",
+      "id": "INC-0041-LOG-30",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:25:17.000Z",
       "service": "inventory-service",
@@ -237,7 +237,7 @@
       "count": 3
     },
     {
-      "id": "INC-0041-LOG-2646",
+      "id": "INC-0041-LOG-60",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:26:02.000Z",
       "service": "inventory-service",
@@ -246,7 +246,7 @@
       "count": 15
     },
     {
-      "id": "INC-0041-LOG-2590",
+      "id": "INC-0041-LOG-4",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:27:19.000Z",
       "service": "gateway",
@@ -255,7 +255,7 @@
       "count": 4
     },
     {
-      "id": "INC-0041-LOG-2635",
+      "id": "INC-0041-LOG-49",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:27:19.000Z",
       "service": "redis",
@@ -264,7 +264,7 @@
       "count": 5
     },
     {
-      "id": "INC-0041-LOG-2647",
+      "id": "INC-0041-LOG-61",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:27:34.000Z",
       "service": "inventory-service",
@@ -273,7 +273,7 @@
       "count": 7
     },
     {
-      "id": "INC-0041-LOG-2626",
+      "id": "INC-0041-LOG-40",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:27:39.000Z",
       "service": "postgres",
@@ -282,7 +282,7 @@
       "count": 2
     },
     {
-      "id": "INC-0041-LOG-2617",
+      "id": "INC-0041-LOG-31",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:27:40.000Z",
       "service": "inventory-service",
@@ -291,7 +291,7 @@
       "count": 2
     },
     {
-      "id": "INC-0041-LOG-2599",
+      "id": "INC-0041-LOG-13",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:27:45.000Z",
       "service": "checkout-service",
@@ -300,7 +300,7 @@
       "count": 4
     },
     {
-      "id": "INC-0041-LOG-2608",
+      "id": "INC-0041-LOG-22",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:27:47.000Z",
       "service": "payment-service",
@@ -309,7 +309,7 @@
       "count": 2
     },
     {
-      "id": "INC-0041-LOG-2648",
+      "id": "INC-0041-LOG-62",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:28:50.000Z",
       "service": "inventory-service",
@@ -318,7 +318,7 @@
       "count": 17
     },
     {
-      "id": "INC-0041-LOG-2591",
+      "id": "INC-0041-LOG-5",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:29:43.000Z",
       "service": "gateway",
@@ -327,7 +327,7 @@
       "count": 5
     },
     {
-      "id": "INC-0041-LOG-2636",
+      "id": "INC-0041-LOG-50",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:29:43.000Z",
       "service": "redis",
@@ -336,7 +336,7 @@
       "count": 3
     },
     {
-      "id": "INC-0041-LOG-2600",
+      "id": "INC-0041-LOG-14",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:29:46.000Z",
       "service": "checkout-service",
@@ -345,7 +345,7 @@
       "count": 2
     },
     {
-      "id": "INC-0041-LOG-2618",
+      "id": "INC-0041-LOG-32",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:29:48.000Z",
       "service": "inventory-service",
@@ -354,7 +354,7 @@
       "count": 4
     },
     {
-      "id": "INC-0041-LOG-2609",
+      "id": "INC-0041-LOG-23",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:30:04.000Z",
       "service": "payment-service",
@@ -363,7 +363,7 @@
       "count": 5
     },
     {
-      "id": "INC-0041-LOG-2627",
+      "id": "INC-0041-LOG-41",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:30:08.000Z",
       "service": "postgres",
@@ -372,7 +372,7 @@
       "count": 1
     },
     {
-      "id": "INC-0041-LOG-2637",
+      "id": "INC-0041-LOG-51",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:32:14.000Z",
       "service": "redis",
@@ -381,7 +381,7 @@
       "count": 3
     },
     {
-      "id": "INC-0041-LOG-2592",
+      "id": "INC-0041-LOG-6",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:32:27.000Z",
       "service": "gateway",
@@ -390,7 +390,7 @@
       "count": 2
     },
     {
-      "id": "INC-0041-LOG-2628",
+      "id": "INC-0041-LOG-42",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:32:41.000Z",
       "service": "postgres",
@@ -399,7 +399,7 @@
       "count": 1
     },
     {
-      "id": "INC-0041-LOG-2601",
+      "id": "INC-0041-LOG-15",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:32:42.000Z",
       "service": "checkout-service",
@@ -408,7 +408,7 @@
       "count": 3
     },
     {
-      "id": "INC-0041-LOG-2610",
+      "id": "INC-0041-LOG-24",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:32:42.000Z",
       "service": "payment-service",
@@ -417,7 +417,7 @@
       "count": 5
     },
     {
-      "id": "INC-0041-LOG-2619",
+      "id": "INC-0041-LOG-33",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:32:47.000Z",
       "service": "inventory-service",
@@ -426,7 +426,7 @@
       "count": 2
     },
     {
-      "id": "INC-0041-LOG-2593",
+      "id": "INC-0041-LOG-7",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:34:47.000Z",
       "service": "gateway",
@@ -435,7 +435,7 @@
       "count": 1
     },
     {
-      "id": "INC-0041-LOG-2611",
+      "id": "INC-0041-LOG-25",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:34:50.000Z",
       "service": "payment-service",
@@ -444,7 +444,7 @@
       "count": 5
     },
     {
-      "id": "INC-0041-LOG-2629",
+      "id": "INC-0041-LOG-43",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:35:05.000Z",
       "service": "postgres",
@@ -453,7 +453,7 @@
       "count": 5
     },
     {
-      "id": "INC-0041-LOG-2602",
+      "id": "INC-0041-LOG-16",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:35:11.000Z",
       "service": "checkout-service",
@@ -462,7 +462,7 @@
       "count": 3
     },
     {
-      "id": "INC-0041-LOG-2620",
+      "id": "INC-0041-LOG-34",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:35:18.000Z",
       "service": "inventory-service",
@@ -471,7 +471,7 @@
       "count": 2
     },
     {
-      "id": "INC-0041-LOG-2638",
+      "id": "INC-0041-LOG-52",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:35:19.000Z",
       "service": "redis",
@@ -480,7 +480,7 @@
       "count": 5
     },
     {
-      "id": "INC-0041-LOG-2594",
+      "id": "INC-0041-LOG-8",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:37:25.000Z",
       "service": "gateway",
@@ -489,7 +489,7 @@
       "count": 5
     },
     {
-      "id": "INC-0041-LOG-2630",
+      "id": "INC-0041-LOG-44",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:37:25.000Z",
       "service": "postgres",
@@ -498,7 +498,7 @@
       "count": 4
     },
     {
-      "id": "INC-0041-LOG-2621",
+      "id": "INC-0041-LOG-35",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:37:27.000Z",
       "service": "inventory-service",
@@ -507,7 +507,7 @@
       "count": 2
     },
     {
-      "id": "INC-0041-LOG-2612",
+      "id": "INC-0041-LOG-26",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:37:30.000Z",
       "service": "payment-service",
@@ -516,7 +516,7 @@
       "count": 1
     },
     {
-      "id": "INC-0041-LOG-2639",
+      "id": "INC-0041-LOG-53",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:37:43.000Z",
       "service": "redis",
@@ -525,7 +525,7 @@
       "count": 1
     },
     {
-      "id": "INC-0041-LOG-2603",
+      "id": "INC-0041-LOG-17",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:37:48.000Z",
       "service": "checkout-service",
@@ -534,7 +534,7 @@
       "count": 2
     },
     {
-      "id": "INC-0041-LOG-2604",
+      "id": "INC-0041-LOG-18",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:39:43.000Z",
       "service": "checkout-service",
@@ -543,7 +543,7 @@
       "count": 4
     },
     {
-      "id": "INC-0041-LOG-2613",
+      "id": "INC-0041-LOG-27",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:39:44.000Z",
       "service": "payment-service",
@@ -552,7 +552,7 @@
       "count": 1
     },
     {
-      "id": "INC-0041-LOG-2640",
+      "id": "INC-0041-LOG-54",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:39:54.000Z",
       "service": "redis",
@@ -561,7 +561,7 @@
       "count": 1
     },
     {
-      "id": "INC-0041-LOG-2622",
+      "id": "INC-0041-LOG-36",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:39:58.000Z",
       "service": "inventory-service",
@@ -570,7 +570,7 @@
       "count": 3
     },
     {
-      "id": "INC-0041-LOG-2631",
+      "id": "INC-0041-LOG-45",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:40:08.000Z",
       "service": "postgres",
@@ -579,7 +579,7 @@
       "count": 3
     },
     {
-      "id": "INC-0041-LOG-2595",
+      "id": "INC-0041-LOG-9",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:40:17.000Z",
       "service": "gateway",
@@ -590,7 +590,7 @@
   ],
   "metricEvents": [
     {
-      "id": "INC-0041-METRIC-11199",
+      "id": "INC-0041-METRIC-1",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:20:00.000Z",
       "service": "gateway",
@@ -598,7 +598,7 @@
       "value": 40.93
     },
     {
-      "id": "INC-0041-METRIC-11221",
+      "id": "INC-0041-METRIC-23",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:20:00.000Z",
       "service": "checkout-service",
@@ -606,7 +606,7 @@
       "value": 89.73
     },
     {
-      "id": "INC-0041-METRIC-11243",
+      "id": "INC-0041-METRIC-45",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:20:00.000Z",
       "service": "checkout-service",
@@ -614,7 +614,7 @@
       "value": 0.46
     },
     {
-      "id": "INC-0041-METRIC-11265",
+      "id": "INC-0041-METRIC-67",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:20:00.000Z",
       "service": "payment-service",
@@ -622,7 +622,7 @@
       "value": 68.2
     },
     {
-      "id": "INC-0041-METRIC-11287",
+      "id": "INC-0041-METRIC-89",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:20:00.000Z",
       "service": "payment-service",
@@ -630,7 +630,7 @@
       "value": 299.06
     },
     {
-      "id": "INC-0041-METRIC-11309",
+      "id": "INC-0041-METRIC-111",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:20:00.000Z",
       "service": "inventory-service",
@@ -638,7 +638,7 @@
       "value": 20.25
     },
     {
-      "id": "INC-0041-METRIC-11331",
+      "id": "INC-0041-METRIC-133",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:20:00.000Z",
       "service": "inventory-service",
@@ -646,7 +646,7 @@
       "value": 42.58
     },
     {
-      "id": "INC-0041-METRIC-11353",
+      "id": "INC-0041-METRIC-155",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:20:00.000Z",
       "service": "postgres",
@@ -654,7 +654,7 @@
       "value": 16.05
     },
     {
-      "id": "INC-0041-METRIC-11375",
+      "id": "INC-0041-METRIC-177",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:20:00.000Z",
       "service": "postgres",
@@ -662,7 +662,7 @@
       "value": 17.42
     },
     {
-      "id": "INC-0041-METRIC-11397",
+      "id": "INC-0041-METRIC-199",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:20:00.000Z",
       "service": "redis",
@@ -670,7 +670,7 @@
       "value": 1.73
     },
     {
-      "id": "INC-0041-METRIC-11419",
+      "id": "INC-0041-METRIC-221",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:20:00.000Z",
       "service": "postgres",
@@ -678,7 +678,7 @@
       "value": 30.84
     },
     {
-      "id": "INC-0041-METRIC-11420",
+      "id": "INC-0041-METRIC-222",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:20:00.000Z",
       "service": "inventory-service",
@@ -686,7 +686,7 @@
       "value": 87.71
     },
     {
-      "id": "INC-0041-METRIC-11421",
+      "id": "INC-0041-METRIC-223",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:20:49.000Z",
       "service": "postgres",
@@ -694,7 +694,7 @@
       "value": 33.55
     },
     {
-      "id": "INC-0041-METRIC-11422",
+      "id": "INC-0041-METRIC-224",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:20:49.000Z",
       "service": "inventory-service",
@@ -702,7 +702,7 @@
       "value": 81.88
     },
     {
-      "id": "INC-0041-METRIC-11200",
+      "id": "INC-0041-METRIC-2",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:21:00.000Z",
       "service": "gateway",
@@ -710,7 +710,7 @@
       "value": 33.11
     },
     {
-      "id": "INC-0041-METRIC-11222",
+      "id": "INC-0041-METRIC-24",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:21:00.000Z",
       "service": "checkout-service",
@@ -718,7 +718,7 @@
       "value": 79.91
     },
     {
-      "id": "INC-0041-METRIC-11244",
+      "id": "INC-0041-METRIC-46",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:21:00.000Z",
       "service": "checkout-service",
@@ -726,7 +726,7 @@
       "value": 0.21
     },
     {
-      "id": "INC-0041-METRIC-11266",
+      "id": "INC-0041-METRIC-68",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:21:00.000Z",
       "service": "payment-service",
@@ -734,7 +734,7 @@
       "value": 67.35
     },
     {
-      "id": "INC-0041-METRIC-11288",
+      "id": "INC-0041-METRIC-90",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:21:00.000Z",
       "service": "payment-service",
@@ -742,7 +742,7 @@
       "value": 323.94
     },
     {
-      "id": "INC-0041-METRIC-11310",
+      "id": "INC-0041-METRIC-112",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:21:00.000Z",
       "service": "inventory-service",
@@ -750,7 +750,7 @@
       "value": 14.21
     },
     {
-      "id": "INC-0041-METRIC-11332",
+      "id": "INC-0041-METRIC-134",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:21:00.000Z",
       "service": "inventory-service",
@@ -758,7 +758,7 @@
       "value": 47.38
     },
     {
-      "id": "INC-0041-METRIC-11354",
+      "id": "INC-0041-METRIC-156",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:21:00.000Z",
       "service": "postgres",
@@ -766,7 +766,7 @@
       "value": 22.33
     },
     {
-      "id": "INC-0041-METRIC-11376",
+      "id": "INC-0041-METRIC-178",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:21:00.000Z",
       "service": "postgres",
@@ -774,7 +774,7 @@
       "value": 16.82
     },
     {
-      "id": "INC-0041-METRIC-11398",
+      "id": "INC-0041-METRIC-200",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:21:00.000Z",
       "service": "redis",
@@ -782,7 +782,7 @@
       "value": 1.48
     },
     {
-      "id": "INC-0041-METRIC-11423",
+      "id": "INC-0041-METRIC-225",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:21:30.000Z",
       "service": "postgres",
@@ -790,7 +790,7 @@
       "value": 38.38
     },
     {
-      "id": "INC-0041-METRIC-11424",
+      "id": "INC-0041-METRIC-226",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:21:30.000Z",
       "service": "inventory-service",
@@ -798,7 +798,7 @@
       "value": 75.95
     },
     {
-      "id": "INC-0041-METRIC-11201",
+      "id": "INC-0041-METRIC-3",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:22:00.000Z",
       "service": "gateway",
@@ -806,7 +806,7 @@
       "value": 34.43
     },
     {
-      "id": "INC-0041-METRIC-11223",
+      "id": "INC-0041-METRIC-25",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:22:00.000Z",
       "service": "checkout-service",
@@ -814,7 +814,7 @@
       "value": 77.73
     },
     {
-      "id": "INC-0041-METRIC-11245",
+      "id": "INC-0041-METRIC-47",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:22:00.000Z",
       "service": "checkout-service",
@@ -822,7 +822,7 @@
       "value": 0.58
     },
     {
-      "id": "INC-0041-METRIC-11267",
+      "id": "INC-0041-METRIC-69",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:22:00.000Z",
       "service": "payment-service",
@@ -830,7 +830,7 @@
       "value": 62.41
     },
     {
-      "id": "INC-0041-METRIC-11289",
+      "id": "INC-0041-METRIC-91",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:22:00.000Z",
       "service": "payment-service",
@@ -838,7 +838,7 @@
       "value": 312.55
     },
     {
-      "id": "INC-0041-METRIC-11311",
+      "id": "INC-0041-METRIC-113",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:22:00.000Z",
       "service": "inventory-service",
@@ -846,7 +846,7 @@
       "value": 15.06
     },
     {
-      "id": "INC-0041-METRIC-11333",
+      "id": "INC-0041-METRIC-135",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:22:00.000Z",
       "service": "inventory-service",
@@ -854,7 +854,7 @@
       "value": 33.07
     },
     {
-      "id": "INC-0041-METRIC-11355",
+      "id": "INC-0041-METRIC-157",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:22:00.000Z",
       "service": "postgres",
@@ -862,7 +862,7 @@
       "value": 20.63
     },
     {
-      "id": "INC-0041-METRIC-11377",
+      "id": "INC-0041-METRIC-179",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:22:00.000Z",
       "service": "postgres",
@@ -870,7 +870,7 @@
       "value": 14.15
     },
     {
-      "id": "INC-0041-METRIC-11399",
+      "id": "INC-0041-METRIC-201",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:22:00.000Z",
       "service": "redis",
@@ -878,7 +878,7 @@
       "value": 1.73
     },
     {
-      "id": "INC-0041-METRIC-11425",
+      "id": "INC-0041-METRIC-227",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:22:16.000Z",
       "service": "postgres",
@@ -886,7 +886,7 @@
       "value": 41.02
     },
     {
-      "id": "INC-0041-METRIC-11426",
+      "id": "INC-0041-METRIC-228",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:22:16.000Z",
       "service": "inventory-service",
@@ -894,7 +894,7 @@
       "value": 72.02
     },
     {
-      "id": "INC-0041-METRIC-11202",
+      "id": "INC-0041-METRIC-4",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:23:00.000Z",
       "service": "gateway",
@@ -902,7 +902,7 @@
       "value": 39.61
     },
     {
-      "id": "INC-0041-METRIC-11224",
+      "id": "INC-0041-METRIC-26",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:23:00.000Z",
       "service": "checkout-service",
@@ -910,7 +910,7 @@
       "value": 89.28
     },
     {
-      "id": "INC-0041-METRIC-11246",
+      "id": "INC-0041-METRIC-48",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:23:00.000Z",
       "service": "checkout-service",
@@ -918,7 +918,7 @@
       "value": 0.49
     },
     {
-      "id": "INC-0041-METRIC-11268",
+      "id": "INC-0041-METRIC-70",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:23:00.000Z",
       "service": "payment-service",
@@ -926,7 +926,7 @@
       "value": 55.34
     },
     {
-      "id": "INC-0041-METRIC-11290",
+      "id": "INC-0041-METRIC-92",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:23:00.000Z",
       "service": "payment-service",
@@ -934,7 +934,7 @@
       "value": 317.13
     },
     {
-      "id": "INC-0041-METRIC-11312",
+      "id": "INC-0041-METRIC-114",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:23:00.000Z",
       "service": "inventory-service",
@@ -942,7 +942,7 @@
       "value": 18.69
     },
     {
-      "id": "INC-0041-METRIC-11334",
+      "id": "INC-0041-METRIC-136",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:23:00.000Z",
       "service": "inventory-service",
@@ -950,7 +950,7 @@
       "value": 45.32
     },
     {
-      "id": "INC-0041-METRIC-11356",
+      "id": "INC-0041-METRIC-158",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:23:00.000Z",
       "service": "postgres",
@@ -958,7 +958,7 @@
       "value": 21.88
     },
     {
-      "id": "INC-0041-METRIC-11378",
+      "id": "INC-0041-METRIC-180",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:23:00.000Z",
       "service": "postgres",
@@ -966,7 +966,7 @@
       "value": 17.13
     },
     {
-      "id": "INC-0041-METRIC-11400",
+      "id": "INC-0041-METRIC-202",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:23:00.000Z",
       "service": "redis",
@@ -974,7 +974,7 @@
       "value": 1.59
     },
     {
-      "id": "INC-0041-METRIC-11427",
+      "id": "INC-0041-METRIC-229",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:23:01.000Z",
       "service": "postgres",
@@ -982,7 +982,7 @@
       "value": 45.45
     },
     {
-      "id": "INC-0041-METRIC-11428",
+      "id": "INC-0041-METRIC-230",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:23:01.000Z",
       "service": "inventory-service",
@@ -990,7 +990,7 @@
       "value": 68.47
     },
     {
-      "id": "INC-0041-METRIC-11429",
+      "id": "INC-0041-METRIC-231",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:23:47.000Z",
       "service": "postgres",
@@ -998,7 +998,7 @@
       "value": 51.02
     },
     {
-      "id": "INC-0041-METRIC-11430",
+      "id": "INC-0041-METRIC-232",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:23:47.000Z",
       "service": "inventory-service",
@@ -1006,7 +1006,7 @@
       "value": 61.87
     },
     {
-      "id": "INC-0041-METRIC-11203",
+      "id": "INC-0041-METRIC-5",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:24:00.000Z",
       "service": "gateway",
@@ -1014,7 +1014,7 @@
       "value": 34.54
     },
     {
-      "id": "INC-0041-METRIC-11225",
+      "id": "INC-0041-METRIC-27",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:24:00.000Z",
       "service": "checkout-service",
@@ -1022,7 +1022,7 @@
       "value": 76.1
     },
     {
-      "id": "INC-0041-METRIC-11247",
+      "id": "INC-0041-METRIC-49",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:24:00.000Z",
       "service": "checkout-service",
@@ -1030,7 +1030,7 @@
       "value": 0.22
     },
     {
-      "id": "INC-0041-METRIC-11269",
+      "id": "INC-0041-METRIC-71",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:24:00.000Z",
       "service": "payment-service",
@@ -1038,7 +1038,7 @@
       "value": 67.78
     },
     {
-      "id": "INC-0041-METRIC-11291",
+      "id": "INC-0041-METRIC-93",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:24:00.000Z",
       "service": "payment-service",
@@ -1046,7 +1046,7 @@
       "value": 320.94
     },
     {
-      "id": "INC-0041-METRIC-11313",
+      "id": "INC-0041-METRIC-115",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:24:00.000Z",
       "service": "inventory-service",
@@ -1054,7 +1054,7 @@
       "value": 15.19
     },
     {
-      "id": "INC-0041-METRIC-11335",
+      "id": "INC-0041-METRIC-137",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:24:00.000Z",
       "service": "inventory-service",
@@ -1062,7 +1062,7 @@
       "value": 35.95
     },
     {
-      "id": "INC-0041-METRIC-11357",
+      "id": "INC-0041-METRIC-159",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:24:00.000Z",
       "service": "postgres",
@@ -1070,7 +1070,7 @@
       "value": 20.86
     },
     {
-      "id": "INC-0041-METRIC-11379",
+      "id": "INC-0041-METRIC-181",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:24:00.000Z",
       "service": "postgres",
@@ -1078,7 +1078,7 @@
       "value": 12.86
     },
     {
-      "id": "INC-0041-METRIC-11401",
+      "id": "INC-0041-METRIC-203",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:24:00.000Z",
       "service": "redis",
@@ -1086,7 +1086,7 @@
       "value": 1.73
     },
     {
-      "id": "INC-0041-METRIC-11431",
+      "id": "INC-0041-METRIC-233",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:24:30.000Z",
       "service": "postgres",
@@ -1094,7 +1094,7 @@
       "value": 55.08
     },
     {
-      "id": "INC-0041-METRIC-11432",
+      "id": "INC-0041-METRIC-234",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:24:30.000Z",
       "service": "inventory-service",
@@ -1102,7 +1102,7 @@
       "value": 56.38
     },
     {
-      "id": "INC-0041-METRIC-11204",
+      "id": "INC-0041-METRIC-6",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:25:00.000Z",
       "service": "gateway",
@@ -1110,7 +1110,7 @@
       "value": 34.39
     },
     {
-      "id": "INC-0041-METRIC-11226",
+      "id": "INC-0041-METRIC-28",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:25:00.000Z",
       "service": "checkout-service",
@@ -1118,7 +1118,7 @@
       "value": 74.59
     },
     {
-      "id": "INC-0041-METRIC-11248",
+      "id": "INC-0041-METRIC-50",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:25:00.000Z",
       "service": "checkout-service",
@@ -1126,7 +1126,7 @@
       "value": 0.44
     },
     {
-      "id": "INC-0041-METRIC-11270",
+      "id": "INC-0041-METRIC-72",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:25:00.000Z",
       "service": "payment-service",
@@ -1134,7 +1134,7 @@
       "value": 65.17
     },
     {
-      "id": "INC-0041-METRIC-11292",
+      "id": "INC-0041-METRIC-94",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:25:00.000Z",
       "service": "payment-service",
@@ -1142,7 +1142,7 @@
       "value": 321.25
     },
     {
-      "id": "INC-0041-METRIC-11314",
+      "id": "INC-0041-METRIC-116",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:25:00.000Z",
       "service": "inventory-service",
@@ -1150,7 +1150,7 @@
       "value": 20.34
     },
     {
-      "id": "INC-0041-METRIC-11336",
+      "id": "INC-0041-METRIC-138",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:25:00.000Z",
       "service": "inventory-service",
@@ -1158,7 +1158,7 @@
       "value": 34.27
     },
     {
-      "id": "INC-0041-METRIC-11358",
+      "id": "INC-0041-METRIC-160",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:25:00.000Z",
       "service": "postgres",
@@ -1166,7 +1166,7 @@
       "value": 19.36
     },
     {
-      "id": "INC-0041-METRIC-11380",
+      "id": "INC-0041-METRIC-182",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:25:00.000Z",
       "service": "postgres",
@@ -1174,7 +1174,7 @@
       "value": 12.21
     },
     {
-      "id": "INC-0041-METRIC-11402",
+      "id": "INC-0041-METRIC-204",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:25:00.000Z",
       "service": "redis",
@@ -1182,7 +1182,7 @@
       "value": 2.27
     },
     {
-      "id": "INC-0041-METRIC-11433",
+      "id": "INC-0041-METRIC-235",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:25:11.000Z",
       "service": "postgres",
@@ -1190,7 +1190,7 @@
       "value": 60.88
     },
     {
-      "id": "INC-0041-METRIC-11434",
+      "id": "INC-0041-METRIC-236",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:25:11.000Z",
       "service": "inventory-service",
@@ -1198,7 +1198,7 @@
       "value": 51.03
     },
     {
-      "id": "INC-0041-METRIC-11435",
+      "id": "INC-0041-METRIC-237",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:25:55.000Z",
       "service": "postgres",
@@ -1206,7 +1206,7 @@
       "value": 63.56
     },
     {
-      "id": "INC-0041-METRIC-11436",
+      "id": "INC-0041-METRIC-238",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:25:55.000Z",
       "service": "inventory-service",
@@ -1214,7 +1214,7 @@
       "value": 44.22
     },
     {
-      "id": "INC-0041-METRIC-11205",
+      "id": "INC-0041-METRIC-7",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:26:00.000Z",
       "service": "gateway",
@@ -1222,7 +1222,7 @@
       "value": 38.35
     },
     {
-      "id": "INC-0041-METRIC-11227",
+      "id": "INC-0041-METRIC-29",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:26:00.000Z",
       "service": "checkout-service",
@@ -1230,7 +1230,7 @@
       "value": 82.63
     },
     {
-      "id": "INC-0041-METRIC-11249",
+      "id": "INC-0041-METRIC-51",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:26:00.000Z",
       "service": "checkout-service",
@@ -1238,7 +1238,7 @@
       "value": 0.27
     },
     {
-      "id": "INC-0041-METRIC-11271",
+      "id": "INC-0041-METRIC-73",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:26:00.000Z",
       "service": "payment-service",
@@ -1246,7 +1246,7 @@
       "value": 57.36
     },
     {
-      "id": "INC-0041-METRIC-11293",
+      "id": "INC-0041-METRIC-95",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:26:00.000Z",
       "service": "payment-service",
@@ -1254,7 +1254,7 @@
       "value": 310.03
     },
     {
-      "id": "INC-0041-METRIC-11315",
+      "id": "INC-0041-METRIC-117",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:26:00.000Z",
       "service": "inventory-service",
@@ -1262,7 +1262,7 @@
       "value": 21.11
     },
     {
-      "id": "INC-0041-METRIC-11337",
+      "id": "INC-0041-METRIC-139",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:26:00.000Z",
       "service": "inventory-service",
@@ -1270,7 +1270,7 @@
       "value": 38.24
     },
     {
-      "id": "INC-0041-METRIC-11359",
+      "id": "INC-0041-METRIC-161",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:26:00.000Z",
       "service": "postgres",
@@ -1278,7 +1278,7 @@
       "value": 23.95
     },
     {
-      "id": "INC-0041-METRIC-11381",
+      "id": "INC-0041-METRIC-183",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:26:00.000Z",
       "service": "postgres",
@@ -1286,7 +1286,7 @@
       "value": 17.05
     },
     {
-      "id": "INC-0041-METRIC-11403",
+      "id": "INC-0041-METRIC-205",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:26:00.000Z",
       "service": "redis",
@@ -1294,7 +1294,7 @@
       "value": 1.83
     },
     {
-      "id": "INC-0041-METRIC-11437",
+      "id": "INC-0041-METRIC-239",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:26:38.000Z",
       "service": "postgres",
@@ -1302,7 +1302,7 @@
       "value": 66.62
     },
     {
-      "id": "INC-0041-METRIC-11438",
+      "id": "INC-0041-METRIC-240",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:26:38.000Z",
       "service": "inventory-service",
@@ -1310,7 +1310,7 @@
       "value": 40.03
     },
     {
-      "id": "INC-0041-METRIC-11206",
+      "id": "INC-0041-METRIC-8",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:27:00.000Z",
       "service": "gateway",
@@ -1318,7 +1318,7 @@
       "value": 31.93
     },
     {
-      "id": "INC-0041-METRIC-11228",
+      "id": "INC-0041-METRIC-30",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:27:00.000Z",
       "service": "checkout-service",
@@ -1326,7 +1326,7 @@
       "value": 89.46
     },
     {
-      "id": "INC-0041-METRIC-11250",
+      "id": "INC-0041-METRIC-52",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:27:00.000Z",
       "service": "checkout-service",
@@ -1334,7 +1334,7 @@
       "value": 0.35
     },
     {
-      "id": "INC-0041-METRIC-11272",
+      "id": "INC-0041-METRIC-74",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:27:00.000Z",
       "service": "payment-service",
@@ -1342,7 +1342,7 @@
       "value": 55.02
     },
     {
-      "id": "INC-0041-METRIC-11294",
+      "id": "INC-0041-METRIC-96",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:27:00.000Z",
       "service": "payment-service",
@@ -1350,7 +1350,7 @@
       "value": 315.83
     },
     {
-      "id": "INC-0041-METRIC-11316",
+      "id": "INC-0041-METRIC-118",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:27:00.000Z",
       "service": "inventory-service",
@@ -1358,7 +1358,7 @@
       "value": 21.3
     },
     {
-      "id": "INC-0041-METRIC-11338",
+      "id": "INC-0041-METRIC-140",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:27:00.000Z",
       "service": "inventory-service",
@@ -1366,7 +1366,7 @@
       "value": 45.7
     },
     {
-      "id": "INC-0041-METRIC-11360",
+      "id": "INC-0041-METRIC-162",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:27:00.000Z",
       "service": "postgres",
@@ -1374,7 +1374,7 @@
       "value": 20.6
     },
     {
-      "id": "INC-0041-METRIC-11382",
+      "id": "INC-0041-METRIC-184",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:27:00.000Z",
       "service": "postgres",
@@ -1382,7 +1382,7 @@
       "value": 17.22
     },
     {
-      "id": "INC-0041-METRIC-11404",
+      "id": "INC-0041-METRIC-206",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:27:00.000Z",
       "service": "redis",
@@ -1390,7 +1390,7 @@
       "value": 2.39
     },
     {
-      "id": "INC-0041-METRIC-11439",
+      "id": "INC-0041-METRIC-241",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:27:26.000Z",
       "service": "postgres",
@@ -1398,7 +1398,7 @@
       "value": 71.51
     },
     {
-      "id": "INC-0041-METRIC-11440",
+      "id": "INC-0041-METRIC-242",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:27:26.000Z",
       "service": "inventory-service",
@@ -1406,7 +1406,7 @@
       "value": 36.78
     },
     {
-      "id": "INC-0041-METRIC-11207",
+      "id": "INC-0041-METRIC-9",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:28:00.000Z",
       "service": "gateway",
@@ -1414,7 +1414,7 @@
       "value": 32.43
     },
     {
-      "id": "INC-0041-METRIC-11229",
+      "id": "INC-0041-METRIC-31",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:28:00.000Z",
       "service": "checkout-service",
@@ -1422,7 +1422,7 @@
       "value": 86.8
     },
     {
-      "id": "INC-0041-METRIC-11251",
+      "id": "INC-0041-METRIC-53",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:28:00.000Z",
       "service": "checkout-service",
@@ -1430,7 +1430,7 @@
       "value": 0.29
     },
     {
-      "id": "INC-0041-METRIC-11273",
+      "id": "INC-0041-METRIC-75",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:28:00.000Z",
       "service": "payment-service",
@@ -1438,7 +1438,7 @@
       "value": 64.5
     },
     {
-      "id": "INC-0041-METRIC-11295",
+      "id": "INC-0041-METRIC-97",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:28:00.000Z",
       "service": "payment-service",
@@ -1446,7 +1446,7 @@
       "value": 312
     },
     {
-      "id": "INC-0041-METRIC-11317",
+      "id": "INC-0041-METRIC-119",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:28:00.000Z",
       "service": "inventory-service",
@@ -1454,7 +1454,7 @@
       "value": 15.49
     },
     {
-      "id": "INC-0041-METRIC-11339",
+      "id": "INC-0041-METRIC-141",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:28:00.000Z",
       "service": "inventory-service",
@@ -1462,7 +1462,7 @@
       "value": 35.73
     },
     {
-      "id": "INC-0041-METRIC-11361",
+      "id": "INC-0041-METRIC-163",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:28:00.000Z",
       "service": "postgres",
@@ -1470,7 +1470,7 @@
       "value": 21.93
     },
     {
-      "id": "INC-0041-METRIC-11383",
+      "id": "INC-0041-METRIC-185",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:28:00.000Z",
       "service": "postgres",
@@ -1478,7 +1478,7 @@
       "value": 14.18
     },
     {
-      "id": "INC-0041-METRIC-11405",
+      "id": "INC-0041-METRIC-207",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:28:00.000Z",
       "service": "redis",
@@ -1486,7 +1486,7 @@
       "value": 1.61
     },
     {
-      "id": "INC-0041-METRIC-11441",
+      "id": "INC-0041-METRIC-243",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:28:09.000Z",
       "service": "postgres",
@@ -1494,7 +1494,7 @@
       "value": 74.14
     },
     {
-      "id": "INC-0041-METRIC-11442",
+      "id": "INC-0041-METRIC-244",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:28:09.000Z",
       "service": "inventory-service",
@@ -1502,7 +1502,7 @@
       "value": 31.49
     },
     {
-      "id": "INC-0041-METRIC-11443",
+      "id": "INC-0041-METRIC-245",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:28:50.000Z",
       "service": "postgres",
@@ -1510,7 +1510,7 @@
       "value": 77.04
     },
     {
-      "id": "INC-0041-METRIC-11444",
+      "id": "INC-0041-METRIC-246",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:28:50.000Z",
       "service": "inventory-service",
@@ -1518,7 +1518,7 @@
       "value": 26.84
     },
     {
-      "id": "INC-0041-METRIC-11208",
+      "id": "INC-0041-METRIC-10",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:29:00.000Z",
       "service": "gateway",
@@ -1526,7 +1526,7 @@
       "value": 38.74
     },
     {
-      "id": "INC-0041-METRIC-11230",
+      "id": "INC-0041-METRIC-32",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:29:00.000Z",
       "service": "checkout-service",
@@ -1534,7 +1534,7 @@
       "value": 76.25
     },
     {
-      "id": "INC-0041-METRIC-11252",
+      "id": "INC-0041-METRIC-54",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:29:00.000Z",
       "service": "checkout-service",
@@ -1542,7 +1542,7 @@
       "value": 0.47
     },
     {
-      "id": "INC-0041-METRIC-11274",
+      "id": "INC-0041-METRIC-76",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:29:00.000Z",
       "service": "payment-service",
@@ -1550,7 +1550,7 @@
       "value": 52.02
     },
     {
-      "id": "INC-0041-METRIC-11296",
+      "id": "INC-0041-METRIC-98",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:29:00.000Z",
       "service": "payment-service",
@@ -1558,7 +1558,7 @@
       "value": 294.69
     },
     {
-      "id": "INC-0041-METRIC-11318",
+      "id": "INC-0041-METRIC-120",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:29:00.000Z",
       "service": "inventory-service",
@@ -1566,7 +1566,7 @@
       "value": 21.59
     },
     {
-      "id": "INC-0041-METRIC-11340",
+      "id": "INC-0041-METRIC-142",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:29:00.000Z",
       "service": "inventory-service",
@@ -1574,7 +1574,7 @@
       "value": 35.67
     },
     {
-      "id": "INC-0041-METRIC-11362",
+      "id": "INC-0041-METRIC-164",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:29:00.000Z",
       "service": "postgres",
@@ -1582,7 +1582,7 @@
       "value": 16.87
     },
     {
-      "id": "INC-0041-METRIC-11384",
+      "id": "INC-0041-METRIC-186",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:29:00.000Z",
       "service": "postgres",
@@ -1590,7 +1590,7 @@
       "value": 16.72
     },
     {
-      "id": "INC-0041-METRIC-11406",
+      "id": "INC-0041-METRIC-208",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:29:00.000Z",
       "service": "redis",
@@ -1598,7 +1598,7 @@
       "value": 1.91
     },
     {
-      "id": "INC-0041-METRIC-11445",
+      "id": "INC-0041-METRIC-247",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:29:41.000Z",
       "service": "postgres",
@@ -1606,7 +1606,7 @@
       "value": 79.07
     },
     {
-      "id": "INC-0041-METRIC-11446",
+      "id": "INC-0041-METRIC-248",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:29:41.000Z",
       "service": "inventory-service",
@@ -1614,7 +1614,7 @@
       "value": 20.75
     },
     {
-      "id": "INC-0041-METRIC-11209",
+      "id": "INC-0041-METRIC-11",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:30:00.000Z",
       "service": "gateway",
@@ -1622,7 +1622,7 @@
       "value": 34.87
     },
     {
-      "id": "INC-0041-METRIC-11231",
+      "id": "INC-0041-METRIC-33",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:30:00.000Z",
       "service": "checkout-service",
@@ -1630,7 +1630,7 @@
       "value": 72.17
     },
     {
-      "id": "INC-0041-METRIC-11253",
+      "id": "INC-0041-METRIC-55",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:30:00.000Z",
       "service": "checkout-service",
@@ -1638,7 +1638,7 @@
       "value": 0.45
     },
     {
-      "id": "INC-0041-METRIC-11275",
+      "id": "INC-0041-METRIC-77",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:30:00.000Z",
       "service": "payment-service",
@@ -1646,7 +1646,7 @@
       "value": 64.82
     },
     {
-      "id": "INC-0041-METRIC-11297",
+      "id": "INC-0041-METRIC-99",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:30:00.000Z",
       "service": "payment-service",
@@ -1654,7 +1654,7 @@
       "value": 314.45
     },
     {
-      "id": "INC-0041-METRIC-11319",
+      "id": "INC-0041-METRIC-121",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:30:00.000Z",
       "service": "inventory-service",
@@ -1662,7 +1662,7 @@
       "value": 18.31
     },
     {
-      "id": "INC-0041-METRIC-11341",
+      "id": "INC-0041-METRIC-143",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:30:00.000Z",
       "service": "inventory-service",
@@ -1670,7 +1670,7 @@
       "value": 38.41
     },
     {
-      "id": "INC-0041-METRIC-11363",
+      "id": "INC-0041-METRIC-165",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:30:00.000Z",
       "service": "postgres",
@@ -1678,7 +1678,7 @@
       "value": 21.52
     },
     {
-      "id": "INC-0041-METRIC-11385",
+      "id": "INC-0041-METRIC-187",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:30:00.000Z",
       "service": "postgres",
@@ -1686,7 +1686,7 @@
       "value": 16.6
     },
     {
-      "id": "INC-0041-METRIC-11407",
+      "id": "INC-0041-METRIC-209",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:30:00.000Z",
       "service": "redis",
@@ -1694,7 +1694,7 @@
       "value": 1.46
     },
     {
-      "id": "INC-0041-METRIC-11447",
+      "id": "INC-0041-METRIC-249",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:30:25.000Z",
       "service": "postgres",
@@ -1702,7 +1702,7 @@
       "value": 84.38
     },
     {
-      "id": "INC-0041-METRIC-11448",
+      "id": "INC-0041-METRIC-250",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:30:25.000Z",
       "service": "inventory-service",
@@ -1710,7 +1710,7 @@
       "value": 17.87
     },
     {
-      "id": "INC-0041-METRIC-11210",
+      "id": "INC-0041-METRIC-12",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:31:00.000Z",
       "service": "gateway",
@@ -1718,7 +1718,7 @@
       "value": 41.87
     },
     {
-      "id": "INC-0041-METRIC-11232",
+      "id": "INC-0041-METRIC-34",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:31:00.000Z",
       "service": "checkout-service",
@@ -1726,7 +1726,7 @@
       "value": 86.84
     },
     {
-      "id": "INC-0041-METRIC-11254",
+      "id": "INC-0041-METRIC-56",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:31:00.000Z",
       "service": "checkout-service",
@@ -1734,7 +1734,7 @@
       "value": 0.25
     },
     {
-      "id": "INC-0041-METRIC-11276",
+      "id": "INC-0041-METRIC-78",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:31:00.000Z",
       "service": "payment-service",
@@ -1742,7 +1742,7 @@
       "value": 65.75
     },
     {
-      "id": "INC-0041-METRIC-11298",
+      "id": "INC-0041-METRIC-100",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:31:00.000Z",
       "service": "payment-service",
@@ -1750,7 +1750,7 @@
       "value": 309.65
     },
     {
-      "id": "INC-0041-METRIC-11320",
+      "id": "INC-0041-METRIC-122",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:31:00.000Z",
       "service": "inventory-service",
@@ -1758,7 +1758,7 @@
       "value": 14.67
     },
     {
-      "id": "INC-0041-METRIC-11342",
+      "id": "INC-0041-METRIC-144",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:31:00.000Z",
       "service": "inventory-service",
@@ -1766,7 +1766,7 @@
       "value": 35.33
     },
     {
-      "id": "INC-0041-METRIC-11364",
+      "id": "INC-0041-METRIC-166",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:31:00.000Z",
       "service": "postgres",
@@ -1774,7 +1774,7 @@
       "value": 20.82
     },
     {
-      "id": "INC-0041-METRIC-11386",
+      "id": "INC-0041-METRIC-188",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:31:00.000Z",
       "service": "postgres",
@@ -1782,7 +1782,7 @@
       "value": 12.76
     },
     {
-      "id": "INC-0041-METRIC-11408",
+      "id": "INC-0041-METRIC-210",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:31:00.000Z",
       "service": "redis",
@@ -1790,7 +1790,7 @@
       "value": 1.97
     },
     {
-      "id": "INC-0041-METRIC-11449",
+      "id": "INC-0041-METRIC-251",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:31:11.000Z",
       "service": "postgres",
@@ -1798,7 +1798,7 @@
       "value": 87.29
     },
     {
-      "id": "INC-0041-METRIC-11450",
+      "id": "INC-0041-METRIC-252",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:31:11.000Z",
       "service": "inventory-service",
@@ -1806,7 +1806,7 @@
       "value": 12.75
     },
     {
-      "id": "INC-0041-METRIC-11451",
+      "id": "INC-0041-METRIC-253",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:31:58.000Z",
       "service": "postgres",
@@ -1814,7 +1814,7 @@
       "value": 87.44
     },
     {
-      "id": "INC-0041-METRIC-11452",
+      "id": "INC-0041-METRIC-254",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:31:58.000Z",
       "service": "inventory-service",
@@ -1822,7 +1822,7 @@
       "value": 7.99
     },
     {
-      "id": "INC-0041-METRIC-11211",
+      "id": "INC-0041-METRIC-13",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:32:00.000Z",
       "service": "gateway",
@@ -1830,7 +1830,7 @@
       "value": 38.15
     },
     {
-      "id": "INC-0041-METRIC-11233",
+      "id": "INC-0041-METRIC-35",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:32:00.000Z",
       "service": "checkout-service",
@@ -1838,7 +1838,7 @@
       "value": 71.08
     },
     {
-      "id": "INC-0041-METRIC-11255",
+      "id": "INC-0041-METRIC-57",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:32:00.000Z",
       "service": "checkout-service",
@@ -1846,7 +1846,7 @@
       "value": 0.42
     },
     {
-      "id": "INC-0041-METRIC-11277",
+      "id": "INC-0041-METRIC-79",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:32:00.000Z",
       "service": "payment-service",
@@ -1854,7 +1854,7 @@
       "value": 51.75
     },
     {
-      "id": "INC-0041-METRIC-11299",
+      "id": "INC-0041-METRIC-101",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:32:00.000Z",
       "service": "payment-service",
@@ -1862,7 +1862,7 @@
       "value": 307.17
     },
     {
-      "id": "INC-0041-METRIC-11321",
+      "id": "INC-0041-METRIC-123",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:32:00.000Z",
       "service": "inventory-service",
@@ -1870,7 +1870,7 @@
       "value": 18.74
     },
     {
-      "id": "INC-0041-METRIC-11343",
+      "id": "INC-0041-METRIC-145",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:32:00.000Z",
       "service": "inventory-service",
@@ -1878,7 +1878,7 @@
       "value": 39.95
     },
     {
-      "id": "INC-0041-METRIC-11365",
+      "id": "INC-0041-METRIC-167",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:32:00.000Z",
       "service": "postgres",
@@ -1886,7 +1886,7 @@
       "value": 21.71
     },
     {
-      "id": "INC-0041-METRIC-11387",
+      "id": "INC-0041-METRIC-189",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:32:00.000Z",
       "service": "postgres",
@@ -1894,7 +1894,7 @@
       "value": 14
     },
     {
-      "id": "INC-0041-METRIC-11409",
+      "id": "INC-0041-METRIC-211",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:32:00.000Z",
       "service": "redis",
@@ -1902,7 +1902,7 @@
       "value": 1.45
     },
     {
-      "id": "INC-0041-METRIC-11453",
+      "id": "INC-0041-METRIC-255",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:32:43.000Z",
       "service": "postgres",
@@ -1910,7 +1910,7 @@
       "value": 87.47
     },
     {
-      "id": "INC-0041-METRIC-11454",
+      "id": "INC-0041-METRIC-256",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:32:43.000Z",
       "service": "inventory-service",
@@ -1918,7 +1918,7 @@
       "value": 1.86
     },
     {
-      "id": "INC-0041-METRIC-11212",
+      "id": "INC-0041-METRIC-14",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:33:00.000Z",
       "service": "gateway",
@@ -1926,7 +1926,7 @@
       "value": 39.78
     },
     {
-      "id": "INC-0041-METRIC-11234",
+      "id": "INC-0041-METRIC-36",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:33:00.000Z",
       "service": "checkout-service",
@@ -1934,7 +1934,7 @@
       "value": 84.78
     },
     {
-      "id": "INC-0041-METRIC-11256",
+      "id": "INC-0041-METRIC-58",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:33:00.000Z",
       "service": "checkout-service",
@@ -1942,7 +1942,7 @@
       "value": 0.59
     },
     {
-      "id": "INC-0041-METRIC-11278",
+      "id": "INC-0041-METRIC-80",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:33:00.000Z",
       "service": "payment-service",
@@ -1950,7 +1950,7 @@
       "value": 56.25
     },
     {
-      "id": "INC-0041-METRIC-11300",
+      "id": "INC-0041-METRIC-102",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:33:00.000Z",
       "service": "payment-service",
@@ -1958,7 +1958,7 @@
       "value": 306.1
     },
     {
-      "id": "INC-0041-METRIC-11322",
+      "id": "INC-0041-METRIC-124",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:33:00.000Z",
       "service": "inventory-service",
@@ -1966,7 +1966,7 @@
       "value": 15.56
     },
     {
-      "id": "INC-0041-METRIC-11344",
+      "id": "INC-0041-METRIC-146",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:33:00.000Z",
       "service": "inventory-service",
@@ -1974,7 +1974,7 @@
       "value": 45.51
     },
     {
-      "id": "INC-0041-METRIC-11366",
+      "id": "INC-0041-METRIC-168",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:33:00.000Z",
       "service": "postgres",
@@ -1982,7 +1982,7 @@
       "value": 20.08
     },
     {
-      "id": "INC-0041-METRIC-11388",
+      "id": "INC-0041-METRIC-190",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:33:00.000Z",
       "service": "postgres",
@@ -1990,7 +1990,7 @@
       "value": 15.35
     },
     {
-      "id": "INC-0041-METRIC-11410",
+      "id": "INC-0041-METRIC-212",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:33:00.000Z",
       "service": "redis",
@@ -1998,7 +1998,7 @@
       "value": 1.9
     },
     {
-      "id": "INC-0041-METRIC-11455",
+      "id": "INC-0041-METRIC-257",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:33:22.000Z",
       "service": "postgres",
@@ -2006,7 +2006,7 @@
       "value": 87.51
     },
     {
-      "id": "INC-0041-METRIC-11456",
+      "id": "INC-0041-METRIC-258",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:33:22.000Z",
       "service": "inventory-service",
@@ -2014,7 +2014,7 @@
       "value": 0
     },
     {
-      "id": "INC-0041-METRIC-11213",
+      "id": "INC-0041-METRIC-15",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:34:00.000Z",
       "service": "gateway",
@@ -2022,7 +2022,7 @@
       "value": 29.77
     },
     {
-      "id": "INC-0041-METRIC-11235",
+      "id": "INC-0041-METRIC-37",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:34:00.000Z",
       "service": "checkout-service",
@@ -2030,7 +2030,7 @@
       "value": 88.66
     },
     {
-      "id": "INC-0041-METRIC-11257",
+      "id": "INC-0041-METRIC-59",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:34:00.000Z",
       "service": "checkout-service",
@@ -2038,7 +2038,7 @@
       "value": 0.59
     },
     {
-      "id": "INC-0041-METRIC-11279",
+      "id": "INC-0041-METRIC-81",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:34:00.000Z",
       "service": "payment-service",
@@ -2046,7 +2046,7 @@
       "value": 65.32
     },
     {
-      "id": "INC-0041-METRIC-11301",
+      "id": "INC-0041-METRIC-103",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:34:00.000Z",
       "service": "payment-service",
@@ -2054,7 +2054,7 @@
       "value": 318.94
     },
     {
-      "id": "INC-0041-METRIC-11323",
+      "id": "INC-0041-METRIC-125",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:34:00.000Z",
       "service": "inventory-service",
@@ -2062,7 +2062,7 @@
       "value": 16.11
     },
     {
-      "id": "INC-0041-METRIC-11345",
+      "id": "INC-0041-METRIC-147",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:34:00.000Z",
       "service": "inventory-service",
@@ -2070,7 +2070,7 @@
       "value": 34.76
     },
     {
-      "id": "INC-0041-METRIC-11367",
+      "id": "INC-0041-METRIC-169",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:34:00.000Z",
       "service": "postgres",
@@ -2078,7 +2078,7 @@
       "value": 21.18
     },
     {
-      "id": "INC-0041-METRIC-11389",
+      "id": "INC-0041-METRIC-191",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:34:00.000Z",
       "service": "postgres",
@@ -2086,7 +2086,7 @@
       "value": 14.47
     },
     {
-      "id": "INC-0041-METRIC-11411",
+      "id": "INC-0041-METRIC-213",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:34:00.000Z",
       "service": "redis",
@@ -2094,7 +2094,7 @@
       "value": 2.47
     },
     {
-      "id": "INC-0041-METRIC-11457",
+      "id": "INC-0041-METRIC-259",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:34:01.000Z",
       "service": "postgres",
@@ -2102,7 +2102,7 @@
       "value": 87.64
     },
     {
-      "id": "INC-0041-METRIC-11458",
+      "id": "INC-0041-METRIC-260",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:34:01.000Z",
       "service": "inventory-service",
@@ -2110,7 +2110,7 @@
       "value": 0
     },
     {
-      "id": "INC-0041-METRIC-11214",
+      "id": "INC-0041-METRIC-16",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:35:00.000Z",
       "service": "gateway",
@@ -2118,7 +2118,7 @@
       "value": 32.69
     },
     {
-      "id": "INC-0041-METRIC-11236",
+      "id": "INC-0041-METRIC-38",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:35:00.000Z",
       "service": "checkout-service",
@@ -2126,7 +2126,7 @@
       "value": 73.68
     },
     {
-      "id": "INC-0041-METRIC-11258",
+      "id": "INC-0041-METRIC-60",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:35:00.000Z",
       "service": "checkout-service",
@@ -2134,7 +2134,7 @@
       "value": 0.47
     },
     {
-      "id": "INC-0041-METRIC-11280",
+      "id": "INC-0041-METRIC-82",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:35:00.000Z",
       "service": "payment-service",
@@ -2142,7 +2142,7 @@
       "value": 53.36
     },
     {
-      "id": "INC-0041-METRIC-11302",
+      "id": "INC-0041-METRIC-104",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:35:00.000Z",
       "service": "payment-service",
@@ -2150,7 +2150,7 @@
       "value": 304.9
     },
     {
-      "id": "INC-0041-METRIC-11324",
+      "id": "INC-0041-METRIC-126",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:35:00.000Z",
       "service": "inventory-service",
@@ -2158,7 +2158,7 @@
       "value": 17.94
     },
     {
-      "id": "INC-0041-METRIC-11346",
+      "id": "INC-0041-METRIC-148",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:35:00.000Z",
       "service": "inventory-service",
@@ -2166,7 +2166,7 @@
       "value": 36.43
     },
     {
-      "id": "INC-0041-METRIC-11368",
+      "id": "INC-0041-METRIC-170",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:35:00.000Z",
       "service": "postgres",
@@ -2174,7 +2174,7 @@
       "value": 22.2
     },
     {
-      "id": "INC-0041-METRIC-11390",
+      "id": "INC-0041-METRIC-192",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:35:00.000Z",
       "service": "postgres",
@@ -2182,7 +2182,7 @@
       "value": 17.51
     },
     {
-      "id": "INC-0041-METRIC-11412",
+      "id": "INC-0041-METRIC-214",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:35:00.000Z",
       "service": "redis",
@@ -2190,7 +2190,7 @@
       "value": 2.48
     },
     {
-      "id": "INC-0041-METRIC-11215",
+      "id": "INC-0041-METRIC-17",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:36:00.000Z",
       "service": "gateway",
@@ -2198,7 +2198,7 @@
       "value": 39.09
     },
     {
-      "id": "INC-0041-METRIC-11237",
+      "id": "INC-0041-METRIC-39",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:36:00.000Z",
       "service": "checkout-service",
@@ -2206,7 +2206,7 @@
       "value": 72.7
     },
     {
-      "id": "INC-0041-METRIC-11259",
+      "id": "INC-0041-METRIC-61",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:36:00.000Z",
       "service": "checkout-service",
@@ -2214,7 +2214,7 @@
       "value": 0.29
     },
     {
-      "id": "INC-0041-METRIC-11281",
+      "id": "INC-0041-METRIC-83",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:36:00.000Z",
       "service": "payment-service",
@@ -2222,7 +2222,7 @@
       "value": 68
     },
     {
-      "id": "INC-0041-METRIC-11303",
+      "id": "INC-0041-METRIC-105",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:36:00.000Z",
       "service": "payment-service",
@@ -2230,7 +2230,7 @@
       "value": 310.13
     },
     {
-      "id": "INC-0041-METRIC-11325",
+      "id": "INC-0041-METRIC-127",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:36:00.000Z",
       "service": "inventory-service",
@@ -2238,7 +2238,7 @@
       "value": 16.16
     },
     {
-      "id": "INC-0041-METRIC-11347",
+      "id": "INC-0041-METRIC-149",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:36:00.000Z",
       "service": "inventory-service",
@@ -2246,7 +2246,7 @@
       "value": 33.77
     },
     {
-      "id": "INC-0041-METRIC-11369",
+      "id": "INC-0041-METRIC-171",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:36:00.000Z",
       "service": "postgres",
@@ -2254,7 +2254,7 @@
       "value": 19.29
     },
     {
-      "id": "INC-0041-METRIC-11391",
+      "id": "INC-0041-METRIC-193",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:36:00.000Z",
       "service": "postgres",
@@ -2262,7 +2262,7 @@
       "value": 14.4
     },
     {
-      "id": "INC-0041-METRIC-11413",
+      "id": "INC-0041-METRIC-215",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:36:00.000Z",
       "service": "redis",
@@ -2270,7 +2270,7 @@
       "value": 2.57
     },
     {
-      "id": "INC-0041-METRIC-11216",
+      "id": "INC-0041-METRIC-18",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:37:00.000Z",
       "service": "gateway",
@@ -2278,7 +2278,7 @@
       "value": 31.91
     },
     {
-      "id": "INC-0041-METRIC-11238",
+      "id": "INC-0041-METRIC-40",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:37:00.000Z",
       "service": "checkout-service",
@@ -2286,7 +2286,7 @@
       "value": 83.19
     },
     {
-      "id": "INC-0041-METRIC-11260",
+      "id": "INC-0041-METRIC-62",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:37:00.000Z",
       "service": "checkout-service",
@@ -2294,7 +2294,7 @@
       "value": 0.59
     },
     {
-      "id": "INC-0041-METRIC-11282",
+      "id": "INC-0041-METRIC-84",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:37:00.000Z",
       "service": "payment-service",
@@ -2302,7 +2302,7 @@
       "value": 67.92
     },
     {
-      "id": "INC-0041-METRIC-11304",
+      "id": "INC-0041-METRIC-106",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:37:00.000Z",
       "service": "payment-service",
@@ -2310,7 +2310,7 @@
       "value": 295.41
     },
     {
-      "id": "INC-0041-METRIC-11326",
+      "id": "INC-0041-METRIC-128",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:37:00.000Z",
       "service": "inventory-service",
@@ -2318,7 +2318,7 @@
       "value": 22.32
     },
     {
-      "id": "INC-0041-METRIC-11348",
+      "id": "INC-0041-METRIC-150",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:37:00.000Z",
       "service": "inventory-service",
@@ -2326,7 +2326,7 @@
       "value": 41.27
     },
     {
-      "id": "INC-0041-METRIC-11370",
+      "id": "INC-0041-METRIC-172",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:37:00.000Z",
       "service": "postgres",
@@ -2334,7 +2334,7 @@
       "value": 16.49
     },
     {
-      "id": "INC-0041-METRIC-11392",
+      "id": "INC-0041-METRIC-194",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:37:00.000Z",
       "service": "postgres",
@@ -2342,7 +2342,7 @@
       "value": 14.39
     },
     {
-      "id": "INC-0041-METRIC-11414",
+      "id": "INC-0041-METRIC-216",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:37:00.000Z",
       "service": "redis",
@@ -2350,7 +2350,7 @@
       "value": 1.71
     },
     {
-      "id": "INC-0041-METRIC-11217",
+      "id": "INC-0041-METRIC-19",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:38:00.000Z",
       "service": "gateway",
@@ -2358,7 +2358,7 @@
       "value": 39.76
     },
     {
-      "id": "INC-0041-METRIC-11239",
+      "id": "INC-0041-METRIC-41",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:38:00.000Z",
       "service": "checkout-service",
@@ -2366,7 +2366,7 @@
       "value": 89.46
     },
     {
-      "id": "INC-0041-METRIC-11261",
+      "id": "INC-0041-METRIC-63",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:38:00.000Z",
       "service": "checkout-service",
@@ -2374,7 +2374,7 @@
       "value": 0.39
     },
     {
-      "id": "INC-0041-METRIC-11283",
+      "id": "INC-0041-METRIC-85",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:38:00.000Z",
       "service": "payment-service",
@@ -2382,7 +2382,7 @@
       "value": 68.02
     },
     {
-      "id": "INC-0041-METRIC-11305",
+      "id": "INC-0041-METRIC-107",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:38:00.000Z",
       "service": "payment-service",
@@ -2390,7 +2390,7 @@
       "value": 298.23
     },
     {
-      "id": "INC-0041-METRIC-11327",
+      "id": "INC-0041-METRIC-129",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:38:00.000Z",
       "service": "inventory-service",
@@ -2398,7 +2398,7 @@
       "value": 19.44
     },
     {
-      "id": "INC-0041-METRIC-11349",
+      "id": "INC-0041-METRIC-151",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:38:00.000Z",
       "service": "inventory-service",
@@ -2406,7 +2406,7 @@
       "value": 36.18
     },
     {
-      "id": "INC-0041-METRIC-11371",
+      "id": "INC-0041-METRIC-173",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:38:00.000Z",
       "service": "postgres",
@@ -2414,7 +2414,7 @@
       "value": 16.22
     },
     {
-      "id": "INC-0041-METRIC-11393",
+      "id": "INC-0041-METRIC-195",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:38:00.000Z",
       "service": "postgres",
@@ -2422,7 +2422,7 @@
       "value": 13.54
     },
     {
-      "id": "INC-0041-METRIC-11415",
+      "id": "INC-0041-METRIC-217",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:38:00.000Z",
       "service": "redis",
@@ -2430,7 +2430,7 @@
       "value": 2.35
     },
     {
-      "id": "INC-0041-METRIC-11218",
+      "id": "INC-0041-METRIC-20",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:39:00.000Z",
       "service": "gateway",
@@ -2438,7 +2438,7 @@
       "value": 38.39
     },
     {
-      "id": "INC-0041-METRIC-11240",
+      "id": "INC-0041-METRIC-42",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:39:00.000Z",
       "service": "checkout-service",
@@ -2446,7 +2446,7 @@
       "value": 76.99
     },
     {
-      "id": "INC-0041-METRIC-11262",
+      "id": "INC-0041-METRIC-64",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:39:00.000Z",
       "service": "checkout-service",
@@ -2454,7 +2454,7 @@
       "value": 0.37
     },
     {
-      "id": "INC-0041-METRIC-11284",
+      "id": "INC-0041-METRIC-86",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:39:00.000Z",
       "service": "payment-service",
@@ -2462,7 +2462,7 @@
       "value": 63.61
     },
     {
-      "id": "INC-0041-METRIC-11306",
+      "id": "INC-0041-METRIC-108",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:39:00.000Z",
       "service": "payment-service",
@@ -2470,7 +2470,7 @@
       "value": 323.98
     },
     {
-      "id": "INC-0041-METRIC-11328",
+      "id": "INC-0041-METRIC-130",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:39:00.000Z",
       "service": "inventory-service",
@@ -2478,7 +2478,7 @@
       "value": 20.62
     },
     {
-      "id": "INC-0041-METRIC-11350",
+      "id": "INC-0041-METRIC-152",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:39:00.000Z",
       "service": "inventory-service",
@@ -2486,7 +2486,7 @@
       "value": 33.8
     },
     {
-      "id": "INC-0041-METRIC-11372",
+      "id": "INC-0041-METRIC-174",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:39:00.000Z",
       "service": "postgres",
@@ -2494,7 +2494,7 @@
       "value": 16.15
     },
     {
-      "id": "INC-0041-METRIC-11394",
+      "id": "INC-0041-METRIC-196",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:39:00.000Z",
       "service": "postgres",
@@ -2502,7 +2502,7 @@
       "value": 16.72
     },
     {
-      "id": "INC-0041-METRIC-11416",
+      "id": "INC-0041-METRIC-218",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:39:00.000Z",
       "service": "redis",
@@ -2510,7 +2510,7 @@
       "value": 1.86
     },
     {
-      "id": "INC-0041-METRIC-11219",
+      "id": "INC-0041-METRIC-21",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:40:00.000Z",
       "service": "gateway",
@@ -2518,7 +2518,7 @@
       "value": 30.3
     },
     {
-      "id": "INC-0041-METRIC-11241",
+      "id": "INC-0041-METRIC-43",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:40:00.000Z",
       "service": "checkout-service",
@@ -2526,7 +2526,7 @@
       "value": 74.9
     },
     {
-      "id": "INC-0041-METRIC-11263",
+      "id": "INC-0041-METRIC-65",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:40:00.000Z",
       "service": "checkout-service",
@@ -2534,7 +2534,7 @@
       "value": 0.39
     },
     {
-      "id": "INC-0041-METRIC-11285",
+      "id": "INC-0041-METRIC-87",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:40:00.000Z",
       "service": "payment-service",
@@ -2542,7 +2542,7 @@
       "value": 52.98
     },
     {
-      "id": "INC-0041-METRIC-11307",
+      "id": "INC-0041-METRIC-109",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:40:00.000Z",
       "service": "payment-service",
@@ -2550,7 +2550,7 @@
       "value": 321.78
     },
     {
-      "id": "INC-0041-METRIC-11329",
+      "id": "INC-0041-METRIC-131",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:40:00.000Z",
       "service": "inventory-service",
@@ -2558,7 +2558,7 @@
       "value": 18.96
     },
     {
-      "id": "INC-0041-METRIC-11351",
+      "id": "INC-0041-METRIC-153",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:40:00.000Z",
       "service": "inventory-service",
@@ -2566,7 +2566,7 @@
       "value": 46.87
     },
     {
-      "id": "INC-0041-METRIC-11373",
+      "id": "INC-0041-METRIC-175",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:40:00.000Z",
       "service": "postgres",
@@ -2574,7 +2574,7 @@
       "value": 16.83
     },
     {
-      "id": "INC-0041-METRIC-11395",
+      "id": "INC-0041-METRIC-197",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:40:00.000Z",
       "service": "postgres",
@@ -2582,7 +2582,7 @@
       "value": 12.51
     },
     {
-      "id": "INC-0041-METRIC-11417",
+      "id": "INC-0041-METRIC-219",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:40:00.000Z",
       "service": "redis",
@@ -2590,7 +2590,7 @@
       "value": 1.96
     },
     {
-      "id": "INC-0041-METRIC-11220",
+      "id": "INC-0041-METRIC-22",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:41:00.000Z",
       "service": "gateway",
@@ -2598,7 +2598,7 @@
       "value": 38.55
     },
     {
-      "id": "INC-0041-METRIC-11242",
+      "id": "INC-0041-METRIC-44",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:41:00.000Z",
       "service": "checkout-service",
@@ -2606,7 +2606,7 @@
       "value": 87.84
     },
     {
-      "id": "INC-0041-METRIC-11264",
+      "id": "INC-0041-METRIC-66",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:41:00.000Z",
       "service": "checkout-service",
@@ -2614,7 +2614,7 @@
       "value": 0.21
     },
     {
-      "id": "INC-0041-METRIC-11286",
+      "id": "INC-0041-METRIC-88",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:41:00.000Z",
       "service": "payment-service",
@@ -2622,7 +2622,7 @@
       "value": 60.91
     },
     {
-      "id": "INC-0041-METRIC-11308",
+      "id": "INC-0041-METRIC-110",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:41:00.000Z",
       "service": "payment-service",
@@ -2630,7 +2630,7 @@
       "value": 297.57
     },
     {
-      "id": "INC-0041-METRIC-11330",
+      "id": "INC-0041-METRIC-132",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:41:00.000Z",
       "service": "inventory-service",
@@ -2638,7 +2638,7 @@
       "value": 20.4
     },
     {
-      "id": "INC-0041-METRIC-11352",
+      "id": "INC-0041-METRIC-154",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:41:00.000Z",
       "service": "inventory-service",
@@ -2646,7 +2646,7 @@
       "value": 38.44
     },
     {
-      "id": "INC-0041-METRIC-11374",
+      "id": "INC-0041-METRIC-176",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:41:00.000Z",
       "service": "postgres",
@@ -2654,7 +2654,7 @@
       "value": 19.31
     },
     {
-      "id": "INC-0041-METRIC-11396",
+      "id": "INC-0041-METRIC-198",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:41:00.000Z",
       "service": "postgres",
@@ -2662,7 +2662,7 @@
       "value": 17.09
     },
     {
-      "id": "INC-0041-METRIC-11418",
+      "id": "INC-0041-METRIC-220",
       "incidentId": "INC-0041",
       "timestamp": "2026-03-22T09:41:00.000Z",
       "service": "redis",

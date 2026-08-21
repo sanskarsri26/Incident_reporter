@@ -15,6 +15,7 @@ import type { GroundTruthManifest } from "@/simulator/types";
 import { FAULT_REGISTRY, FAULT_SLUGS } from "@/simulator/fault-injection/index";
 import { generateBaselineTraffic } from "@/simulator/traffic/generator";
 import { seededRng } from "@/simulator/random";
+import { resetEventCounters } from "@/simulator/fault-injection/helpers";
 
 const INCIDENTS_PER_FAULT = 7;
 const OUTPUT_DIR = path.resolve(import.meta.dirname, "..", "data", "incident-manifests");
@@ -61,6 +62,7 @@ export function generateOneIncident(fault: string, incidentId: string): Generate
   const inject = FAULT_REGISTRY[fault];
   if (!inject) throw new Error(`No injector registered for fault "${fault}"`);
 
+  resetEventCounters();
   const scheduleRng = seededRng(incidentId, "schedule");
   const dayOffset = Math.floor(scheduleRng() * 200);
   const hourOffset = Math.floor(scheduleRng() * 24);
