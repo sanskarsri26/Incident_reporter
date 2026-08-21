@@ -7,7 +7,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint",
+    "lint": "eslint .",
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
     "test:watch": "vitest",
@@ -24,7 +24,7 @@
     "recharts": "3.10.1"
   },
   "devDependencies": {
-    "typescript": "7.0.2",
+    "typescript": "6.0.3",
     "@types/node": "22.10.10",
     "@types/react": "19.2.18",
     "@types/react-dom": "19.2.4",
