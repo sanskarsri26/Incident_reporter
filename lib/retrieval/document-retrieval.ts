@@ -2,6 +2,20 @@ import { cosineSimilarity } from "@/lib/retrieval/cosine";
 import type { EmbeddingProvider } from "@/lib/gemini/types";
 import type { DocumentRecord } from "@/lib/types";
 
+/**
+ * Known scaling limitation: both retrieval functions below fetch every
+ * document via Repository.listDocuments() (a plain `select *`, see
+ * lib/db/supabase-repository.ts / memory-repository.ts) and compute cosine
+ * similarity in application code -- they never issue a vector similarity
+ * query against Postgres/pgvector's own HNSW index (supabase/migrations/
+ * 0001_init.sql), even though that index exists and is maintained. This is
+ * a reasonable choice at this dataset's scale (11 runbook documents) but
+ * would not scale to a large document corpus; a real deployment with many
+ * documents should instead push similarity search into Postgres via an
+ * RPC function (e.g. `embedding <=> query_embedding` ordered/limited in
+ * SQL) rather than loading every row into the Node process.
+ */
+
 export interface RetrievedDocument {
   document: DocumentRecord;
   vectorSimilarity: number;

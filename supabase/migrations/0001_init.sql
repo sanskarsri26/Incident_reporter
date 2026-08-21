@@ -51,7 +51,12 @@ create table if not exists documents (
   doc_type text not null check (doc_type in ('runbook','service_description','postmortem')),
   embedding vector(768)
 );
-create index if not exists documents_embedding_idx on documents using ivfflat (embedding vector_cosine_ops);
+-- hnsw, not ivfflat: ivfflat's index quality depends on training its
+-- centroids against representative data present at CREATE INDEX time, but
+-- this table is empty at migration time (seeding happens afterward), so
+-- recall would stay degraded until a manual REINDEX post-seed. hnsw builds
+-- incrementally as rows are inserted and needs no training-data step.
+create index if not exists documents_embedding_idx on documents using hnsw (embedding vector_cosine_ops);
 
 create table if not exists analysis_runs (
   id text primary key,
@@ -89,3 +94,24 @@ create table if not exists recommendations (
   priority integer not null
 );
 create index if not exists recommendations_run_idx on recommendations(analysis_run_id);
+
+-- Row-level security, intentionally locked down with no policies: Supabase
+-- exposes every table in the `public` schema through PostgREST to the
+-- anon/authenticated roles by default. This app only ever talks to
+-- Supabase via SUPABASE_SERVICE_ROLE_KEY from trusted server-side code
+-- (lib/db/supabase-repository.ts), which bypasses RLS by design -- so
+-- enabling RLS with zero policies means the anon key (unused by this app,
+-- but present in any real Supabase project and easy to accidentally
+-- expose) has no access to any row, while the service role key is
+-- unaffected.
+alter table services enable row level security;
+alter table service_dependencies enable row level security;
+alter table incidents enable row level security;
+alter table log_events enable row level security;
+alter table metric_events enable row level security;
+alter table documents enable row level security;
+alter table analysis_runs enable row level security;
+alter table predictions enable row level security;
+alter table evidence enable row level security;
+alter table recommendations enable row level security;
+-- feedback is created in 0002_feedback.sql, which enables RLS on itself.
