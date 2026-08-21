@@ -1,0 +1,88 @@
+# Local-only simulated system, per docs/AI_Production_Incident_Investigator_Free_Stack_Plan.md section 6.
+#
+# NOTE: this file has not been run in the build environment (no Docker
+# installed there); it is written to be structurally correct against the
+# plan's topology and should be verified with `docker compose up` on a
+# machine that has Docker available. The four application services below
+# are intentionally trivial placeholder HTTP servers (see
+# simulator/services/<name>/server.ts) — the actual fault data used by
+# this project is generated offline by simulator/fault-injection and
+# simulator/traffic, not by live traffic against these containers.
+#
+# Topology: client -> gateway -> checkout-service -> payment-service -> postgres
+#                              \-> inventory-service -> redis
+
+services:
+  postgres:
+    image: pgvector/pgvector:pg16
+    environment:
+      POSTGRES_USER: incident_investigator
+      POSTGRES_PASSWORD: incident_investigator
+      POSTGRES_DB: incident_investigator
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+      - ./supabase/migrations:/docker-entrypoint-initdb.d
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U incident_investigator"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  payment-service:
+    build: ./simulator/services/payment-service
+    environment:
+      PORT: 8080
+      DATABASE_URL: postgres://incident_investigator:incident_investigator@postgres:5432/incident_investigator
+    ports:
+      - "8083:8080"
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  checkout-service:
+    build: ./simulator/services/checkout-service
+    environment:
+      PORT: 8080
+      PAYMENT_SERVICE_URL: http://payment-service:8080
+    ports:
+      - "8082:8080"
+    depends_on:
+      - payment-service
+
+  inventory-service:
+    build: ./simulator/services/inventory-service
+    environment:
+      PORT: 8080
+      REDIS_URL: redis://redis:6379
+    ports:
+      - "8084:8080"
+    depends_on:
+      redis:
+        condition: service_healthy
+
+  gateway:
+    build: ./simulator/services/gateway
+    environment:
+      PORT: 8080
+      CHECKOUT_SERVICE_URL: http://checkout-service:8080
+      INVENTORY_SERVICE_URL: http://inventory-service:8080
+    ports:
+      - "8081:8080"
+    depends_on:
+      - checkout-service
+      - inventory-service
+
+volumes:
+  postgres-data:

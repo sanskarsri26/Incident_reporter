@@ -1,0 +1,282 @@
+[
+  {
+    "id": "INC-0001",
+    "fault": "db_connection_pool_exhaustion",
+    "severity": "sev1"
+  },
+  {
+    "id": "INC-0002",
+    "fault": "db_connection_pool_exhaustion",
+    "severity": "sev1"
+  },
+  {
+    "id": "INC-0003",
+    "fault": "db_connection_pool_exhaustion",
+    "severity": "sev1"
+  },
+  {
+    "id": "INC-0004",
+    "fault": "db_connection_pool_exhaustion",
+    "severity": "sev1"
+  },
+  {
+    "id": "INC-0005",
+    "fault": "db_connection_pool_exhaustion",
+    "severity": "sev1"
+  },
+  {
+    "id": "INC-0006",
+    "fault": "db_connection_pool_exhaustion",
+    "severity": "sev1"
+  },
+  {
+    "id": "INC-0007",
+    "fault": "db_connection_pool_exhaustion",
+    "severity": "sev1"
+  },
+  {
+    "id": "INC-0008",
+    "fault": "db_slow_query",
+    "severity": "sev3"
+  },
+  {
+    "id": "INC-0009",
+    "fault": "db_slow_query",
+    "severity": "sev3"
+  },
+  {
+    "id": "INC-0010",
+    "fault": "db_slow_query",
+    "severity": "sev3"
+  },
+  {
+    "id": "INC-0011",
+    "fault": "db_slow_query",
+    "severity": "sev3"
+  },
+  {
+    "id": "INC-0012",
+    "fault": "db_slow_query",
+    "severity": "sev3"
+  },
+  {
+    "id": "INC-0013",
+    "fault": "db_slow_query",
+    "severity": "sev3"
+  },
+  {
+    "id": "INC-0014",
+    "fault": "db_slow_query",
+    "severity": "sev3"
+  },
+  {
+    "id": "INC-0015",
+    "fault": "memory_leak",
+    "severity": "sev2"
+  },
+  {
+    "id": "INC-0016",
+    "fault": "memory_leak",
+    "severity": "sev2"
+  },
+  {
+    "id": "INC-0017",
+    "fault": "memory_leak",
+    "severity": "sev2"
+  },
+  {
+    "id": "INC-0018",
+    "fault": "memory_leak",
+    "severity": "sev2"
+  },
+  {
+    "id": "INC-0019",
+    "fault": "memory_leak",
+    "severity": "sev2"
+  },
+  {
+    "id": "INC-0020",
+    "fault": "memory_leak",
+    "severity": "sev2"
+  },
+  {
+    "id": "INC-0021",
+    "fault": "memory_leak",
+    "severity": "sev2"
+  },
+  {
+    "id": "INC-0022",
+    "fault": "dependency_timeout",
+    "severity": "sev2"
+  },
+  {
+    "id": "INC-0023",
+    "fault": "dependency_timeout",
+    "severity": "sev2"
+  },
+  {
+    "id": "INC-0024",
+    "fault": "dependency_timeout",
+    "severity": "sev2"
+  },
+  {
+    "id": "INC-0025",
+    "fault": "dependency_timeout",
+    "severity": "sev2"
+  },
+  {
+    "id": "INC-0026",
+    "fault": "dependency_timeout",
+    "severity": "sev2"
+  },
+  {
+    "id": "INC-0027",
+    "fault": "dependency_timeout",
+    "severity": "sev2"
+  },
+  {
+    "id": "INC-0028",
+    "fault": "dependency_timeout",
+    "severity": "sev2"
+  },
+  {
+    "id": "INC-0029",
+    "fault": "cpu_spike",
+    "severity": "sev3"
+  },
+  {
+    "id": "INC-0030",
+    "fault": "cpu_spike",
+    "severity": "sev3"
+  },
+  {
+    "id": "INC-0031",
+    "fault": "cpu_spike",
+    "severity": "sev3"
+  },
+  {
+    "id": "INC-0032",
+    "fault": "cpu_spike",
+    "severity": "sev3"
+  },
+  {
+    "id": "INC-0033",
+    "fault": "cpu_spike",
+    "severity": "sev3"
+  },
+  {
+    "id": "INC-0034",
+    "fault": "cpu_spike",
+    "severity": "sev3"
+  },
+  {
+    "id": "INC-0035",
+    "fault": "cpu_spike",
+    "severity": "sev3"
+  },
+  {
+    "id": "INC-0036",
+    "fault": "redis_unavailable",
+    "severity": "sev2"
+  },
+  {
+    "id": "INC-0037",
+    "fault": "redis_unavailable",
+    "severity": "sev2"
+  },
+  {
+    "id": "INC-0038",
+    "fault": "redis_unavailable",
+    "severity": "sev2"
+  },
+  {
+    "id": "INC-0039",
+    "fault": "redis_unavailable",
+    "severity": "sev2"
+  },
+  {
+    "id": "INC-0040",
+    "fault": "redis_unavailable",
+    "severity": "sev2"
+  },
+  {
+    "id": "INC-0041",
+    "fault": "redis_unavailable",
+    "severity": "sev2"
+  },
+  {
+    "id": "INC-0042",
+    "fault": "redis_unavailable",
+    "severity": "sev2"
+  },
+  {
+    "id": "INC-0043",
+    "fault": "worker_backlog",
+    "severity": "sev4"
+  },
+  {
+    "id": "INC-0044",
+    "fault": "worker_backlog",
+    "severity": "sev4"
+  },
+  {
+    "id": "INC-0045",
+    "fault": "worker_backlog",
+    "severity": "sev4"
+  },
+  {
+    "id": "INC-0046",
+    "fault": "worker_backlog",
+    "severity": "sev4"
+  },
+  {
+    "id": "INC-0047",
+    "fault": "worker_backlog",
+    "severity": "sev4"
+  },
+  {
+    "id": "INC-0048",
+    "fault": "worker_backlog",
+    "severity": "sev4"
+  },
+  {
+    "id": "INC-0049",
+    "fault": "worker_backlog",
+    "severity": "sev4"
+  },
+  {
+    "id": "INC-0050",
+    "fault": "bad_config_deploy",
+    "severity": "sev1"
+  },
+  {
+    "id": "INC-0051",
+    "fault": "bad_config_deploy",
+    "severity": "sev1"
+  },
+  {
+    "id": "INC-0052",
+    "fault": "bad_config_deploy",
+    "severity": "sev1"
+  },
+  {
+    "id": "INC-0053",
+    "fault": "bad_config_deploy",
+    "severity": "sev1"
+  },
+  {
+    "id": "INC-0054",
+    "fault": "bad_config_deploy",
+    "severity": "sev1"
+  },
+  {
+    "id": "INC-0055",
+    "fault": "bad_config_deploy",
+    "severity": "sev1"
+  },
+  {
+    "id": "INC-0056",
+    "fault": "bad_config_deploy",
+    "severity": "sev1"
+  }
+]
