@@ -102,8 +102,10 @@ function recommendationFromRow(row: Record<string, unknown>): Recommendation {
 }
 
 export function createSupabaseRepository(url: string, serviceRoleKey: string): Repository {
-  const client: SupabaseClient = createClient(url, serviceRoleKey);
+  return createSupabaseRepositoryFromClient(createClient(url, serviceRoleKey));
+}
 
+export function createSupabaseRepositoryFromClient(client: SupabaseClient): Repository {
   return {
     async listIncidents() {
       const { data, error } = await client.from("incidents").select("*");
