@@ -1,7 +1,7 @@
 {
   "incident": {
     "id": "INC-0018",
-    "title": "Memory leak in payment-service",
+    "title": "Intermittent failures affecting order placement",
     "severity": "sev2",
     "status": "resolved",
     "startedAt": "2026-05-29T19:46:00.000Z",

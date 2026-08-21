@@ -1,11 +1,11 @@
 {
   "incident": {
     "id": "INC-0001",
-    "title": "Database connection pool exhaustion",
-    "severity": "sev1",
-    "status": "resolved",
+    "title": "Alerting threshold breached in production",
+    "severity": "sev4",
+    "status": "investigating",
     "startedAt": "2026-04-08T05:55:00.000Z",
-    "resolvedAt": "2026-04-08T06:45:00.000Z",
+    "resolvedAt": null,
     "rootCauseTruth": "db_connection_pool_exhaustion",
     "affectedServices": [
       "payment-service",

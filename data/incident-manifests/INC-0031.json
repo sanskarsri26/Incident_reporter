@@ -1,8 +1,8 @@
 {
   "incident": {
     "id": "INC-0031",
-    "title": "CPU saturation on inventory-service",
-    "severity": "sev3",
+    "title": "On-call paged for service degradation",
+    "severity": "sev2",
     "status": "resolved",
     "startedAt": "2026-05-27T19:38:00.000Z",
     "resolvedAt": "2026-05-27T20:26:15.000Z",

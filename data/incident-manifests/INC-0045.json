@@ -1,11 +1,11 @@
 {
   "incident": {
     "id": "INC-0045",
-    "title": "Payment worker queue backlog",
+    "title": "Checkout error rate elevated",
     "severity": "sev4",
-    "status": "resolved",
+    "status": "investigating",
     "startedAt": "2026-01-30T04:48:00.000Z",
-    "resolvedAt": "2026-01-30T05:40:12.000Z",
+    "resolvedAt": null,
     "rootCauseTruth": "worker_backlog",
     "affectedServices": [
       "payment-service"

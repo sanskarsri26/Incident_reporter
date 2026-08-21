@@ -1,8 +1,8 @@
 {
   "incident": {
     "id": "INC-0009",
-    "title": "Slow database query degrading checkout latency",
-    "severity": "sev3",
+    "title": "Checkout error rate elevated",
+    "severity": "sev4",
     "status": "resolved",
     "startedAt": "2026-05-21T22:22:00.000Z",
     "resolvedAt": "2026-05-21T23:28:20.000Z",

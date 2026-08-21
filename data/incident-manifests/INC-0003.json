@@ -1,8 +1,8 @@
 {
   "incident": {
     "id": "INC-0003",
-    "title": "Database connection pool exhaustion",
-    "severity": "sev1",
+    "title": "Degraded response times observed",
+    "severity": "sev3",
     "status": "resolved",
     "startedAt": "2026-05-09T22:28:00.000Z",
     "resolvedAt": "2026-05-09T23:11:00.000Z",

@@ -1,8 +1,8 @@
 {
   "incident": {
     "id": "INC-0053",
-    "title": "Bad configuration deploy to checkout-service",
-    "severity": "sev1",
+    "title": "Degraded response times observed",
+    "severity": "sev2",
     "status": "resolved",
     "startedAt": "2026-06-05T03:50:00.000Z",
     "resolvedAt": "2026-06-05T04:19:00.000Z",

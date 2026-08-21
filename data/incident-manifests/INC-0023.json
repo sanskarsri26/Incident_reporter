@@ -1,8 +1,8 @@
 {
   "incident": {
     "id": "INC-0023",
-    "title": "Payment-service dependency timeout",
-    "severity": "sev2",
+    "title": "Spike in failed transactions",
+    "severity": "sev4",
     "status": "resolved",
     "startedAt": "2026-07-23T03:28:00.000Z",
     "resolvedAt": "2026-07-23T04:13:00.000Z",

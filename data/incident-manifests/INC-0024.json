@@ -1,8 +1,8 @@
 {
   "incident": {
     "id": "INC-0024",
-    "title": "Payment-service dependency timeout",
-    "severity": "sev2",
+    "title": "On-call paged for service degradation",
+    "severity": "sev4",
     "status": "resolved",
     "startedAt": "2026-06-20T03:25:00.000Z",
     "resolvedAt": "2026-06-20T04:14:00.000Z",

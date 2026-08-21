@@ -1,8 +1,8 @@
 {
   "incident": {
     "id": "INC-0020",
-    "title": "Memory leak in payment-service",
-    "severity": "sev2",
+    "title": "On-call paged for service degradation",
+    "severity": "sev4",
     "status": "resolved",
     "startedAt": "2026-05-08T12:44:00.000Z",
     "resolvedAt": "2026-05-08T13:27:00.000Z",

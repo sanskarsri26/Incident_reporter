@@ -1,8 +1,8 @@
 {
   "incident": {
     "id": "INC-0043",
-    "title": "Payment worker queue backlog",
-    "severity": "sev4",
+    "title": "Payment latency spike reported by on-call",
+    "severity": "sev2",
     "status": "resolved",
     "startedAt": "2026-06-30T11:39:00.000Z",
     "resolvedAt": "2026-06-30T12:18:15.000Z",

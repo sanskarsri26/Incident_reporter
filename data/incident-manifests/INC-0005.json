@@ -1,8 +1,8 @@
 {
   "incident": {
     "id": "INC-0005",
-    "title": "Database connection pool exhaustion",
-    "severity": "sev1",
+    "title": "Elevated 5xx rate on checkout-service",
+    "severity": "sev2",
     "status": "resolved",
     "startedAt": "2026-03-08T13:18:00.000Z",
     "resolvedAt": "2026-03-08T14:21:00.000Z",

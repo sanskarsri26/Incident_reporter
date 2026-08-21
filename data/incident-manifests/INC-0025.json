@@ -1,7 +1,7 @@
 {
   "incident": {
     "id": "INC-0025",
-    "title": "Payment-service dependency timeout",
+    "title": "Alerting threshold breached in production",
     "severity": "sev2",
     "status": "resolved",
     "startedAt": "2026-03-12T09:14:00.000Z",

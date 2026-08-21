@@ -1,7 +1,7 @@
 {
   "incident": {
     "id": "INC-0011",
-    "title": "Slow database query degrading checkout latency",
+    "title": "Degraded response times observed",
     "severity": "sev3",
     "status": "resolved",
     "startedAt": "2026-02-18T08:15:00.000Z",

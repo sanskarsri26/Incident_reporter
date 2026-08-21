@@ -1,7 +1,7 @@
 {
   "incident": {
     "id": "INC-0030",
-    "title": "CPU saturation on inventory-service",
+    "title": "Payment latency spike reported by on-call",
     "severity": "sev3",
     "status": "resolved",
     "startedAt": "2026-06-10T12:41:00.000Z",

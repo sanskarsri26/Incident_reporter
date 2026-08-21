@@ -1,8 +1,8 @@
 {
   "incident": {
     "id": "INC-0033",
-    "title": "CPU saturation on inventory-service",
-    "severity": "sev3",
+    "title": "Intermittent failures affecting order placement",
+    "severity": "sev1",
     "status": "resolved",
     "startedAt": "2026-01-27T17:27:00.000Z",
     "resolvedAt": "2026-01-27T18:29:00.000Z",

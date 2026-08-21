@@ -1,8 +1,8 @@
 {
   "incident": {
     "id": "INC-0052",
-    "title": "Bad configuration deploy to checkout-service",
-    "severity": "sev1",
+    "title": "Elevated 5xx rate on checkout-service",
+    "severity": "sev2",
     "status": "resolved",
     "startedAt": "2026-06-26T12:38:00.000Z",
     "resolvedAt": "2026-06-26T13:32:00.000Z",

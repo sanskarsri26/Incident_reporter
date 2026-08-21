@@ -1,11 +1,11 @@
 {
   "incident": {
     "id": "INC-0004",
-    "title": "Database connection pool exhaustion",
-    "severity": "sev1",
-    "status": "resolved",
+    "title": "On-call paged for service degradation",
+    "severity": "sev4",
+    "status": "investigating",
     "startedAt": "2026-03-12T16:37:00.000Z",
-    "resolvedAt": "2026-03-12T17:34:00.000Z",
+    "resolvedAt": null,
     "rootCauseTruth": "db_connection_pool_exhaustion",
     "affectedServices": [
       "payment-service",

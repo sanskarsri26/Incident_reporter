@@ -1,11 +1,11 @@
 {
   "incident": {
     "id": "INC-0016",
-    "title": "Memory leak in payment-service",
-    "severity": "sev2",
-    "status": "resolved",
+    "title": "Checkout error rate elevated",
+    "severity": "sev3",
+    "status": "investigating",
     "startedAt": "2026-07-27T20:50:00.000Z",
-    "resolvedAt": "2026-07-27T21:32:19.000Z",
+    "resolvedAt": null,
     "rootCauseTruth": "memory_leak",
     "affectedServices": [
       "payment-service",

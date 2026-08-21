@@ -1,8 +1,8 @@
 {
   "incident": {
     "id": "INC-0006",
-    "title": "Database connection pool exhaustion",
-    "severity": "sev1",
+    "title": "Alerting threshold breached in production",
+    "severity": "sev3",
     "status": "resolved",
     "startedAt": "2026-06-12T15:24:00.000Z",
     "resolvedAt": "2026-06-12T15:50:00.000Z",

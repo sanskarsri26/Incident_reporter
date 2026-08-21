@@ -1,8 +1,8 @@
 {
   "incident": {
     "id": "INC-0044",
-    "title": "Payment worker queue backlog",
-    "severity": "sev4",
+    "title": "Checkout error rate elevated",
+    "severity": "sev3",
     "status": "resolved",
     "startedAt": "2026-07-14T02:33:00.000Z",
     "resolvedAt": "2026-07-14T03:13:00.000Z",

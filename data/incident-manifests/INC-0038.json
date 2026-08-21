@@ -1,8 +1,8 @@
 {
   "incident": {
     "id": "INC-0038",
-    "title": "Redis cache unavailable",
-    "severity": "sev2",
+    "title": "Spike in failed transactions",
+    "severity": "sev4",
     "status": "resolved",
     "startedAt": "2026-03-27T06:38:00.000Z",
     "resolvedAt": "2026-03-27T07:11:00.000Z",

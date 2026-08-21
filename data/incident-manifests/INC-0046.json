@@ -1,7 +1,7 @@
 {
   "incident": {
     "id": "INC-0046",
-    "title": "Payment worker queue backlog",
+    "title": "Increased timeouts reported across checkout flow",
     "severity": "sev4",
     "status": "resolved",
     "startedAt": "2026-07-17T04:48:00.000Z",

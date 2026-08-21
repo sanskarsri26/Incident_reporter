@@ -1,8 +1,8 @@
 {
   "incident": {
     "id": "INC-0037",
-    "title": "Redis cache unavailable",
-    "severity": "sev2",
+    "title": "Checkout error rate elevated",
+    "severity": "sev4",
     "status": "resolved",
     "startedAt": "2026-03-01T22:14:00.000Z",
     "resolvedAt": "2026-03-01T23:10:00.000Z",

@@ -1,8 +1,8 @@
 {
   "incident": {
     "id": "INC-0048",
-    "title": "Payment worker queue backlog",
-    "severity": "sev4",
+    "title": "Intermittent failures affecting order placement",
+    "severity": "sev3",
     "status": "resolved",
     "startedAt": "2026-01-27T04:54:00.000Z",
     "resolvedAt": "2026-01-27T05:30:00.000Z",

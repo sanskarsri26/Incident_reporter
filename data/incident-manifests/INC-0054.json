@@ -1,8 +1,8 @@
 {
   "incident": {
     "id": "INC-0054",
-    "title": "Bad configuration deploy to checkout-service",
-    "severity": "sev1",
+    "title": "Intermittent failures affecting order placement",
+    "severity": "sev3",
     "status": "resolved",
     "startedAt": "2026-06-09T11:27:00.000Z",
     "resolvedAt": "2026-06-09T12:22:00.000Z",

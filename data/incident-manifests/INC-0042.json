@@ -1,8 +1,8 @@
 {
   "incident": {
     "id": "INC-0042",
-    "title": "Redis cache unavailable",
-    "severity": "sev2",
+    "title": "Degraded response times observed",
+    "severity": "sev1",
     "status": "resolved",
     "startedAt": "2026-03-15T14:40:00.000Z",
     "resolvedAt": "2026-03-15T15:17:00.000Z",

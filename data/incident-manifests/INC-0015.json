@@ -1,8 +1,8 @@
 {
   "incident": {
     "id": "INC-0015",
-    "title": "Memory leak in payment-service",
-    "severity": "sev2",
+    "title": "Payment latency spike reported by on-call",
+    "severity": "sev3",
     "status": "resolved",
     "startedAt": "2026-01-17T20:52:00.000Z",
     "resolvedAt": "2026-01-17T21:20:00.000Z",

@@ -1,8 +1,8 @@
 {
   "incident": {
     "id": "INC-0002",
-    "title": "Database connection pool exhaustion",
-    "severity": "sev1",
+    "title": "Customer reports of slow checkout",
+    "severity": "sev3",
     "status": "resolved",
     "startedAt": "2026-03-07T09:24:00.000Z",
     "resolvedAt": "2026-03-07T10:18:00.000Z",

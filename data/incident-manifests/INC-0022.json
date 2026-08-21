@@ -1,8 +1,8 @@
 {
   "incident": {
     "id": "INC-0022",
-    "title": "Payment-service dependency timeout",
-    "severity": "sev2",
+    "title": "Elevated 5xx rate on checkout-service",
+    "severity": "sev3",
     "status": "resolved",
     "startedAt": "2026-05-16T15:05:00.000Z",
     "resolvedAt": "2026-05-16T15:59:00.000Z",
