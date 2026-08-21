@@ -68,6 +68,17 @@ describe("createMockLLMProvider", () => {
     expect(confirmedEvidenceIds).not.toContain("DOC-1");
   });
 
+  it("generateCandidates falls back to a single 'unknown' candidate when no evidence matches any known fault", async () => {
+    const provider = createMockLLMProvider();
+    const { candidates } = await provider.generateCandidates({
+      incidentSummary: "Newly opened incident, no data collected yet.",
+      evidenceCatalog: [],
+      maxCandidates: 3,
+    });
+
+    expect(candidates).toEqual([{ rootCause: "unknown", score: 0, supportingEvidenceIds: [], contradictingEvidenceIds: [] }]);
+  });
+
   it("generateActions returns known actions for a recognized fault", async () => {
     const provider = createMockLLMProvider();
     const { actions } = await provider.generateActions({

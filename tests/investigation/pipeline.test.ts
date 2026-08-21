@@ -124,4 +124,22 @@ describe("runInvestigation", () => {
     expect(result.analysisRun.latencyMs).toBeGreaterThanOrEqual(0);
     expect(result.analysisRun.model).toBe("mock");
   });
+
+  it("does not crash for a freshly opened incident with no logs, metrics, docs, or history yet", async () => {
+    const emptyIncident = { ...incident, status: "open" as const, resolvedAt: null };
+    const result = await runInvestigation({
+      incident: emptyIncident,
+      logEvents: [],
+      metricEvents: [],
+      documents: [],
+      historicalIncidents: [],
+      llmProvider: createMockLLMProvider(),
+      embeddingProvider: createMockEmbeddingProvider(),
+    });
+
+    expect(result.analysisRun.status).toBe("succeeded");
+    expect(result.predictions[0]?.rootCause).toBe("unknown");
+    expect(result.evidence).toEqual([]);
+    expect(result.recommendations.length).toBeGreaterThan(0);
+  });
 });
