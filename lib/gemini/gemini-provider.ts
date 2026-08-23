@@ -69,7 +69,11 @@ export interface GeminiLLMProviderOptions {
 
 export function createGeminiLLMProvider({
   apiKey,
-  model = "gemini-2.0-flash",
+  // Google deprecates model names over time (gemini-2.0-flash returned a 404
+  // "no longer available" against the real API as of 2026-08-22, pointing
+  // callers at gemini-3.6-flash) -- override via GEMINI_MODEL if this
+  // default has gone stale again by the time you're reading this.
+  model = "gemini-3.6-flash",
   fetchImpl = fetch,
 }: GeminiLLMProviderOptions): LLMProvider {
   return {
