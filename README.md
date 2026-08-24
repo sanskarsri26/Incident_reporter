@@ -245,8 +245,8 @@ per investigation.
 
 ## Testing and CI
 
-Vitest covers `lib/`, `app/api/`, `scripts/`, and `simulator/` (230+
-tests); external providers are always mocked or fetch-injected, so CI never
+Vitest covers `lib/`, `app/api/`, `scripts/`, and `simulator/` (311 unit/integration tests, 64 files);
+external providers are always mocked or fetch-injected, so CI never
 calls a paid API or needs secrets (`.github/workflows/ci.yml`: lint →
 typecheck → test → build).
 
