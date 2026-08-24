@@ -44,12 +44,60 @@ Set `GEMINI_API_KEY` / `SUPABASE_URL` + `SUPABASE_SERVICE_ROLE_KEY` /
 [`.env.example`](.env.example)) to switch each one on independently — the
 app doesn't require all three at once.
 
+## Authentication and uploading your own incidents
+
+The app supports two incident workflows:
+
+- **Seeded catalog (public)**: a fixed set of 56 incidents generated from the fault-injection
+  simulator, available to all users.
+- **Uploaded incidents (private)**: users can authenticate and upload their own incident logs to
+  investigate privately.
+
+### Authentication
+
+Authentication uses **Supabase Auth** (email + password). Set `NEXT_PUBLIC_SUPABASE_URL` and
+`NEXT_PUBLIC_SUPABASE_ANON_KEY` to enable real authentication; unset, the app falls back to an
+in-memory mock auth provider (no account creation or login required for local dev or CI).
+
+### Uploading incidents
+
+Authenticated users can upload JSON Lines files containing incident logs and metrics:
+
+- **Log file** (required): one JSON object per line with fields `{timestamp, service, level, message}`
+  - `timestamp`: ISO 8601 string (e.g., `"2026-08-23T10:30:00Z"`)
+  - `service`: string name of the service (e.g., `"checkout-service"`)
+  - `level`: log level (`"INFO"`, `"WARN"`, `"ERROR"`, etc.)
+  - `message`: string content of the log line
+
+- **Metrics file** (optional): one JSON object per line with fields `{timestamp, service, metric, value}`
+  - `timestamp`: ISO 8601 string
+  - `service`: string name of the service
+  - `metric`: string metric name (e.g., `"cpu_percent"`, `"memory_mb"`)
+  - `value`: numeric value
+
+Once uploaded, the incident can be investigated through the same pipeline as the seeded catalog,
+with full access to evidence ranking, runbook retrieval, and root-cause analysis.
+
+## Environment variables
+
+| Variable | Server-only | Purpose | Default |
+| --- | --- | --- | --- |
+| `GEMINI_API_KEY` | Yes | Gemini API key for real LLM generation and embeddings | Mock keyword-based provider |
+| `GEMINI_MODEL` | Yes | Gemini model identifier | `gemini-3.6-flash` |
+| `GEMINI_EMBED_MODEL` | Yes | Gemini embedding model | `gemini-embedding-001` |
+| `SUPABASE_URL` | Yes | Supabase project URL (database) | In-memory repository |
+| `SUPABASE_SERVICE_ROLE_KEY` | Yes | Supabase service role key (server-side database access) | In-memory repository |
+| `NEXT_PUBLIC_SUPABASE_URL` | No | Supabase project URL (for client-side auth) | Mock auth provider |
+| `NEXT_PUBLIC_SUPABASE_ANON_KEY` | No | Supabase anonymous key (for client-side auth) | Mock auth provider |
+| `UPSTASH_REDIS_REST_URL` | Yes | Upstash Redis REST endpoint (rate limiting) | In-memory token bucket |
+| `UPSTASH_REDIS_REST_TOKEN` | Yes | Upstash Redis authentication token | In-memory token bucket |
+
 ## Quickstart
 
 ```bash
 npm install
 npm run dev        # http://localhost:3000, fully functional with zero accounts
-npm test            # 230+ unit/integration tests, all against mocks
+npm test            # 311 unit/integration tests (64 files), all against mocks
 npm run typecheck
 npm run lint
 npm run build
@@ -206,7 +254,8 @@ typecheck → test → build).
 
 1. Create a [Supabase](https://supabase.com) project, run the SQL in
    `supabase/migrations/` (in order) against it, and set `SUPABASE_URL` +
-   `SUPABASE_SERVICE_ROLE_KEY`.
+   `SUPABASE_SERVICE_ROLE_KEY` (server-side) and `NEXT_PUBLIC_SUPABASE_URL` +
+   `NEXT_PUBLIC_SUPABASE_ANON_KEY` (for client-side authentication).
 2. Get a [Gemini API key](https://ai.google.dev/) and set `GEMINI_API_KEY`
    (optionally `GEMINI_MODEL` / `GEMINI_EMBED_MODEL` to pin specific
    models).
@@ -217,9 +266,10 @@ typecheck → test → build).
    runbooks into Supabase.
 5. Deploy to [Vercel](https://vercel.com) (Hobby plan is enough). No
    `vercel.json` is needed — Vercel auto-detects Next.js and runs `npm run
-   build`. Set the same environment variables from `.env.example` as
-   server-side (not `NEXT_PUBLIC_*`) project env vars in the Vercel
-   dashboard.
+   build`. Set all environment variables from `.env.example` as project env
+   vars in the Vercel dashboard: server-side vars (`GEMINI_API_KEY`,
+   `SUPABASE_SERVICE_ROLE_KEY`, etc.) and client-side vars
+   (`NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY`).
 6. Re-run `npm run evaluate` with `GEMINI_API_KEY` set to produce a report
    against the real model.
 
@@ -245,7 +295,8 @@ process memory.
 
 ## What's not built (by design, per the plan's scope)
 
-Kubernetes, multi-cloud deployment, real user auth, Slack/PagerDuty
-integration, model fine-tuning, voice features, a second vector database,
-and large multi-agent workflows are explicitly out of scope for v1 — see
-plan section 4.
+Kubernetes, multi-cloud deployment, OAuth/OIDC, password reset flows,
+Slack/PagerDuty integration, model fine-tuning, voice features, a second
+vector database, and large multi-agent workflows are explicitly out of scope
+for v1 — see plan section 4. (Basic email+password authentication via
+Supabase Auth is now built.)
