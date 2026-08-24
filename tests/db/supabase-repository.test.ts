@@ -16,6 +16,7 @@ const sampleIncident: Incident = {
   resolvedAt: "2026-01-01T00:30:00.000Z",
   rootCauseTruth: "db_connection_pool_exhaustion",
   affectedServices: ["payment-service", "checkout-service"],
+  ownerId: null,
 };
 
 describe("Supabase repository (against a fake postgrest client)", () => {
@@ -23,18 +24,42 @@ describe("Supabase repository (against a fake postgrest client)", () => {
     const r = repo();
     await r.upsertIncident(sampleIncident);
 
-    expect(await r.listIncidents()).toEqual([sampleIncident]);
-    expect(await r.getIncident("INC-0001")).toEqual(sampleIncident);
-    expect(await r.getIncident("missing")).toBeNull();
+    expect(await r.listIncidents(null)).toEqual([sampleIncident]);
+    expect(await r.getIncident("INC-0001", null)).toEqual(sampleIncident);
+    expect(await r.getIncident("missing", null)).toBeNull();
   });
 
   it("upsertIncident is idempotent on id (a second upsert replaces the row, not appends)", async () => {
     const r = repo();
     await r.upsertIncident(sampleIncident);
     await r.upsertIncident({ ...sampleIncident, title: "Updated title" });
-    const all = await r.listIncidents();
+    const all = await r.listIncidents(null);
     expect(all).toHaveLength(1);
     expect(all[0]?.title).toBe("Updated title");
+  });
+
+  it("listIncidents(ownerId) returns shared incidents plus that owner's own, filtering out other owners'", async () => {
+    const r = repo();
+    await r.upsertIncident(sampleIncident);
+    await r.upsertIncident({ ...sampleIncident, id: "INC-0002", ownerId: "user-a", rootCauseTruth: null });
+    await r.upsertIncident({ ...sampleIncident, id: "INC-0003", ownerId: "user-b", rootCauseTruth: null });
+
+    expect((await r.listIncidents("user-a")).map((i) => i.id).sort()).toEqual(["INC-0001", "INC-0002"]);
+    expect((await r.listIncidents(null)).map((i) => i.id)).toEqual(["INC-0001"]);
+  });
+
+  it("getIncident returns null when the incident belongs to a different owner", async () => {
+    const r = repo();
+    await r.upsertIncident({ ...sampleIncident, id: "INC-0002", ownerId: "user-a", rootCauseTruth: null });
+    expect(await r.getIncident("INC-0002", "user-b")).toBeNull();
+    expect(await r.getIncident("INC-0002", "user-a")).toEqual({ ...sampleIncident, id: "INC-0002", ownerId: "user-a", rootCauseTruth: null });
+  });
+
+  it("round-trips a null root_cause_truth (an uploaded incident with no known ground truth)", async () => {
+    const r = repo();
+    const uploaded = { ...sampleIncident, id: "INC-0004", ownerId: "user-a", rootCauseTruth: null };
+    await r.upsertIncident(uploaded);
+    expect(await r.getIncident("INC-0004", "user-a")).toEqual(uploaded);
   });
 
   it("round-trips log and metric events, scoped by incident id", async () => {

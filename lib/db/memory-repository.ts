@@ -38,11 +38,14 @@ export function createMemoryRepository(seed: RepositorySeed = {}): Repository {
   }
 
   return {
-    async listIncidents() {
-      return [...incidents.values()];
+    async listIncidents(ownerId) {
+      return [...incidents.values()].filter((i) => i.ownerId === null || i.ownerId === ownerId);
     },
-    async getIncident(id) {
-      return incidents.get(id) ?? null;
+    async getIncident(id, ownerId) {
+      const incident = incidents.get(id) ?? null;
+      if (!incident) return null;
+      if (incident.ownerId !== null && incident.ownerId !== ownerId) return null;
+      return incident;
     },
     async upsertIncident(incident) {
       incidents.set(incident.id, incident);

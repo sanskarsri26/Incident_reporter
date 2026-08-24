@@ -29,6 +29,20 @@ function loadManifests(): ManifestFile[] {
   return loadIncidentManifests();
 }
 
+// This script only ever evaluates the generated synthetic dataset, where
+// generateOneIncident() (scripts/generate-incidents.ts) always sets
+// rootCauseTruth to the injected fault slug. A null rootCauseTruth is only
+// possible for a user-uploaded incident (see lib/types.ts), which this
+// script never loads -- so this narrows the type rather than papering over
+// a real null case.
+function faultTruthOf(manifest: ManifestFile): string {
+  const { rootCauseTruth, id } = manifest.incident;
+  if (rootCauseTruth === null) {
+    throw new Error(`Incident ${id} has no rootCauseTruth; evaluate.ts expects only labeled synthetic incidents`);
+  }
+  return rootCauseTruth;
+}
+
 async function loadEmbeddedDocuments(): Promise<DocumentRecord[]> {
   const files = loadRunbookFiles();
   const embeddingProvider = getEmbeddingProvider();
@@ -43,7 +57,7 @@ function evaluationCaseFromResult(manifest: ManifestFile, result: InvestigationR
 
   return {
     incidentId: manifest.incident.id,
-    faultTruth: manifest.incident.rootCauseTruth,
+    faultTruth: faultTruthOf(manifest),
     predictedRootCauses: result.predictions.map((p) => p.rootCause),
     expectedEvidenceTags: manifest.manifest.expectedEvidence,
     evidenceCatalogSummaries: result.evidenceCatalog.map((e) => e.summary),
@@ -59,7 +73,7 @@ function evaluationCaseFromResult(manifest: ManifestFile, result: InvestigationR
 function failedEvaluationCase(manifest: ManifestFile): EvaluationCase {
   return {
     incidentId: manifest.incident.id,
-    faultTruth: manifest.incident.rootCauseTruth,
+    faultTruth: faultTruthOf(manifest),
     predictedRootCauses: [],
     expectedEvidenceTags: manifest.manifest.expectedEvidence,
     evidenceCatalogSummaries: [],
@@ -118,7 +132,7 @@ async function runAblationD(testManifests: ManifestFile[], documents: DocumentRe
 
   for (const manifest of testManifests) {
     const summary = buildIncidentSummary(manifest.incident, manifest.logEvents, manifest.metricEvents);
-    const expectedDocId = manifest.incident.rootCauseTruth;
+    const expectedDocId = faultTruthOf(manifest);
 
     const [vectorOnlyTop] = await retrieveByVectorOnly(summary, documents, embeddingProvider, 1);
     const [hybridTop] = await retrieveHybrid(summary, documents, embeddingProvider, 1);
@@ -138,7 +152,7 @@ async function main() {
   const manifests = loadManifests();
   const documents = await loadEmbeddedDocuments();
 
-  const split = createStratifiedSplit(manifests.map((m) => ({ id: m.incident.id, fault: m.incident.rootCauseTruth })));
+  const split = createStratifiedSplit(manifests.map((m) => ({ id: m.incident.id, fault: faultTruthOf(m) })));
   const splitByIncidentId = new Map(split.map((s) => [s.incidentId, s.split]));
 
   const testManifests = manifests.filter((m) => splitByIncidentId.get(m.incident.id) === "test");
@@ -173,7 +187,7 @@ async function main() {
         validRootCauses: [...FAULT_SLUGS],
       });
       primaryCases.push(evaluationCaseFromResult(manifest, result));
-      const pick = pickForAblationC(result.candidateDiagnostics, manifest.incident.rootCauseTruth);
+      const pick = pickForAblationC(result.candidateDiagnostics, faultTruthOf(manifest));
       if (pick.rankingScoreCorrect) rankingScoreCorrect += 1;
       if (pick.modelScoreCorrect) modelScoreCorrect += 1;
     } catch {

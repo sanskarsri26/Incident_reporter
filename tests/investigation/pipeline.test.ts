@@ -13,6 +13,7 @@ const incident: Incident = {
   resolvedAt: "2026-01-01T10:30:00.000Z",
   rootCauseTruth: "db_connection_pool_exhaustion",
   affectedServices: ["checkout-service", "payment-service"],
+  ownerId: null,
 };
 
 const logEvents: LogEvent[] = [

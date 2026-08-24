@@ -34,7 +34,7 @@ describe("seed script (in-memory repository)", () => {
     expect(summary.metricEvents).toBeGreaterThan(0);
 
     const repo = getRepository();
-    const incidents = await repo.listIncidents();
+    const incidents = await repo.listIncidents(null);
     expect(incidents.length).toBe(summary.incidents);
 
     const first = incidents[0]!;

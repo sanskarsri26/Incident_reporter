@@ -20,7 +20,7 @@ describe("getRepository auto-seed (simulating a real app process)", () => {
 
     const repository = getRepository();
 
-    const incidents = await repository.listIncidents();
+    const incidents = await repository.listIncidents(null);
     expect(incidents.length).toBeGreaterThanOrEqual(56);
 
     const services = await repository.listServices();
@@ -41,6 +41,6 @@ describe("getRepository auto-seed (simulating a real app process)", () => {
     process.env.VITEST = "true";
 
     const repository = getRepository();
-    expect(await repository.listIncidents()).toEqual([]);
+    expect(await repository.listIncidents(null)).toEqual([]);
   });
 });

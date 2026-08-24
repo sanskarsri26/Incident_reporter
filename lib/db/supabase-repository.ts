@@ -22,8 +22,9 @@ function incidentFromRow(row: Record<string, unknown>): Incident {
     status: row.status as Incident["status"],
     startedAt: row.started_at as string,
     resolvedAt: (row.resolved_at as string | null) ?? null,
-    rootCauseTruth: row.root_cause_truth as string,
+    rootCauseTruth: (row.root_cause_truth as string | null) ?? null,
     affectedServices: (row.affected_services as string[]) ?? [],
+    ownerId: (row.owner_id as string | null) ?? null,
   };
 }
 
@@ -129,15 +130,21 @@ export function createSupabaseRepository(url: string, serviceRoleKey: string): R
 
 export function createSupabaseRepositoryFromClient(client: SupabaseClient): Repository {
   return {
-    async listIncidents() {
-      const { data, error } = await client.from("incidents").select("*");
+    async listIncidents(ownerId) {
+      const query = client.from("incidents").select("*");
+      const { data, error } = ownerId
+        ? await query.or(`owner_id.is.null,owner_id.eq.${ownerId}`)
+        : await query.is("owner_id", null);
       if (error) throw error;
       return (data ?? []).map(incidentFromRow);
     },
-    async getIncident(id) {
+    async getIncident(id, ownerId) {
       const { data, error } = await client.from("incidents").select("*").eq("id", id).maybeSingle();
       if (error) throw error;
-      return data ? incidentFromRow(data) : null;
+      if (!data) return null;
+      const incident = incidentFromRow(data);
+      if (incident.ownerId !== null && incident.ownerId !== ownerId) return null;
+      return incident;
     },
     async upsertIncident(incident: Incident) {
       const { error } = await client.from("incidents").upsert({
@@ -149,6 +156,7 @@ export function createSupabaseRepositoryFromClient(client: SupabaseClient): Repo
         resolved_at: incident.resolvedAt,
         root_cause_truth: incident.rootCauseTruth,
         affected_services: incident.affectedServices,
+        owner_id: incident.ownerId,
       });
       if (error) throw error;
     },

@@ -17,6 +17,7 @@ describe("domain types", () => {
       resolvedAt: "2026-01-01T00:30:00.000Z",
       rootCauseTruth: "db_connection_pool_exhaustion",
       affectedServices: ["payment-service", "checkout-service"],
+      ownerId: null,
     };
     expect(incident.id).toBe("INC-0001");
   });

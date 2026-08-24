@@ -9,7 +9,8 @@
     "rootCauseTruth": "dependency_timeout",
     "affectedServices": [
       "checkout-service"
-    ]
+    ],
+    "ownerId": null
   },
   "manifest": {
     "incidentId": "INC-0025",

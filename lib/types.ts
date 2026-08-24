@@ -11,8 +11,9 @@ export interface Incident {
   status: IncidentStatus;
   startedAt: string;
   resolvedAt: string | null;
-  rootCauseTruth: string;
+  rootCauseTruth: string | null;
   affectedServices: string[];
+  ownerId: string | null;
 }
 
 export interface Service {

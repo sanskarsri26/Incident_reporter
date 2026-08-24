@@ -19,7 +19,7 @@ describe("getRepository", () => {
 
   it("defaults to an in-memory repository with no Supabase env vars", async () => {
     const repo = getRepository();
-    expect(await repo.listIncidents()).toEqual([]);
+    expect(await repo.listIncidents(null)).toEqual([]);
   });
 
   it("returns the same cached instance on repeated calls", () => {

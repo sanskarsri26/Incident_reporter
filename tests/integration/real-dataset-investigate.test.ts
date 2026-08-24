@@ -26,7 +26,7 @@ describe("full API stack against the real generated dataset (56 incidents, 8 fau
 
   it("investigates a real db_connection_pool_exhaustion incident without crashing and returns a well-formed response", async () => {
     const repo = getRepository();
-    const incidents = await repo.listIncidents();
+    const incidents = await repo.listIncidents(null);
     const target = incidents.find((i) => i.rootCauseTruth === "db_connection_pool_exhaustion");
     expect(target).toBeDefined();
 
@@ -47,7 +47,7 @@ describe("full API stack against the real generated dataset (56 incidents, 8 fau
 
   it("investigates one real incident per fault type without any pipeline crash", async () => {
     const repo = getRepository();
-    const incidents = await repo.listIncidents();
+    const incidents = await repo.listIncidents(null);
     const faults = [...new Set(incidents.map((i) => i.rootCauseTruth))];
     expect(faults.length).toBe(8);
 
@@ -67,7 +67,7 @@ describe("full API stack against the real generated dataset (56 incidents, 8 fau
     // historical incident at the top -- not a flaky assumption about the
     // mock's general retrieval quality.
     const repo = getRepository();
-    const incidents = await repo.listIncidents();
+    const incidents = await repo.listIncidents(null);
     const target = incidents.find((i) => i.rootCauseTruth === "cpu_spike");
     expect(target).toBeDefined();
 
@@ -83,7 +83,7 @@ describe("full API stack against the real generated dataset (56 incidents, 8 fau
 
   it("returns a non-empty, time-sorted timeline for a real incident", async () => {
     const repo = getRepository();
-    const incidents = await repo.listIncidents();
+    const incidents = await repo.listIncidents(null);
     const target = incidents[0]!;
 
     const response = await getTimeline(new Request("http://localhost"), { params: Promise.resolve({ id: target.id }) });

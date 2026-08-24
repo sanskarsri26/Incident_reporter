@@ -16,6 +16,7 @@ class FakeQueryBuilder implements PromiseLike<{ data: unknown; error: unknown }>
   private orderCol: string | undefined;
   private orderAsc = true;
   private limitN: number | undefined;
+  private orClause: string | undefined;
 
   constructor(
     private readonly table: string,
@@ -42,6 +43,16 @@ class FakeQueryBuilder implements PromiseLike<{ data: unknown; error: unknown }>
   }
 
   eq(column: string, value: unknown): this {
+    this.filters.push([column, value]);
+    return this;
+  }
+
+  or(clause: string): this {
+    this.orClause = clause;
+    return this;
+  }
+
+  is(column: string, value: null): this {
     this.filters.push([column, value]);
     return this;
   }
@@ -82,7 +93,18 @@ class FakeQueryBuilder implements PromiseLike<{ data: unknown; error: unknown }>
       return Promise.resolve(resolve({ data: rows, error: null }) as TResult1);
     }
 
-    let results = state.rows.filter((row) => this.filters.every(([column, value]) => row[column] === value));
+    let results = state.rows.filter((row) => {
+      if (!this.filters.every(([column, value]) => row[column] === value)) return false;
+      if (!this.orClause) return true;
+      // Only ever used for "owner_id.is.null,owner_id.eq.<id>" in this
+      // project -- a real .or() parser is out of scope for a test double.
+      return this.orClause.split(",").some((part) => {
+        const [, op, value] = part.split(".");
+        if (op === "is") return row.owner_id === null;
+        if (op === "eq") return row.owner_id === value;
+        return false;
+      });
+    });
     // Real PostgREST serializes a pgvector column as a JSON *string*, not a
     // native array -- round-trip it the same way here so a test using this
     // fake actually exercises the string-parsing path in

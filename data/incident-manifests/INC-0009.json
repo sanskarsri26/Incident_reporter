@@ -9,7 +9,8 @@
     "rootCauseTruth": "db_slow_query",
     "affectedServices": [
       "checkout-service"
-    ]
+    ],
+    "ownerId": null
   },
   "manifest": {
     "incidentId": "INC-0009",

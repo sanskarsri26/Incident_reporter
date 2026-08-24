@@ -29,6 +29,7 @@ const similarIncidents: SimilarIncident[] = [
       resolvedAt: "t1",
       rootCauseTruth: "db_connection_pool_exhaustion",
       affectedServices: [],
+      ownerId: null,
     },
     similarity: 0.75,
   },

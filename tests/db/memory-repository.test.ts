@@ -11,32 +11,65 @@ const sampleIncident: Incident = {
   resolvedAt: null,
   rootCauseTruth: "db_connection_pool_exhaustion",
   affectedServices: ["payment-service"],
+  ownerId: null,
+};
+
+const otherOwnerIncident: Incident = {
+  ...sampleIncident,
+  id: "INC-0002",
+  ownerId: "user-a",
+  rootCauseTruth: null,
 };
 
 describe("createMemoryRepository", () => {
   it("returns an empty incident list when unseeded", async () => {
     const repo = createMemoryRepository();
-    expect(await repo.listIncidents()).toEqual([]);
+    expect(await repo.listIncidents(null)).toEqual([]);
   });
 
   it("round-trips a seeded incident through listIncidents and getIncident", async () => {
     const repo = createMemoryRepository({ incidents: [sampleIncident] });
-    expect(await repo.listIncidents()).toEqual([sampleIncident]);
-    expect(await repo.getIncident("INC-0001")).toEqual(sampleIncident);
+    expect(await repo.listIncidents(null)).toEqual([sampleIncident]);
+    expect(await repo.getIncident("INC-0001", null)).toEqual(sampleIncident);
   });
 
   it("getIncident returns null for an unknown id", async () => {
     const repo = createMemoryRepository();
-    expect(await repo.getIncident("missing")).toBeNull();
+    expect(await repo.getIncident("missing", null)).toBeNull();
   });
 
   it("upsertIncident adds a new incident and is idempotent on id", async () => {
     const repo = createMemoryRepository();
     await repo.upsertIncident(sampleIncident);
     await repo.upsertIncident({ ...sampleIncident, title: "Updated title" });
-    const all = await repo.listIncidents();
+    const all = await repo.listIncidents(null);
     expect(all).toHaveLength(1);
     expect(all[0]?.title).toBe("Updated title");
+  });
+
+  it("listIncidents(null) returns only shared incidents (ownerId: null)", async () => {
+    const repo = createMemoryRepository({ incidents: [sampleIncident, otherOwnerIncident] });
+    expect(await repo.listIncidents(null)).toEqual([sampleIncident]);
+  });
+
+  it("listIncidents(ownerId) returns shared incidents plus that owner's own", async () => {
+    const repo = createMemoryRepository({
+      incidents: [sampleIncident, otherOwnerIncident, { ...otherOwnerIncident, id: "INC-0003", ownerId: "user-b" }],
+    });
+    const result = await repo.listIncidents("user-a");
+    expect(result.map((i) => i.id).sort()).toEqual(["INC-0001", "INC-0002"]);
+  });
+
+  it("getIncident returns null (not the row) when the incident belongs to a different owner", async () => {
+    const repo = createMemoryRepository({ incidents: [otherOwnerIncident] });
+    expect(await repo.getIncident("INC-0002", null)).toBeNull();
+    expect(await repo.getIncident("INC-0002", "user-b")).toBeNull();
+    expect(await repo.getIncident("INC-0002", "user-a")).toEqual(otherOwnerIncident);
+  });
+
+  it("getIncident(id, null) returns a shared incident", async () => {
+    const repo = createMemoryRepository({ incidents: [sampleIncident] });
+    expect(await repo.getIncident("INC-0001", null)).toEqual(sampleIncident);
   });
 
   it("insertLogEvents appends events scoped by incident id", async () => {

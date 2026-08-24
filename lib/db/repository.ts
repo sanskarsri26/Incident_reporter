@@ -22,8 +22,8 @@ export interface RepositorySeed {
 }
 
 export interface Repository {
-  listIncidents(): Promise<Incident[]>;
-  getIncident(id: string): Promise<Incident | null>;
+  listIncidents(ownerId: string | null): Promise<Incident[]>;
+  getIncident(id: string, ownerId: string | null): Promise<Incident | null>;
   upsertIncident(incident: Incident): Promise<void>;
 
   listServices(): Promise<Service[]>;

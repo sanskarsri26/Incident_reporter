@@ -10,7 +10,8 @@
     "affectedServices": [
       "payment-service",
       "checkout-service"
-    ]
+    ],
+    "ownerId": null
   },
   "manifest": {
     "incidentId": "INC-0019",

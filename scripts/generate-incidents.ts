@@ -145,6 +145,7 @@ export function generateOneIncident(fault: string, incidentId: string): Generate
     resolvedAt: status === "resolved" ? resolvedAt.toISOString() : null,
     rootCauseTruth: fault,
     affectedServices: faultResult.manifest.affectedServices,
+    ownerId: null,
   };
 
   return { incident, manifest: faultResult.manifest, logEvents, metricEvents };

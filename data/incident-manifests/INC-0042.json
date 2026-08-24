@@ -9,7 +9,8 @@
     "rootCauseTruth": "redis_unavailable",
     "affectedServices": [
       "inventory-service"
-    ]
+    ],
+    "ownerId": null
   },
   "manifest": {
     "incidentId": "INC-0042",
