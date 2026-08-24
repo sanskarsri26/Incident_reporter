@@ -33,4 +33,14 @@ describe("NavBar", () => {
     expect(screen.getByText("a@example.com")).toBeTruthy();
     expect(screen.getByRole("button", { name: "Sign out" })).toBeTruthy();
   });
+
+  it("hides the Upload link when signed out and shows it when signed in", async () => {
+    vi.mocked(getCurrentUser).mockResolvedValue(null);
+    const { rerender } = render(await NavBar());
+    expect(screen.queryByRole("link", { name: "Upload" })).toBeNull();
+
+    vi.mocked(getCurrentUser).mockResolvedValue({ id: "U1", email: "a@example.com" });
+    rerender(await NavBar());
+    expect(screen.getByRole("link", { name: "Upload" })).toBeTruthy();
+  });
 });

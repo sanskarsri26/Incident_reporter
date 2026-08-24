@@ -5,6 +5,7 @@ import { SignOutButton } from "@/components/SignOutButton";
 const LINKS = [
   { href: "/", label: "Dashboard" },
   { href: "/incidents", label: "Incidents" },
+  { href: "/incidents/upload", label: "Upload", requiresAuth: true },
   { href: "/evaluation", label: "Evaluation" },
   { href: "/about", label: "About" },
 ];
@@ -20,7 +21,7 @@ export async function NavBar() {
           AI Incident Investigator
         </Link>
         <div className="flex items-center gap-1 text-sm">
-          {LINKS.map((link) => (
+          {LINKS.filter((link) => !link.requiresAuth || user).map((link) => (
             <Link
               key={link.href}
               href={link.href}
