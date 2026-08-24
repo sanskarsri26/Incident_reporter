@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { getRepository } from "@/lib/db/index";
+import { getAuthProviderForRequest } from "@/lib/auth/request-context";
 import { getEmbeddingProvider, getLLMProvider } from "@/lib/gemini/index";
 import { FAULT_SLUGS } from "@/simulator/fault-injection/index";
 import { consumeRateLimit, getRateLimiter } from "@/lib/security/rate-limit";
@@ -25,8 +26,12 @@ export const POST = withRequestLog("incidents.investigate", async (request: Requ
     return NextResponse.json({ error: "Rate limit exceeded. Try again shortly." }, { status: 429 });
   }
 
+  const { provider } = getAuthProviderForRequest(request);
+  const user = await provider.getUser();
+  const ownerId = user?.id ?? null;
+
   const repository = getRepository();
-  const incident = await repository.getIncident(parsedId.data);
+  const incident = await repository.getIncident(parsedId.data, ownerId);
   if (!incident) {
     return NextResponse.json({ error: "Incident not found" }, { status: 404 });
   }
@@ -35,7 +40,7 @@ export const POST = withRequestLog("incidents.investigate", async (request: Requ
     repository.listLogEvents(incident.id),
     repository.listMetricEvents(incident.id),
     repository.listDocuments(),
-    repository.listIncidents(),
+    repository.listIncidents(ownerId),
   ]);
 
   const historicalIncidents = allIncidents
@@ -53,12 +58,12 @@ export const POST = withRequestLog("incidents.investigate", async (request: Requ
       historicalIncidents,
       llmProvider,
       embeddingProvider: getEmbeddingProvider(),
-      // This deployment's dataset is scoped entirely to this synthetic
-      // fault taxonomy (see simulator/fault-injection), so constraining the
-      // model's output to it is a real product decision here, not just an
-      // eval-harness convenience -- it also keeps a real Gemini's output
-      // directly comparable to the evaluation report's numbers.
-      validRootCauses: [...FAULT_SLUGS],
+      // Only seeded (shared, owner_id: null) incidents are scoped to this
+      // synthetic fault taxonomy -- a real uploaded incident's root cause
+      // has nothing to do with it, so constraining the model's output
+      // here would force a meaningless answer. See
+      // docs/superpowers/specs/2026-08-23-multi-user-auth-design.md.
+      validRootCauses: incident.ownerId === null ? [...FAULT_SLUGS] : undefined,
     });
 
     await repository.saveAnalysisRun(result.analysisRun);

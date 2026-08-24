@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { getRepository } from "@/lib/db/index";
+import { getAuthProviderForRequest } from "@/lib/auth/request-context";
 import { getEmbeddingProvider } from "@/lib/gemini/index";
 import { consumeRateLimit, getRateLimiter } from "@/lib/security/rate-limit";
 import { incidentIdSchema } from "@/lib/security/validation";
@@ -22,13 +23,17 @@ export const GET = withRequestLog("incidents.similar", async (request: Request, 
     return NextResponse.json({ error: "Rate limit exceeded. Try again shortly." }, { status: 429 });
   }
 
+  const { provider } = getAuthProviderForRequest(request);
+  const user = await provider.getUser();
+  const ownerId = user?.id ?? null;
+
   const repository = getRepository();
-  const incident = await repository.getIncident(parsedId.data);
+  const incident = await repository.getIncident(parsedId.data, ownerId);
   if (!incident) {
     return NextResponse.json({ error: "Incident not found" }, { status: 404 });
   }
 
-  const allIncidents = await repository.listIncidents();
+  const allIncidents = await repository.listIncidents(ownerId);
   const candidates = allIncidents.map((other) => ({ incident: other, summary: buildHistoricalSummary(other) }));
 
   const similar = await findSimilarIncidents(

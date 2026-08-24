@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getRepository } from "@/lib/db/index";
+import { getCurrentUser } from "@/lib/auth/server-component-context";
 import { getEmbeddingProvider } from "@/lib/gemini/index";
 import { buildHistoricalSummary } from "@/lib/investigation/historical-summary";
 import { findSimilarIncidents } from "@/lib/retrieval/similar-incidents";
@@ -14,13 +15,14 @@ const TOP_K = 5;
 export default async function SimilarIncidentsPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
   const repository = getRepository();
-  const incident = await repository.getIncident(id);
+  const user = await getCurrentUser();
+  const incident = await repository.getIncident(id, user?.id ?? null);
 
   if (!incident) {
     notFound();
   }
 
-  const allIncidents = await repository.listIncidents();
+  const allIncidents = await repository.listIncidents(user?.id ?? null);
   const candidates = allIncidents.map((other) => ({ incident: other, summary: buildHistoricalSummary(other) }));
 
   const similar = await findSimilarIncidents(
@@ -61,7 +63,7 @@ export default async function SimilarIncidentsPage({ params }: { params: Promise
                   <SeverityBadge severity={match.severity} />
                   <StatusBadge status={match.status} />
                 </div>
-                <p className="mt-1 text-xs text-slate-500">{match.rootCauseTruth}</p>
+                <p className="mt-1 text-xs text-slate-500">{match.rootCauseTruth ?? "No known ground truth"}</p>
               </div>
               <div className="flex shrink-0 items-center gap-3">
                 <div className="text-right">

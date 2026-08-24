@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { getRepository } from "@/lib/db/index";
+import { getCurrentUser } from "@/lib/auth/server-component-context";
 import { readEvaluationReport } from "@/lib/evaluation/report";
 import { SEVERITIES } from "@/lib/types";
 import { IncidentTable } from "@/components/IncidentTable";
@@ -14,7 +15,8 @@ function formatPercent(value: number): string {
 
 export default async function HomePage() {
   const repository = getRepository();
-  const incidents = await repository.listIncidents();
+  const user = await getCurrentUser();
+  const incidents = await repository.listIncidents(user?.id ?? null);
   const report = readEvaluationReport();
 
   const severityCounts = SEVERITIES.map((severity) => ({

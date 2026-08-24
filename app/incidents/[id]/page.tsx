@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getRepository } from "@/lib/db/index";
+import { getCurrentUser } from "@/lib/auth/server-component-context";
 import { buildTimeline } from "@/lib/investigation/timeline";
 import { SeverityBadge } from "@/components/SeverityBadge";
 import { StatusBadge } from "@/components/StatusBadge";
@@ -18,7 +19,8 @@ function formatDate(iso: string | null): string {
 export default async function IncidentDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
   const repository = getRepository();
-  const incident = await repository.getIncident(id);
+  const user = await getCurrentUser();
+  const incident = await repository.getIncident(id, user?.id ?? null);
 
   if (!incident) {
     notFound();
@@ -89,7 +91,9 @@ export default async function IncidentDetailPage({ params }: { params: Promise<{
           retrieval are represented to the model by title only, never by their confirmed root
           cause.
         </p>
-        <p className="text-sm text-slate-300">{incident.rootCauseTruth}</p>
+        <p className="text-sm text-slate-300">
+          {incident.rootCauseTruth ?? "Not available — real incident, no known ground truth"}
+        </p>
       </section>
 
       <section>

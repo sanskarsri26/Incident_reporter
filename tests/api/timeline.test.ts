@@ -15,6 +15,7 @@ describe("GET /api/incidents/:id/timeline", () => {
       resolvedAt: null,
       rootCauseTruth: "x",
       affectedServices: [],
+      ownerId: null,
     });
     await repo.insertLogEvents([{ id: "L1", incidentId: "INC-1", timestamp: "2026-01-01T10:05:00.000Z", service: "postgres", level: "error", template: "timeout", count: 1 }]);
     await repo.insertMetricEvents([{ id: "M1", incidentId: "INC-1", timestamp: "2026-01-01T10:00:00.000Z", service: "postgres", metric: "active_connections", value: 20 }]);

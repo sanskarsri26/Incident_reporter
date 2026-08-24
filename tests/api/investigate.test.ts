@@ -13,6 +13,7 @@ const incident = {
   resolvedAt: "2026-01-01T10:30:00.000Z",
   rootCauseTruth: "db_connection_pool_exhaustion",
   affectedServices: ["checkout-service", "payment-service"],
+  ownerId: null,
 };
 
 async function seed() {
@@ -56,6 +57,23 @@ describe("POST /api/incidents/:id/investigate", () => {
   it("returns 400 for an invalid incident id", async () => {
     const response = await investigate(postRequest(), { params: Promise.resolve({ id: "" }) });
     expect(response.status).toBe(400);
+  });
+
+  it("returns 404 for another user's private incident when fetched without their session", async () => {
+    await getRepository().upsertIncident({
+      id: "INC-PRIVATE",
+      title: "Private incident",
+      severity: "sev3",
+      status: "open",
+      startedAt: "2026-01-01T00:00:00.000Z",
+      resolvedAt: null,
+      rootCauseTruth: null,
+      affectedServices: [],
+      ownerId: "some-other-user",
+    });
+
+    const response = await investigate(postRequest(), { params: Promise.resolve({ id: "INC-PRIVATE" }) });
+    expect(response.status).toBe(404);
   });
 
   it("runs the full pipeline and persists the analysis run, predictions, and evidence", async () => {

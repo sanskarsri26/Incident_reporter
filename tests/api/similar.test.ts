@@ -19,6 +19,7 @@ function makeIncident(id: string, title: string, affected: string[]): Incident {
     resolvedAt: "2026-01-01T01:00:00.000Z",
     rootCauseTruth: "db_connection_pool_exhaustion",
     affectedServices: affected,
+    ownerId: null,
   };
 }
 
@@ -35,6 +36,17 @@ describe("GET /api/incidents/:id/similar", () => {
 
   it("returns 404 for an unknown incident", async () => {
     const response = await getSimilar(similarRequest(), { params: Promise.resolve({ id: "missing" }) });
+    expect(response.status).toBe(404);
+  });
+
+  it("returns 404 for another user's private incident when fetched without their session", async () => {
+    const repo = getRepository();
+    await repo.upsertIncident({
+      ...makeIncident("INC-PRIVATE", "Private incident", []),
+      ownerId: "some-other-user",
+    });
+
+    const response = await getSimilar(similarRequest(), { params: Promise.resolve({ id: "INC-PRIVATE" }) });
     expect(response.status).toBe(404);
   });
 

@@ -1,11 +1,13 @@
 import { getRepository } from "@/lib/db/index";
+import { getCurrentUser } from "@/lib/auth/server-component-context";
 import { IncidentFilter } from "@/components/IncidentFilter";
 
 export const dynamic = "force-dynamic";
 
 export default async function IncidentsPage() {
+  const user = await getCurrentUser();
   const repository = getRepository();
-  const incidents = await repository.listIncidents();
+  const incidents = await repository.listIncidents(user?.id ?? null);
 
   return (
     <main className="mx-auto flex max-w-6xl flex-col gap-6 px-6 py-10">
