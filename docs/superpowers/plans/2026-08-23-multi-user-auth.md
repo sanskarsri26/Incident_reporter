@@ -2243,7 +2243,7 @@ export default function UploadIncidentPage() {
   );
 }
 ```
-(No auth check needed in the page itself — `middleware.ts` from Task 2 already redirects unauthenticated requests to `/incidents/upload` to `/login?next=/incidents/upload` before this page ever renders.)
+(No auth check needed in the page itself — `proxy.ts` from Task 2 already redirects unauthenticated requests to `/incidents/upload` to `/login?next=/incidents/upload` before this page ever renders. Task 2 built this as `proxy.ts`, not `middleware.ts` as originally planned — Next.js 16 renamed the convention; see Task 2's completion notes in the ledger.)
 
 - [ ] **Step 6: Manual smoke test**
 
