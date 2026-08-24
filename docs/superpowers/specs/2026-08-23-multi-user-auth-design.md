@@ -100,34 +100,58 @@ parallel code path.
 supported package for Next.js App Router session handling via cookies.
 Not `@supabase/auth-helpers-nextjs` (deprecated, superseded by `@supabase/ssr`).
 
-**Client-side:** `lib/auth/browser-client.ts` creates a Supabase client
-with `NEXT_PUBLIC_SUPABASE_URL` / `NEXT_PUBLIC_SUPABASE_ANON_KEY` (both
-currently blank in `.env` — this feature is their first real use).
-`/login` and `/signup` pages call `supabase.auth.signInWithPassword()` /
-`supabase.auth.signUp()` directly from a client component. On success,
-`@supabase/ssr` has already set the httpOnly session cookie; redirect to
-`/incidents`.
+**No browser-side Supabase client.** `next.config.mjs`'s CSP locks
+`connect-src` to `'self'` specifically because, as its own comment
+states, there are no third-party origins to allow-list anywhere in this
+policy, and every client `fetch()` in this app hits only its own
+`/api/*` routes. A client component calling
+`supabase.auth.signInWithPassword()` directly would `fetch()` the
+Supabase project's own origin — the browser would silently block it
+under the current CSP. Rather than widen `connect-src` (the first crack
+in an invariant the rest of the app relies on), auth follows the
+existing `FeedbackForm` pattern instead: the client only ever talks to
+this app's own API routes.
 
-**Server-side:** `lib/auth/server-client.ts` creates a per-request
-Supabase client from the incoming cookies (via `next/headers`), used in
-Server Components and Route Handlers to call `supabase.auth.getUser()`.
-This is the **only** source of truth for "who is the caller" server-side
-— never trust a client-sent user id in a request body.
+- `app/api/auth/signup/route.ts`, `app/api/auth/login/route.ts`,
+  `app/api/auth/logout/route.ts` (new) — each is a thin Route Handler
+  that builds a `@supabase/ssr` server client from the request's cookies
+  (via `next/headers`'s `cookies()`, mutable inside Route Handlers) and
+  calls `supabase.auth.signUp()` / `signInWithPassword()` / `signOut()`.
+  `@supabase/ssr` writes the session cookie through that same cookie
+  store — the response carries it automatically.
+- `app/login/page.tsx`, `app/signup/page.tsx` (new) — client components,
+  same shape as `FeedbackForm`: local form state, `fetch()` the
+  corresponding `/api/auth/*` route, show the returned error inline on
+  failure, and on success call `router.push(next ?? "/incidents")` +
+  `router.refresh()` (so Server Components like the nav bar re-render
+  with the new session).
 
-**Middleware:** `middleware.ts` (new, project root) protects
-`/incidents/upload`: unauthenticated requests redirect to
-`/login?next=/incidents/upload`. Everything else (incident list/detail,
-investigate, feedback) stays reachable logged-out, since the shared
-catalog is public; auth only gates the ability to create/view private
-data.
+**Server-side session reads:** `lib/auth/server-client.ts` exports
+`getCurrentUser()`, used by Server Components (`NavBar`,
+`app/incidents/page.tsx`, `app/incidents/[id]/page.tsx`) and by Route
+Handlers that need to scope data (`GET /api/incidents`, the new upload
+route, etc.) to call `supabase.auth.getUser()` against the request's
+cookies. This is the **only** source of truth for "who is the caller" —
+never trust a client-sent user id in a request body.
 
-**Session propagation to existing API routes:** routes that need to know
-the caller (`GET /api/incidents`, `GET /api/incidents/[id]`, the new
-upload route) call the server client's `auth.getUser()` themselves — the
-existing `withRequestLog` wrapper is untouched, this is an addition
-inside each handler, following the same pattern already used for rate
-limiting (`consumeRateLimit` called inside the handler, not via a
-separate middleware layer for those routes).
+**Middleware:** `middleware.ts` (new, project root) does two things on
+every request, following Supabase's documented `@supabase/ssr`
+middleware pattern: (1) refreshes the session cookie via
+`supabase.auth.getUser()` if the access token is nearing expiry —
+without this, a Server Component's `getUser()` call would start failing
+after the default 1-hour access-token lifetime even though the user
+never logged out, since Server Components can't write cookies
+themselves to persist a refreshed token; (2) redirects unauthenticated
+requests to `/incidents/upload` to `/login?next=/incidents/upload`.
+Everything else (incident list/detail, investigate, feedback) stays
+reachable logged-out, since the shared catalog is public; auth only
+gates the ability to create/view private data.
+
+`components/NavBar.tsx` changes from a plain Server Component to an
+`async` one that calls `getCurrentUser()` and renders the user's email +
+a `SignOutButton` (a small client component posting to
+`/api/auth/logout`, then `router.push("/")` + `router.refresh()`) when
+signed in, or a "Log in" link when not.
 
 ## Upload flow
 
@@ -184,9 +208,9 @@ supports today.
   client components, redirect to `/incidents` (or `?next=`) on success.
   Errors (wrong password, email taken) shown inline from Supabase's
   returned error message.
-- `app/layout.tsx` — nav gets a right-aligned auth slot: signed-out shows
-  "Log in"; signed-in shows the user's email + a "Sign out" button
-  (calls `supabase.auth.signOut()`, then redirects to `/`).
+- `components/NavBar.tsx` — becomes `async`, gets a right-aligned auth
+  slot: signed-out shows "Log in"; signed-in shows the user's email + a
+  `SignOutButton` (see Auth section above).
 - `app/incidents/page.tsx` — becomes two sections when logged in: "Shared
   catalog" (existing list, `owner_id IS NULL`) and "Your incidents"
   (`owner_id = you`), each using the existing incident-card rendering.
@@ -195,6 +219,14 @@ supports today.
   severity select, two file inputs). Client component; submits
   `multipart/form-data` to the new route, shows the line-numbered
   validation error inline on failure.
+- `app/incidents/[id]/page.tsx` — the ground-truth section
+  (`incident.rootCauseTruth`, currently rendered unconditionally at
+  line 92) must handle `null`: uploaded incidents show "Not
+  available — real incident, no known ground truth" instead of a blank
+  or literal `"null"`. Same for the root-cause line in
+  `app/incidents/[id]/similar/page.tsx` (line 64), which renders
+  `match.rootCauseTruth` for every historical incident in the similar
+  list, including uploaded ones.
 
 ## Testing
 
