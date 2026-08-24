@@ -284,22 +284,34 @@ const incident: Incident = {
 };
 ```
 
-- [ ] **Step 10: Run tests to verify they pass**
+- [ ] **Step 10: Add `ownerId: null` to every other `Incident` literal in the test suite**
+
+`Incident.ownerId` is now a required field (Step 4). Five test files outside `tests/db/` construct `Incident` literals directly and need the same one-line addition — these test pure functions that never filter on ownership, so skipping this step wouldn't break anything at runtime, but it would leave `npm run typecheck` dirty for the rest of the branch. Fix it now while the type change is fresh, the same way Step 1 already fixed `tests/db/*.test.ts`:
+
+- `tests/investigation/pipeline.test.ts` (the `const incident: Incident = {...}` around line 7) — add `ownerId: null,` after `affectedServices: [...]`.
+- `tests/investigation/summary.test.ts` (same shape, around line 5) — same addition.
+- `tests/investigation/evidence-catalog.test.ts` — the `Incident` literal nested inside `similarIncidents[0].incident` (around line 23) — same addition.
+- `tests/retrieval/similar-incidents.test.ts` — the `incident(id, rootCauseTruth)` helper function's returned object (around line 23) — add `ownerId: null,` to the returned literal.
+- `tests/types.test.ts` — the `const incident: Incident = {...}` in the "satisfies the Incident type" test (around line 11) — same addition.
+
+Four more files — `tests/api/incidents.test.ts`, `tests/api/investigate.test.ts`, `tests/api/similar.test.ts`, `tests/api/timeline.test.ts` — also construct `Incident` literals (in `beforeEach` blocks or module-level fixtures) that need the same fix, but leave those to Task 3 Step 1: those four go through `Repository`'s ownership filter once Task 3 wires real callers through, so fixing them belongs with the task that adds the ownership-visibility tests exercising that exact filter, not here.
+
+- [ ] **Step 11: Run tests to verify they pass**
 
 Run: `npm test -- tests/db/memory-repository.test.ts tests/db/supabase-repository.test.ts`
 Expected: PASS. Then run the full suite (`npm test`) — it should also PASS: Vitest transpiles TypeScript with esbuild and does not type-check (`vitest.config.ts` has no typecheck plugin configured), so the 8 non-test call sites still calling `listIncidents()`/`getIncident(id)` with the old (now-missing) argument aren't caught at this layer, and at runtime `ownerId` is simply `undefined` there — which happens to behave correctly by coincidence (every seeded incident has `ownerId: null` after Step 9, and `i.ownerId === null || i.ownerId === undefined` still matches only the shared catalog, exactly like passing `null` explicitly would). Do **not** touch those 8 call sites in this task — that's Task 3's explicit job, wiring in the real signed-in user instead of the accidental `undefined`.
 
-Run: `npm run typecheck` — this **will** fail, listing the 8 call sites now missing a required argument. That's expected and correct: it's the compiler enumerating exactly the work Task 3 does. Do not silence or work around it in this task.
+Run: `npm run typecheck` — this **will** still fail, but now only on the 8 route/page call sites from the grep in this task's file list (not on any test file). That's expected and correct: it's the compiler enumerating exactly the work Task 3 does. Do not silence or work around it in this task, and do not let it regress past those 8 known call sites — if `typecheck` reports errors anywhere else, Step 10 missed a file.
 
-- [ ] **Step 11: Regenerate the incident dataset**
+- [ ] **Step 12: Regenerate the incident dataset**
 
 Run: `npm run gen:incidents`
 Expected: regenerates `data/incident-manifests/*.json` with `ownerId: null` on every incident. Then run: `npm test` to confirm `tests/scripts/seed.test.ts` and the integration tests still pass against the regenerated data.
 
-- [ ] **Step 12: Commit**
+- [ ] **Step 13: Commit**
 
 ```bash
-git add supabase/migrations/0003_auth.sql lib/types.ts lib/db/repository.ts lib/db/memory-repository.ts lib/db/supabase-repository.ts tests/db/fake-supabase-client.ts tests/db/memory-repository.test.ts tests/db/supabase-repository.test.ts scripts/generate-incidents.ts data/incident-manifests
+git add supabase/migrations/0003_auth.sql lib/types.ts lib/db/repository.ts lib/db/memory-repository.ts lib/db/supabase-repository.ts tests/db/fake-supabase-client.ts tests/db/memory-repository.test.ts tests/db/supabase-repository.test.ts scripts/generate-incidents.ts data/incident-manifests tests/investigation/pipeline.test.ts tests/investigation/summary.test.ts tests/investigation/evidence-catalog.test.ts tests/retrieval/similar-incidents.test.ts tests/types.test.ts
 git commit -m "feat: add owner_id to incidents and make root_cause_truth nullable"
 ```
 
@@ -1322,7 +1334,9 @@ git commit -m "feat: add email+password auth via Supabase Auth (mock provider wh
 
 - [ ] **Step 1: Update existing API route tests to cover ownership**
 
-In `tests/api/incidents.test.ts`, add (alongside existing tests) a case proving a private incident owned by one user is invisible to another caller. Since these routes read the session via cookies and the test harness has no real Supabase project configured, the mock auth provider is active — sign up a user through the real signup route first to get a session cookie, then reuse it:
+First, add `ownerId: null,` to every `Incident` object literal already in `tests/api/incidents.test.ts`, `tests/api/investigate.test.ts`, `tests/api/similar.test.ts`, and `tests/api/timeline.test.ts` (each file has exactly one — a `beforeEach`-seeded fixture or a module-level `const incident`). This is required, not optional cleanup: once this task wires a real `ownerId` through `listIncidents`/`getIncident`, an existing fixture missing that field has `ownerId: undefined`, and the ownership filter's `incident.ownerId !== null` check treats `undefined` as "belongs to someone else" — every existing happy-path test in these four files (e.g. "GET /api/incidents returns the seeded incident") would start failing with an empty list or 404 the moment this task's route changes land, not because the route is wrong but because the fixture silently stopped matching. Fix the fixtures before touching the routes.
+
+Then, in `tests/api/incidents.test.ts`, add (alongside existing tests) a case proving a private incident owned by one user is invisible to another caller. Since these routes read the session via cookies and the test harness has no real Supabase project configured, the mock auth provider is active — sign up a user through the real signup route first to get a session cookie, then reuse it:
 
 ```typescript
 import { POST as postSignup } from "@/app/api/auth/signup/route";
