@@ -14,6 +14,8 @@ import type {
   Feedback,
 } from "@/lib/types";
 
+const UUID_PATTERN = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+
 function incidentFromRow(row: Record<string, unknown>): Incident {
   return {
     id: row.id as string,
@@ -132,6 +134,12 @@ export function createSupabaseRepositoryFromClient(client: SupabaseClient): Repo
   return {
     async listIncidents(ownerId) {
       const query = client.from("incidents").select("*");
+      if (ownerId && !UUID_PATTERN.test(ownerId)) {
+        // This string is interpolated straight into a PostgREST filter below and is the
+        // entire row-visibility boundary for this app-code-enforced auth model (no RLS) --
+        // fail closed rather than trust every future caller to only pass a well-formed UUID.
+        return [];
+      }
       const { data, error } = ownerId
         ? await query.or(`owner_id.is.null,owner_id.eq.${ownerId}`)
         : await query.is("owner_id", null);

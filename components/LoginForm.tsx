@@ -26,7 +26,14 @@ export function LoginForm() {
         setError(body.error ?? "Login failed");
         return;
       }
-      router.push(searchParams.get("next") ?? "/incidents");
+      // Only follow same-origin, absolute-path "next" values — an unvalidated redirect target
+      // would let ?next=https://evil.com send a just-authenticated user off-site.
+      const next = searchParams.get("next");
+      const safeNext =
+        next && next.startsWith("/") && !next.startsWith("//") && !next.startsWith("/\\")
+          ? next
+          : "/incidents";
+      router.push(safeNext);
       router.refresh();
     } catch {
       setError("Network error. Please try again.");

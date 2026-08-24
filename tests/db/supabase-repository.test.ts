@@ -41,25 +41,25 @@ describe("Supabase repository (against a fake postgrest client)", () => {
   it("listIncidents(ownerId) returns shared incidents plus that owner's own, filtering out other owners'", async () => {
     const r = repo();
     await r.upsertIncident(sampleIncident);
-    await r.upsertIncident({ ...sampleIncident, id: "INC-0002", ownerId: "user-a", rootCauseTruth: null });
-    await r.upsertIncident({ ...sampleIncident, id: "INC-0003", ownerId: "user-b", rootCauseTruth: null });
+    await r.upsertIncident({ ...sampleIncident, id: "INC-0002", ownerId: "11111111-1111-1111-1111-111111111111", rootCauseTruth: null });
+    await r.upsertIncident({ ...sampleIncident, id: "INC-0003", ownerId: "22222222-2222-2222-2222-222222222222", rootCauseTruth: null });
 
-    expect((await r.listIncidents("user-a")).map((i) => i.id).sort()).toEqual(["INC-0001", "INC-0002"]);
+    expect((await r.listIncidents("11111111-1111-1111-1111-111111111111")).map((i) => i.id).sort()).toEqual(["INC-0001", "INC-0002"]);
     expect((await r.listIncidents(null)).map((i) => i.id)).toEqual(["INC-0001"]);
   });
 
   it("getIncident returns null when the incident belongs to a different owner", async () => {
     const r = repo();
-    await r.upsertIncident({ ...sampleIncident, id: "INC-0002", ownerId: "user-a", rootCauseTruth: null });
-    expect(await r.getIncident("INC-0002", "user-b")).toBeNull();
-    expect(await r.getIncident("INC-0002", "user-a")).toEqual({ ...sampleIncident, id: "INC-0002", ownerId: "user-a", rootCauseTruth: null });
+    await r.upsertIncident({ ...sampleIncident, id: "INC-0002", ownerId: "11111111-1111-1111-1111-111111111111", rootCauseTruth: null });
+    expect(await r.getIncident("INC-0002", "22222222-2222-2222-2222-222222222222")).toBeNull();
+    expect(await r.getIncident("INC-0002", "11111111-1111-1111-1111-111111111111")).toEqual({ ...sampleIncident, id: "INC-0002", ownerId: "11111111-1111-1111-1111-111111111111", rootCauseTruth: null });
   });
 
   it("round-trips a null root_cause_truth (an uploaded incident with no known ground truth)", async () => {
     const r = repo();
-    const uploaded = { ...sampleIncident, id: "INC-0004", ownerId: "user-a", rootCauseTruth: null };
+    const uploaded = { ...sampleIncident, id: "INC-0004", ownerId: "11111111-1111-1111-1111-111111111111", rootCauseTruth: null };
     await r.upsertIncident(uploaded);
-    expect(await r.getIncident("INC-0004", "user-a")).toEqual(uploaded);
+    expect(await r.getIncident("INC-0004", "11111111-1111-1111-1111-111111111111")).toEqual(uploaded);
   });
 
   it("round-trips log and metric events, scoped by incident id", async () => {
