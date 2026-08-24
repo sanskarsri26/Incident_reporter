@@ -1,9 +1,10 @@
-// Content-Security-Policy. This app has no proxy/middleware, so there is no
-// per-request nonce generation -- nonces require dynamic rendering wired up
-// via Proxy (see node_modules/next/dist/docs/01-app/02-guides/
-// content-security-policy.md). Instead this uses the static, no-nonce CSP
-// Next.js itself documents as the supported alternative (same doc, "Without
-// Nonces" section).
+// Content-Security-Policy. Nonce-based CSP would need per-request nonce
+// generation wired through proxy.ts into the rendered HTML -- this
+// project's proxy.ts exists only for auth session refresh and route
+// gating (see proxy.ts), not response rewriting, so this still uses
+// the static, no-nonce CSP Next.js documents as the supported alternative
+// (node_modules/next/dist/docs/01-app/02-guides/content-security-policy.md,
+// "Without Nonces" section).
 //
 // 'unsafe-inline' is included in script-src and style-src as a documented
 // last resort, not an oversight:
