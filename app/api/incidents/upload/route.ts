@@ -12,6 +12,8 @@ import { withRequestLog } from "@/lib/observability/request-log";
 import type { LogEvent, MetricEvent } from "@/lib/types";
 
 const MAX_FILE_BYTES = 2 * 1024 * 1024;
+// Two files plus multipart form overhead; best-effort only since Content-Length can be omitted or spoofed.
+const MAX_REQUEST_BYTES = MAX_FILE_BYTES * 2 + 10_000;
 
 function parseLines<T>(
   text: string,
@@ -46,6 +48,11 @@ export const POST = withRequestLog("incidents.upload", async (request: Request) 
   const rateLimitResult = await consumeRateLimit(getRateLimiter(), `upload:${user.id}`);
   if (!rateLimitResult.allowed) {
     return NextResponse.json({ error: "Rate limit exceeded. Try again shortly." }, { status: 429 });
+  }
+
+  const contentLength = Number(request.headers.get("content-length") ?? "0");
+  if (contentLength > MAX_REQUEST_BYTES) {
+    return NextResponse.json({ error: "Upload exceeds the size limit." }, { status: 413 });
   }
 
   const form = await request.formData();

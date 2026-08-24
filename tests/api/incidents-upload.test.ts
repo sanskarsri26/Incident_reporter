@@ -23,6 +23,14 @@ function uploadRequest(form: FormData, cookie?: string): Request {
   });
 }
 
+function oversizedContentLengthRequest(cookie: string): Request {
+  return new Request("http://localhost/api/incidents/upload", {
+    method: "POST",
+    headers: { cookie, "content-length": String(10 * 1024 * 1024) },
+    body: "",
+  });
+}
+
 function logLinesFile(lines: object[]): File {
   return new File([lines.map((l) => JSON.stringify(l)).join("\n")], "app.log", { type: "application/x-ndjson" });
 }
@@ -124,6 +132,15 @@ describe("POST /api/incidents/upload", () => {
     form.set("logFile", new File([new Uint8Array(2 * 1024 * 1024 + 1)], "app.log"));
     const response = await postUpload(uploadRequest(form, cookie));
     expect(response.status).toBe(413);
+  });
+
+  it("rejects a request whose content-length exceeds the cap without parsing the body", async () => {
+    const cookie = await signedInCookie();
+    const response = await postUpload(oversizedContentLengthRequest(cookie));
+    expect(response.status).toBe(413);
+
+    // Nothing should have been written -- the body was never parsed.
+    expect((await getRepository().listIncidents(null)).length).toBe(0);
   });
 
   it("rejects a request with no log file", async () => {
