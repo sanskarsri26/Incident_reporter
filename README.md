@@ -44,6 +44,13 @@ Set `GEMINI_API_KEY` / `SUPABASE_URL` + `SUPABASE_SERVICE_ROLE_KEY` /
 [`.env.example`](.env.example)) to switch each one on independently — the
 app doesn't require all three at once.
 
+**Exception:** the database and authentication integrations are not
+independently switchable from each other. Setting `SUPABASE_URL` +
+`SUPABASE_SERVICE_ROLE_KEY` (a real, persistent database) without also
+setting `NEXT_PUBLIC_SUPABASE_URL` + `NEXT_PUBLIC_SUPABASE_ANON_KEY` (real
+auth) makes the app refuse to start — see the Authentication section below
+and `lib/config/validate-env.ts`.
+
 ## Authentication and uploading your own incidents
 
 The app supports two incident workflows:
@@ -56,8 +63,13 @@ The app supports two incident workflows:
 ### Authentication
 
 Authentication uses **Supabase Auth** (email + password). Set `NEXT_PUBLIC_SUPABASE_URL` and
-`NEXT_PUBLIC_SUPABASE_ANON_KEY` to enable real authentication; unset, the app falls back to an
-in-memory mock auth provider (no account creation or login required for local dev or CI).
+`NEXT_PUBLIC_SUPABASE_ANON_KEY` to enable real authentication; unset (and with `SUPABASE_URL` /
+`SUPABASE_SERVICE_ROLE_KEY` also unset), the app falls back to an in-memory mock auth provider (no
+account creation or login required for local dev or CI). **If a real database is configured**
+(`SUPABASE_URL` + `SUPABASE_SERVICE_ROLE_KEY` set), real auth is no longer optional: the app
+refuses to start unless `NEXT_PUBLIC_SUPABASE_URL` + `NEXT_PUBLIC_SUPABASE_ANON_KEY` are also set,
+rather than running the insecure mock auth provider against real, persistent data — see
+`lib/config/validate-env.ts`.
 
 A real Supabase project has "Confirm email" enabled by default, which requires the user to click a
 confirmation link before their first login works — sign-up alone won't establish a session. Disable
@@ -102,12 +114,17 @@ with full access to evidence ranking, runbook retrieval, and root-cause analysis
 server-side only in this app — the browser never calls Supabase directly; see the CSP note in
 `next.config.mjs`.
 
+`SUPABASE_URL`/`SUPABASE_SERVICE_ROLE_KEY` and `NEXT_PUBLIC_SUPABASE_URL`/`NEXT_PUBLIC_SUPABASE_ANON_KEY`
+must be configured together in one direction: setting the database pair without the auth pair
+causes the app to refuse to start and fail every request (auth without a database is fine — it
+just runs real auth against the in-memory repository); see `lib/config/validate-env.ts`.
+
 ## Quickstart
 
 ```bash
 npm install
 npm run dev        # http://localhost:3000, fully functional with zero accounts
-npm test            # 311 unit/integration tests (64 files), all against mocks
+npm test            # 322 unit/integration tests (67 files), all against mocks
 npm run typecheck
 npm run lint
 npm run build
@@ -255,7 +272,7 @@ per investigation.
 
 ## Testing and CI
 
-Vitest covers `lib/`, `app/api/`, `scripts/`, and `simulator/` (311 unit/integration tests, 64 files);
+Vitest covers `lib/`, `app/api/`, `scripts/`, and `simulator/` (322 unit/integration tests, 67 files);
 external providers are always mocked or fetch-injected, so CI never
 calls a paid API or needs secrets (`.github/workflows/ci.yml`: lint →
 typecheck → test → build).
